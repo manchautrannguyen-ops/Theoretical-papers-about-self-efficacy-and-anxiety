@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Young (1991) – Creating a Low-Anxiety Classroom Environment (Cloze)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap');
+
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --paper-dark: #ede7d5;
+    --accent: #8b2515;
+    --accent-light: #c94428;
+    --gold: #b8860b;
+    --correct: #2d6a2d;
+    --wrong: #8b0000;
+    --border: #c8b99a;
+    --gap-bg: #fffdf5;
+    --gap-border: #8b2515;
+    --shadow: rgba(26,20,16,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    border-bottom: 4px solid var(--accent);
+    position: relative;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 28px,
+      rgba(255,255,255,0.03) 28px, rgba(255,255,255,0.03) 29px
+    );
+    pointer-events: none;
+  }
+  .journal-badge {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.9rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.25;
+    max-width: 800px;
+    margin: 0 auto 0.6rem;
+  }
+  header .byline {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #c8b99a;
+  }
+
+  /* ── Score bar ── */
+  #scorebar {
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.65rem 2rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    border-bottom: 2px solid var(--accent);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  #scorebar .score-label { color: var(--gold); text-transform: uppercase; }
+  #scorebar .score-num { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+  #scorebar .pct { color: #c8b99a; }
+  .btn {
+    background: var(--accent);
+    color: var(--paper);
+    border: none;
+    padding: 0.4rem 1.1rem;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--accent-light); }
+  .btn.secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: #c8b99a;
+    margin-left: 0.4rem;
+  }
+  .btn.secondary:hover { border-color: var(--paper); color: var(--paper); }
+
+  /* ── Layout ── */
+  .page-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  /* ── Section headings ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 2.4rem 0 1rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1.5px solid var(--border);
+    color: var(--accent);
+  }
+
+  /* ── Paragraphs ── */
+  p.art {
+    text-align: justify;
+    margin-bottom: 1rem;
+    hyphens: auto;
+  }
+  p.art + p.art { text-indent: 1.4em; }
+
+  /* ── Gaps ── */
+  .gap-wrap {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: bottom;
+    margin: 0 1px;
+    position: relative;
+  }
+  .gap-input {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.92rem;
+    border: none;
+    border-bottom: 2px solid var(--gap-border);
+    background: transparent;
+    color: var(--ink);
+    padding: 0 4px 1px;
+    min-width: 110px;
+    width: var(--w, 110px);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .gap-input:focus { border-bottom-color: var(--gold); background: rgba(184,134,11,0.05); }
+  .gap-input.correct {
+    border-bottom-color: var(--correct);
+    color: var(--correct);
+    font-weight: 600;
+  }
+  .gap-input.wrong {
+    border-bottom-color: var(--wrong);
+    color: var(--wrong);
+  }
+  .gap-hint {
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    margin-top: 1px;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .answer-reveal {
+    font-size: 0.7rem;
+    color: var(--correct);
+    font-style: italic;
+    display: none;
+    margin-top: 1px;
+  }
+  .show-answers .answer-reveal { display: block; }
+
+  /* ── Footnotes ── */
+  .footnotes {
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+    padding-top: 1rem;
+    font-size: 0.82rem;
+    color: #5a4a3a;
+  }
+  .footnotes p { margin-bottom: 0.4rem; }
+
+  /* ── Bibliography ── */
+  .bib-entry {
+    font-size: 0.83rem;
+    margin-bottom: 0.55rem;
+    padding-left: 2em;
+    text-indent: -2em;
+    line-height: 1.55;
+  }
+
+  /* ── Appendix table ── */
+  .appendix-table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+  }
+  table.app {
+    border-collapse: collapse;
+    font-size: 0.76rem;
+    min-width: 700px;
+    width: 100%;
+    background: white;
+  }
+  table.app th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+  table.app td {
+    padding: 5px 8px;
+    border-bottom: 1px solid #e0d6c6;
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  table.app tr:nth-child(even) td { background: #faf7f0; }
+
+  /* ── Toast feedback ── */
+  #toast {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    border-left: 4px solid var(--gold);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 200;
+  }
+  #toast.show { opacity: 1; }
+
+  /* ── Progress bar ── */
+  #progress-bar-wrap {
+    height: 3px;
+    background: #3a2a20;
+    position: sticky;
+    top: 38px;
+    z-index: 99;
+  }
+  #progress-bar {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  @media (max-width: 600px) {
+    .page-wrap { padding: 1rem 1rem 3rem; }
+    #scorebar { padding: 0.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="journal-badge">The Modern Language Journal · Vol. 75, No. 4 · Winter 1991 · pp. 426–439</div>
+  <h1>Creating a Low-Anxiety Classroom Environment: What Does Language Anxiety Research Suggest?</h1>
+  <div class="byline">Dolly Jesusita Young — Department of Romance Languages, University of Tennessee, Knoxville, TN 37996</div>
+</header>
+
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div id="scorebar">
+  <div>
+    <span class="score-label">Score&nbsp;</span>
+    <span class="score-num" id="sc">0</span>
+    <span class="pct"> / <span id="tot">0</span> &nbsp;(<span id="pct">—</span>)</span>
+  </div>
+  <div>
+    <button class="btn" onclick="checkAll()">Check Answers</button>
+    <button class="btn secondary" onclick="revealAll()">Show All</button>
+    <button class="btn secondary" onclick="resetAll()">Reset</button>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 – INTRO -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Introduction</div>
+
+<p class="art">CURRENTLY, INCREASED ATTENTION IS BEING given to language learners and their perspectives, motivations, beliefs about language learning, <span class="gap-wrap"><input class="gap-input" style="--w:105px" data-ans="learning styles" placeholder="________" autocomplete="off"><span class="gap-hint">learner variable</span><span class="answer-reveal">learning styles</span></span>, learning strategies, and language anxieties.<sup>1</sup> Regardless of method, we know that learners need to adopt attitudes and strategies that pay off in terms of low anxiety, high motivation, and ultimately in the ability to convey information and communicate ideas and feelings. One of the current challenges in second and foreign language teaching is to provide students with a learner-centered, <span class="gap-wrap"><input class="gap-input" style="--w:125px" data-ans="low-anxiety" placeholder="________" autocomplete="off"><span class="gap-hint">classroom environment type</span><span class="answer-reveal">low-anxiety</span></span> classroom environment. In our push to create such an environment we need to consult research and theory on language anxiety for classroom implications.</p>
+
+<p class="art">From a careful examination of the language anxiety literature, six general <span class="gap-wrap"><input class="gap-input" style="--w:110px" data-ans="sources" placeholder="________" autocomplete="off"><span class="gap-hint">origins</span><span class="answer-reveal">sources</span></span> of language anxiety can be discerned and numerous suggestions for reducing it can be identified. To discuss what can be done to reduce language anxiety, we must not only identify its sources, but also recognize expressions of stress in learners. This article progresses, therefore, from a general presentation of language anxiety research, to a discussion of six potential sources of anxiety in the classroom, to a discussion of ways in which anxiety is <span class="gap-wrap"><input class="gap-input" style="--w:110px" data-ans="manifested" placeholder="________" autocomplete="off"><span class="gap-hint">shown/expressed</span><span class="answer-reveal">manifested</span></span> in learners, and, finally, to a list of suggestions for reducing anxiety.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 – RESEARCH -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Research on Foreign and Second Language Anxiety</div>
+
+<p class="art">Until recently, it has been difficult to demonstrate concisely the effects of anxiety on <span class="gap-wrap"><input class="gap-input" style="--w:115px" data-ans="language learning" placeholder="________" autocomplete="off"><span class="gap-hint">SLA core process</span><span class="answer-reveal">language learning</span></span>. In the past few years, however, advances in measurement and theory have resulted in much more productive language anxiety research (29). Improved methods and measurements, alongside a clearer, more precise theory of language anxiety, have led to a better understanding of its <span class="gap-wrap"><input class="gap-input" style="--w:95px" data-ans="sources" placeholder="________" autocomplete="off"><span class="gap-hint">origins</span><span class="answer-reveal">sources</span></span> in the foreign and second language classroom.</p>
+
+<p class="art">In the past, research in the area of anxiety as it relates to second or foreign language learning and performance was scattered and inconclusive. Some of this research established its existence.<sup>2</sup> Other scholars investigated its effect on language learning and <span class="gap-wrap"><input class="gap-input" style="--w:115px" data-ans="performance" placeholder="________" autocomplete="off"><span class="gap-hint">output quality</span><span class="answer-reveal">performance</span></span><sup>3</sup> (see Appendix for a summary of this research). While some of this research suggested that a relationship between anxiety and foreign or second language performance existed,<sup>4</sup> other findings suggested no relationship between anxiety and performance (1; 5; 38; 48). Even within these studies, however, anxiety may have been negatively related to one <span class="gap-wrap"><input class="gap-input" style="--w:120px" data-ans="language skill" placeholder="________" autocomplete="off"><span class="gap-hint">e.g. reading/writing</span><span class="answer-reveal">language skill</span></span> and not to another; conversely, it may have been positively related to one and not to another (7; 46; 49). In one study (44), second language performance was not significantly related to anxiety, but seemed to influence the quality of language performance; in another (23), some anxiety enhanced oral performance.</p>
+
+<p class="art">The problem with much of the research was that the relationship between anxiety and language learning/performance could not be viewed without taking into account an assortment of variables, such as language setting, anxiety definitions, <span class="gap-wrap"><input class="gap-input" style="--w:125px" data-ans="anxiety measures" placeholder="________" autocomplete="off"><span class="gap-hint">instruments used</span><span class="answer-reveal">anxiety measures</span></span>, age of subjects, language skill, and research design. Comparisons among studies were often hindered by a lack of consistencies in a variety of areas. Factors often overlooked when deciphering anxiety research results included whether the anxiety definition and measure were <span class="gap-wrap"><input class="gap-input" style="--w:110px" data-ans="harmonious" placeholder="________" autocomplete="off"><span class="gap-hint">consistent/compatible</span><span class="answer-reveal">harmonious</span></span>; whether the interpretation of anxiety (i.e., state, trait, test anxiety, facilitating or debilitating, classroom anxiety) had been defined in accordance with the basic purpose of the research;<sup>5</sup> and whether the research was designed to examine one variable (anxiety) or a number of variables (motivation, anxiety, personality, self-esteem, etc.). In essence, most of this research did not adequately define anxiety nor did it describe its specific effects on language learning.</p>
+
+<p class="art">Horwitz, Horwitz, and Cope (22) were the first to treat foreign language anxiety as a separate and distinct phenomenon particular to language learning. Their theory evolved largely from clinical data and <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="anecdotal evidence" placeholder="________" autocomplete="off"><span class="gap-hint">informal/non-empirical data</span><span class="answer-reveal">anecdotal evidence</span></span> (33). We have seen in the last few years, however, an increase in evidence that validates their theory. Empirical data confirming an anxiety specific to <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="language learning" placeholder="________" autocomplete="off"><span class="gap-hint">SLA core process</span><span class="answer-reveal">language learning</span></span> has been reported in Horwitz (21). Further supporting evidence can be found in MacIntyre and Gardner (29–33). Also developed in the last few years has been a body of research offering the students' perspectives on anxiety in language learning. Through interviews, questionnaires, diaries, and self-report instruments, language learners offer insight into language anxiety.<sup>6</sup> In addition, interviews with language specialists provide insight regarding language anxiety from the language instructor's point of view (52). In general, the recent literature on foreign and second language anxiety upholds the theory of an anxiety particular to language learning.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 – SOURCES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Sources of Language Anxiety</div>
+
+<p class="art">In a close review of the literature on anxiety in language learning, at least six potential sources of language anxiety can be identified. Some are associated with the learner, some with the teacher, and some with the <span class="gap-wrap"><input class="gap-input" style="--w:140px" data-ans="instructional practice" placeholder="________" autocomplete="off"><span class="gap-hint">pedagogical approach</span><span class="answer-reveal">instructional practice</span></span>. From an analysis of this research, language anxiety arises from: 1) personal and interpersonal anxieties; 2) learner beliefs about language learning; 3) instructor beliefs about language teaching; 4) instructor-learner interactions; 5) <span class="gap-wrap"><input class="gap-input" style="--w:140px" data-ans="classroom procedures" placeholder="________" autocomplete="off"><span class="gap-hint">activities and routines</span><span class="answer-reveal">classroom procedures</span></span>; and 6) language testing.</p>
+
+<p class="art">Personal and interpersonal issues are probably the most commonly cited and discussed sources of language anxiety in most studies. Low self-esteem and competitiveness are the two significant sources of learner anxiety under this rubric. Bailey contends that <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="competitiveness" placeholder="________" autocomplete="off"><span class="gap-hint">rivalry with peers</span><span class="answer-reveal">competitiveness</span></span> can lead to anxiety when language learners compare themselves to others or to an idealized self-image.</p>
+
+<p class="art">Similarly, Krashen suggests that an individual's degree of <span class="gap-wrap"><input class="gap-input" style="--w:95px" data-ans="self-esteem" placeholder="________" autocomplete="off"><span class="gap-hint">self-worth</span><span class="answer-reveal">self-esteem</span></span> is highly related to language anxiety: ". . . the more I think about self-esteem, the more impressed I am with its impact. This is what causes anxiety in a lot of people. People with low self-esteem worry about what their peers think; they are concerned with pleasing others. And that I think has to do a great degree with anxiety" (52: p. 15).</p>
+
+<p class="art">Price reports that the majority of her subjects believed their language skills to be weaker than those of the others in class; that they "weren't doing a good job and that everyone else looked down on them; that they should have done much better than they did; that if they had only worked a little harder they could have been successful at this task" (p. 106). Hembree investigates the relationship between ability and anxiety and concluded that "the higher the student's <span class="gap-wrap"><input class="gap-input" style="--w:90px" data-ans="ability level" placeholder="________" autocomplete="off"><span class="gap-hint">proficiency</span><span class="answer-reveal">ability level</span></span>, the lower the test anxiety" (p. 73). It would seem, then, that students who start out with a self-perceived low ability level in a foreign or second language are the likeliest candidates for <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="language anxiety" placeholder="________" autocomplete="off"><span class="gap-hint">FL-specific apprehension</span><span class="answer-reveal">language anxiety</span></span>, or any other type of anxiety for that matter.</p>
+
+<p class="art">Other potential sources of personal and interpersonal anxieties have been proposed on the basis of theoretical considerations. Anxieties stemming from personal and interpersonal issues in the language learning context have been related to <span class="gap-wrap"><input class="gap-input" style="--w:175px" data-ans="communication apprehension" placeholder="________" autocomplete="off"><span class="gap-hint">fear of speaking</span><span class="answer-reveal">communication apprehension</span></span> (11; 22; 50), social anxiety (50), and anxiety specific to language learning. According to Leary, constructs such as speech anxiety, shyness, stage fright, embarrassment, social-evaluative anxiety, and communication apprehension, although not exactly synonymous, encompass one psychological phenomenon: <span class="gap-wrap"><input class="gap-input" style="--w:115px" data-ans="social anxiety" placeholder="________" autocomplete="off"><span class="gap-hint">interpersonal fear</span><span class="answer-reveal">social anxiety</span></span> (p. 98). By definition, social anxiety surfaces from "the prospect or presence of interpersonal evaluation in real or imagined social settings" (p. 102). For Leary, "some of these terms, such as audience anxiety, speech anxiety, and communication apprehension, are typically used when people experience social anxiety while performing or speaking before others" (p. 102). Although social anxiety may contribute to language anxiety, Krashen, Rardin, and Terrell (52) suggest that certain psychological phenomena are particular to the foreign language setting, such as the concepts of "group membership" and existential anxiety.</p>
+
+<p class="art">Krashen posits that anxiety in the language learning context is wrapped up in the phenomenon he refers to as "club membership."<sup>7</sup> He argues that the <span class="gap-wrap"><input class="gap-input" style="--w:120px" data-ans="affective filter" placeholder="________" autocomplete="off"><span class="gap-hint">Krashen's barrier metaphor</span><span class="answer-reveal">affective filter</span></span> is down when you consider yourself a member of the group – in this context a member of the Spanish, French, German "club," or whatever the target language group is (p. 16).</p>
+
+<p class="art">Terrell associates foreign language anxiety with what he calls "target language group identification," similar to Krashen's "group membership" phenomenon, but Terrell takes the concept one step further. Terrell suggests that "children acquire their first language and a second language in order to identify and be a member of the group that speaks that language" and that "this strong motivation for identification or assimilation forces them to attend to the input very carefully, so that their output will match the input" (p. 27). For Terrell, then, the filter is down when students experience "target language group identification," similar to Gardner's <span class="gap-wrap"><input class="gap-input" style="--w:160px" data-ans="integrative motivation" placeholder="________" autocomplete="off"><span class="gap-hint">Gardner's motivational type</span><span class="answer-reveal">integrative motivation</span></span>, but this condition is not sufficient for successful language learning. He suggests that a certain amount of attention to the <span class="gap-wrap"><input class="gap-input" style="--w:65px" data-ans="input" placeholder="____" autocomplete="off"><span class="gap-hint">comprehensible ___</span><span class="answer-reveal">input</span></span> is also necessary, although he contends attention does not necessarily imply anxiety. Like Terrell, Rardin recognizes a positive aspect to a learner's productive state of alertness versus a non-productive state of stress.</p>
+
+<p class="art">Krashen and Terrell hold a view of language anxiety close to that of existential anxiety as explained by Rardin and social anxiety as explained by Leary. For Rardin, existential anxiety is a more profound type of anxiety inherently built into the language learning process that "touches the core of one's self-identity, one's self image" (p. 35). According to her, the learner's train of thought is somewhat as follows: "If I learn another language, I will somehow lose myself; I, as I know myself to be, will cease to exist" (p. 35). Other psychological phenomena particular to the language learning context include Schumann's concept of "<span class="gap-wrap"><input class="gap-input" style="--w:115px" data-ans="social distance" placeholder="________" autocomplete="off"><span class="gap-hint">Schumann's concept</span><span class="answer-reveal">social distance</span></span>," Guiora's idea of language ego, and Clarke's theory of "clash of consciousness" or cultural assimilation. These psychological phenomena, along with low self-esteem and erroneous beliefs about language learning, may be the seeds for students' language anxiety as expressed in fear over speaking in front of others, and in <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="competitiveness" placeholder="________" autocomplete="off"><span class="gap-hint">peer rivalry</span><span class="answer-reveal">competitiveness</span></span>.</p>
+
+<p class="art"><span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="Learner beliefs" placeholder="________" autocomplete="off"><span class="gap-hint">student cognitions</span><span class="answer-reveal">Learner beliefs</span></span> about language learning are a major contributor to language anxiety. Gynan reports on a variety of practices learners believe are important for successful language learning. His learners believe, for instance, that <span class="gap-wrap"><input class="gap-input" style="--w:110px" data-ans="pronunciation" placeholder="________" autocomplete="off"><span class="gap-hint">accent/sounds</span><span class="answer-reveal">pronunciation</span></span> is the most important practice in language learning. Other preferred learning practices, in order of popularity, were vocabulary, classroom conjugation, communication, memorization of grammar, travel to a country where the language is spoken, translation, and making friends (p. 9). Similarly, language learners in Horwitz's (20) study: 1) expressed great concern over the correctness of their utterances; 2) placed a great deal of stress on speaking with "an excellent accent"; 3) supported the notion that language learning is primarily translating from English; 4) believed that two years is enough time to become fluent in another language; and 5) believed some people were more able to learn a foreign language than others. As several of these beliefs are unrealistic for the language learner, they could lead to anxiety. For example, most beginning students, unless they are highly motivated, will not sound like a native speaker. If they believe that pronunciation is the most important aspect of a language, they will end up frustrated and stressed. The same frustration and anxiety sets in if they believe they should be fluent in two years. In other words, when beliefs and reality clash, anxiety results.</p>
+
+<p class="art">Instructor beliefs about language teaching are a further source of language anxiety. In Brandl, the majority of the instructors considered "a little bit of intimidation a necessary and supportive motivator for promoting students' performance" (p. 50), and, unlike their students, most instructors considered their role in the language class to be "less a counselor and friend and objected to a too friendly and inauthoritative student-teacher relationship" (p. 49). Instructors who believe their role is to correct students constantly when they make any error, who feel that they cannot have students working in pairs because the class may get out of control, who believe that the teacher should be doing most of the talking and teaching, and who think their role is more like a drill sergeant's than a <span class="gap-wrap"><input class="gap-input" style="--w:100px" data-ans="facilitator" placeholder="________" autocomplete="off"><span class="gap-hint">guide/helper role</span><span class="answer-reveal">facilitator</span></span>'s may be contributing to learner language anxiety. The <span class="gap-wrap"><input class="gap-input" style="--w:120px" data-ans="social context" placeholder="________" autocomplete="off"><span class="gap-hint">classroom atmosphere</span><span class="answer-reveal">social context</span></span> that the instructor sets up in the classroom can have tremendous ramifications for the learners.</p>
+
+<p class="art">Anxieties related to instructor-learner interactions are reported in Horwitz et al. (22), Koch and Terrell, Price, and Young (50).<sup>8</sup> A harsh manner of correcting student errors is often cited as provoking anxiety. In addition, learners consistently report anxiety over responding incorrectly, being incorrect in front of their peers, and looking or sounding "dumb." They also express concerns over how mistakes are perceived in the language classroom. On the other hand, the language learners in the studies by Koch and Terrell, Horwitz (20; 21), and Young (50) feel that some <span class="gap-wrap"><input class="gap-input" style="--w:120px" data-ans="error correction" placeholder="________" autocomplete="off"><span class="gap-hint">fixing mistakes</span><span class="answer-reveal">error correction</span></span> is necessary. The issue for the student, then, is not necessarily error correction but the <span class="gap-wrap"><input class="gap-input" style="--w:90px" data-ans="manner" placeholder="________" autocomplete="off"><span class="gap-hint">how/way it is done</span><span class="answer-reveal">manner</span></span> of error correction — when, how often, and, most importantly, how errors are corrected.</p>
+
+<p class="art">Anxieties associated with classroom procedures center primarily on having to speak in the target language in front of a group. For example, Koch and Terrell found that more than one-half of their subjects reported oral presentations in front of the class and <span class="gap-wrap"><input class="gap-input" style="--w:80px" data-ans="oral skits" placeholder="________" autocomplete="off"><span class="gap-hint">performance activity</span><span class="answer-reveal">oral skits</span></span> as the most anxiety-producing activities in their Natural Approach classes. Other strong sources of anxiety were oral quizzes and being called on to respond orally in the <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="target language" placeholder="________" autocomplete="off"><span class="gap-hint">L2</span><span class="answer-reveal">target language</span></span>. In addition, Young (50) found that more than sixty-eight percent of her subjects reported feeling more comfortable when they did not have to get in front of the class to speak. Mejias et al. and Daly also reported anxiety over speaking in a second language in front of an audience.</p>
+
+<p class="art">Anxieties can stem from aspects of language testing. Madsen et al. found that students react anxiously to particular language test items; some test formats produced significantly more anxiety than others. Students also experience anxiety when they spend hours studying the material emphasized in class only to find that their tests assess different material or utilize question-types with which they have no experience. If an instructor has a <span class="gap-wrap"><input class="gap-input" style="--w:165px" data-ans="communicative approach" placeholder="________" autocomplete="off"><span class="gap-hint">meaning-focused methodology</span><span class="answer-reveal">communicative approach</span></span> to language teaching but then gives primarily grammar tests, this likely leads students not only to complain, but also to experience frustration and anxiety. Other variables that can increase learner anxiety in an evaluative situation, like a test (whether written or oral), are offered in Daly. He contends that learners experience more apprehension when the situation is <span class="gap-wrap"><input class="gap-input" style="--w:75px" data-ans="novel" placeholder="________" autocomplete="off"><span class="gap-hint">unfamiliar</span><span class="answer-reveal">novel</span></span>, ambiguous, or highly evaluative. In language testing, the greater the degree of student evaluation and the more unfamiliar and ambiguous the test tasks and formats, the more the learner anxiety produced.</p>
+
+<p class="art">The sources of language anxiety identified in the literature and summarized here could be viewed as interrelated in light of MacIntyre and Gardner's recently developed theory regarding foreign language anxiety. MacIntyre and Gardner (33) contend that learners do not begin the language learning experience with language anxiety. If they experience anxiety, it is most likely <span class="gap-wrap"><input class="gap-input" style="--w:105px" data-ans="state anxiety" placeholder="________" autocomplete="off"><span class="gap-hint">temporary/situational</span><span class="answer-reveal">state anxiety</span></span>. According to them, language anxiety occurs only after attitudes and emotions regarding the language learning experience have been formed. If MacIntyre and Gardner's theory is correct, this suggests that the problem is not so much in the student but in the language learning experience, i.e., the <span class="gap-wrap"><input class="gap-input" style="--w:110px" data-ans="methodology" placeholder="________" autocomplete="off"><span class="gap-hint">teaching approach</span><span class="answer-reveal">methodology</span></span>. Student language anxiety might be an indication that we are doing something fundamentally unnatural in our methodology. Helping teachers to recognize the signs of anxiety in language learners is an important step in responding to anxiety in the classroom. The next section of this article will focus on a discussion of ways students express anxiety in their language classes.</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 – MANIFESTATIONS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Student Manifestations of Anxiety</div>
+
+<p class="art">Communication apprehension and social anxiety have previously been related to language anxiety (22; 50). Recognizing learner manifestations of anxieties related to speaking, negative evaluation, and foreign language learning-generated anxieties are important first steps in coping with language anxiety. Leary offers three categories of behavior arising from social anxiety: 1) <span class="gap-wrap"><input class="gap-input" style="--w:180px" data-ans="arousal-mediated responses" placeholder="________" autocomplete="off"><span class="gap-hint">physiological reactions</span><span class="answer-reveal">arousal-mediated responses</span></span>; 2) disaffiliative behavior; and 3) image-protection behavior. According to Leary, arousal-mediated responses are the side-effects of individuals' activation of their sympathetic nervous system. These side-effects serve no real social function and usually accompany all aroused states. Individuals manifest anxiety when they "squirm in their seats, fidget, play with their hair, clothes, or other manipulable objects, stutter and stammer as they talk, and generally appear jittery and nervous" (p. 110). Disaffiliative behaviors are characterized as any actions that reduce social interactions; these are manifested by fewer initiations of conversations, less participation in conversations, more allowance for silent periods in the conversation, fewer instances of <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="silence breakers" placeholder="________" autocomplete="off"><span class="gap-hint">conversation initiators</span><span class="answer-reveal">silence breakers</span></span>, and shorter speaking periods when in front of an audience. Image-protection behavior is characterized by smiling and nodding frequently, by seldom interrupting others, and by giving frequent communicative feedback such as "uh-huh."</p>
+
+<p class="art">According to Leary, "these responses may serve to protect an image of the person as friendly, agreeable, polite, interested, and even sociable, without incurring any social risks" (p. 114).</p>
+
+<p class="art">Rardin distinguishes between the typical responses to general anxiety and those manifested as a result of existential anxiety. She posits that an extreme degree of anxiety could manifest itself "in 'flight' or 'fight' response patterns with the obvious physiological signs of sweaty palms, nervous stomachs, accelerated heartbeat and pulse rates" (52: p. 36). More obvious manifestations of anxiety in the foreign or second language classroom could surface in the form of distortion of sounds, inability to reproduce the <span class="gap-wrap"><input class="gap-input" style="--w:140px" data-ans="intonation and rhythm" placeholder="________" autocomplete="off"><span class="gap-hint">prosodic features</span><span class="answer-reveal">intonation and rhythm</span></span> of the language, "freezing up" when called on to perform, and forgetting words or phrases just learned or simply refusing to speak and remaining <span class="gap-wrap"><input class="gap-input" style="--w:70px" data-ans="silent" placeholder="______" autocomplete="off"><span class="gap-hint">quiet/mute</span><span class="answer-reveal">silent</span></span>. At a subtle, perhaps subconscious level, language learners may actually resist learning the language. Rardin posits that merely talking about the language, hypothesizing about it, and analyzing it can also be manifestations of anxiety (p. 36).</p>
+
+<p class="art">Horwitz et al. (22) offer additional descriptions of anxiety-related behaviors particular to the foreign language classroom setting. They suggest that students are anxious when they avoid trying to convey difficult or personal messages in the foreign language; freeze up in <span class="gap-wrap"><input class="gap-input" style="--w:100px" data-ans="role-play" placeholder="________" autocomplete="off"><span class="gap-hint">simulation activity</span><span class="answer-reveal">role-play</span></span> activities; report that they "know" a certain grammar point but "forget" it during a test or an oral exercise when many grammar points must be remembered; complain of difficulties discriminating the sounds and structures of a foreign language message; confess they know the correct answer on a test but put down the wrong one due to nervousness or carelessness; and <span class="gap-wrap"><input class="gap-input" style="--w:100px" data-ans="over-study" placeholder="________" autocomplete="off"><span class="gap-hint">excessive preparation</span><span class="answer-reveal">over-study</span></span> without any improvement in grades (pp. 126–27). Steinberg and Horwitz found that giving more concrete versus interpretive information in the foreign language was another learner behavior resulting from language anxiety.</p>
+
+<p class="art">Bailey advises instructors to recognize signs of too much competitiveness among language learners, since this leads to increased states of anxiety. She identifies certain behaviors as signs of competitiveness, such as obvious self-comparison to other classmates and personal expectations, hostile reactions toward other students based on comparisons, a desire to outdo other classmates, an emphasis on tests and grades with reference to other student performances, a desire to gain teacher approval, and a mental or physical (temporary or permanent) <span class="gap-wrap"><input class="gap-input" style="--w:100px" data-ans="withdrawal" placeholder="________" autocomplete="off"><span class="gap-hint">retreat/disengagement</span><span class="answer-reveal">withdrawal</span></span> from the language learning experience.</p>
+
+<p class="art">Other manifestations of foreign language classroom anxiety include nervous laughter, avoiding eye contact, joking, short answer responses (52: p. 26), avoiding activities in class, coming unprepared to class, acting indifferent, cutting class, putting off taking the foreign language until the last year, crouching in the last row, and <span class="gap-wrap"><input class="gap-input" style="--w:210px" data-ans="avoiding having to speak" placeholder="________" autocomplete="off"><span class="gap-hint">avoidance behavior</span><span class="answer-reveal">avoiding having to speak</span></span> in the foreign language in class (22).</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 – REDUCING ANXIETY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Reducing Foreign and Second Language Anxiety</div>
+
+<p class="art">A common denominator among current foreign language methods or approaches is the emphasis on creating a "<span class="gap-wrap"><input class="gap-input" style="--w:175px" data-ans="low anxiety classroom" placeholder="________" autocomplete="off"><span class="gap-hint">affective environment goal</span><span class="answer-reveal">low anxiety classroom</span></span> atmosphere" (47). Other than Suggestopedia, however, rarely are instructors given specific examples of how to go about creating a low anxiety atmosphere in the foreign language class (For specific suggestions, see 13; 27; and 36.). From a careful review of research in the area of language anxiety, suggestions for reducing language anxiety emerge. These suggestions focus on a range of foreign language variables from in-class practices and activities to <span class="gap-wrap"><input class="gap-input" style="--w:140px" data-ans="instructor behavior" placeholder="________" autocomplete="off"><span class="gap-hint">teacher actions</span><span class="answer-reveal">instructor behavior</span></span>.</p>
+
+<p class="art">To deal with personal and interpersonal anxieties, a variety of techniques and approaches are called for. Foss and Reitzel offer several techniques for reducing language anxiety stemming from learner beliefs, and these same techniques apply when dealing with personal and interpersonal anxieties. They argue that if students can recognize their irrational beliefs or fears, they will be able to interpret anxiety-provoking situations in more realistic ways and eventually opt to approach rather than avoid an anxiety-evoking situation. To help students recognize their fears about language learning, Foss and Reitzel recommend that the instructor ask students to <span class="gap-wrap"><input class="gap-input" style="--w:110px" data-ans="verbalize" placeholder="________" autocomplete="off"><span class="gap-hint">put into words</span><span class="answer-reveal">verbalize</span></span> any fears and then to write them on the board. In this way students can see they are not alone in their anxieties. Another technique for reducing language anxiety is to use an anxiety graph. Students chart their level of anxiety to show that not every phase of an oral interaction produces an equal amount of anxiety. An anxiety graph helps pinpoint the highest level of anxiety in a given interaction. An analysis of the graph (the highest point in the graph) as well as student comparisons and discussions of their graphs could help the learner approach the same situation with more information and, therefore, more realistically (p. 402). And finally, Foss and Reitzel suggest <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="journal writing" placeholder="________" autocomplete="off"><span class="gap-hint">diary/reflective writing</span><span class="answer-reveal">journal writing</span></span> as a good way to help reduce language anxiety. From their journals, students can "learn to recognize feelings of inadequacy so they may arrive at more realistic expectations" (p. 405).</p>
+
+<p class="art">Crookall and Oxford offer a number of activities, such as Agony Column, Ghost Avengers, and Anxious Photos, that can be used with language learners to help them examine their language anxieties. For example, in the activity Agony Column, students participate in an editorial simulation where they take on three roles: themselves (language learners), an "agony aunt" (like a Dear Abby), and a counselor. In the first phase of this activity students write letters to Agony Column in which they express any anxieties they have over language learning. Then, in groups of three or four, students play the role of "Agony Aunt." They read and discuss a few of the letters and focus on advising on others' anxieties. In the third phase of this activity, students function as counselors. The letters are returned with their replies and, still in small groups, students discuss their anxieties and react to replies and soundness of advice given. The final phase consists of a <span class="gap-wrap"><input class="gap-input" style="--w:135px" data-ans="debriefing session" placeholder="________" autocomplete="off"><span class="gap-hint">post-activity reflection</span><span class="answer-reveal">debriefing session</span></span> where the focus is on feedback from the groups, with one representative from each group serving as the group voice. Activities such as those described by Crookall and Oxford help students get in touch with their anxieties, an important step in the process of working them out.</p>
+
+<p class="art">To help reduce personal and interpersonal anxieties further, learners may need to participate in some form of supplemental instruction or a <span class="gap-wrap"><input class="gap-input" style="--w:115px" data-ans="support group" placeholder="________" autocomplete="off"><span class="gap-hint">peer network</span><span class="answer-reveal">support group</span></span> (see 6; 9), work with a tutor, join a language club, do relaxation exercises, and/or practice self-talk. Self-talk can be particularly useful for coping with "<span class="gap-wrap"><input class="gap-input" style="--w:105px" data-ans="state anxiety" placeholder="________" autocomplete="off"><span class="gap-hint">situational worry</span><span class="answer-reveal">state anxiety</span></span>," which refers to an individual's anxiety due to a specific evaluative situation, e.g., a test, a competition, a performance of some sort, etc. The following example (from the Learning Resource Center at the University of Texas, Austin) demonstrates the role of self-talk.</p>
+
+<p class="art"><em>Situation:</em> Walking toward the front of the room for an oral presentation.<br>
+<em>Anxiety-Provoking Self-Talk:</em> "I can't talk in public. I'll forget everything. . . . I've always stumbled over my words when it really counts. Last time I was so nervous I sounded like a robot . . ."<br>
+<em>Productive Self-Talk:</em> "I can handle this. . . . Just relax . . . take a deep slow breath and I'll start as I rehearsed it."</p>
+
+<p class="art">Other variations of self-talk include making positive statements about yourself (see 36 for detailed examples of this strategy).</p>
+
+<p class="art">To reduce anxieties based on learner beliefs, Horwitz (20) suggests that instructors "discuss with their students reasonable commitments for successful language learning and the value of some language ability if it is less than fluent" (p. 286). She contends that "as students' <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="beliefs" placeholder="________" autocomplete="off"><span class="gap-hint">cognitions/convictions</span><span class="answer-reveal">beliefs</span></span> about language learning can be based on limited knowledge and/or experience, the teacher's most effective course may be to confront erroneous beliefs with new information. In some cases, students may never have had their views about language learning challenged" p. 292). In addition, instructors may want to hold these brief discussions about the process of <span class="gap-wrap"><input class="gap-input" style="--w:140px" data-ans="language learning" placeholder="________" autocomplete="off"><span class="gap-hint">SLA process</span><span class="answer-reveal">language learning</span></span> periodically throughout the language learning experience.</p>
+
+<p class="art">To decrease anxieties related to instructor beliefs, instructors need to be sensitized to their new role as language teachers in a <span class="gap-wrap"><input class="gap-input" style="--w:155px" data-ans="learner-centered" placeholder="________" autocomplete="off"><span class="gap-hint">student-focused approach</span><span class="answer-reveal">learner-centered</span></span> language environment. Unlike the Audiolingual Method, in which the instructor role was almost that of a drill sergeant, some current communicative approaches allow the instructor to be seen as more of a facilitator whose responsibility is to provide students with input and opportunities to communicate in the language in authentic situations with authentic materials. This is a new and perhaps threatening role for the language instructor who believes that all errors should be corrected, that the instructor is the authority figure in the classroom, and who, as in Brandl, believes that some intimidation is necessary for student motivation. It might be useful for instructors to consciously examine their own language teaching beliefs to help dispel those beliefs that negatively impact learners. Because instructor beliefs about language learning are often reflected in teacher behavior, videotaping or reciprocal class visits might facilitate the identification and discussion of teacher assumptions about language learning. Instructors could also complete the "<span class="gap-wrap"><input class="gap-input" style="--w:260px" data-ans="Beliefs about Language Learning Inventory" placeholder="________" autocomplete="off"><span class="gap-hint">BALLI full name</span><span class="answer-reveal">Beliefs about Language Learning Inventory</span></span> (BALLI)" (20). Above all, instructors should involve themselves in language teaching workshops, panels, and conferences in an effort to keep pace with current language teaching research and practices.</p>
+
+<p class="art">To reduce anxieties based on instructor-learner interactions, instructors may need to assess their <span class="gap-wrap"><input class="gap-input" style="--w:155px" data-ans="error correction approach" placeholder="________" autocomplete="off"><span class="gap-hint">feedback strategy</span><span class="answer-reveal">error correction approach</span></span> as well as their attitudes toward learners. Price's subjects gave numerous suggestions for ways instructors could reduce language anxiety, such as "giving students more positive reinforcement, and helping them to develop more realistic expectations of themselves by letting them know that they weren't supposed to be fluent or have a perfect accent after two semesters" (p. 107). According to Young's language learners, instructors who had a good sense of humor and were friendly, relaxed and patient, who made students feel comfortable, and who encouraged students to <span class="gap-wrap"><input class="gap-input" style="--w:90px" data-ans="speak out" placeholder="________" autocomplete="off"><span class="gap-hint">volunteer verbally</span><span class="answer-reveal">speak out</span></span> were cited as helpful in reducing foreign language class anxiety (50).</p>
+
+<p class="art">Young's subjects also described certain instructor characteristics that helped reduce their anxiety over error correction (50). Their comments suggest that instructors can reduce language anxiety by adopting an attitude that mistakes are part of the language learning process and that mistakes will be made by everyone. Students felt more at ease when the instructor's manner of correction was not harsh and when the instructor did not overreact to mistakes (p. 9). The most frequent suggestion made by Price's subjects for alleviating language anxiety was "that they would feel more comfortable if the instructor were more like a friend helping them to learn and less like an authority figure making them <span class="gap-wrap"><input class="gap-input" style="--w:90px" data-ans="perform" placeholder="________" autocomplete="off"><span class="gap-hint">demonstrate skills</span><span class="answer-reveal">perform</span></span>" (p. 107).</p>
+
+<p class="art">Crookall and Oxford's activity "Mistakes Panel" offers students and instructors a unique way of viewing mistakes in the second language – one that potentially can lead to less anxiety over errors. In this activity, students compile a list of mistakes expressed over a period of time and rate the mistakes according to the following criteria: amusement, logic, <span class="gap-wrap"><input class="gap-input" style="--w:195px" data-ans="communicative intelligibility" placeholder="________" autocomplete="off"><span class="gap-hint">comprehensibility criterion</span><span class="answer-reveal">communicative intelligibility</span></span>, and learning contribution. In this game, the best mistakes are rewarded but the real object is to encourage students to "take an amusing look at errors and realize that they are not taboo – and that they can contribute to <span class="gap-wrap"><input class="gap-input" style="--w:80px" data-ans="learning" placeholder="________" autocomplete="off"><span class="gap-hint">acquisition</span><span class="answer-reveal">learning</span></span>" (p. 147).</p>
+
+<p class="art">Many foreign language learners in studies by Koch and Terrell, Horwitz et al., Horwitz (20), and Young (50) felt, nevertheless, that some error correction was necessary. Whether the instructor's pedagogical philosophy sides with the "correct or fossilize" perspective or the noncorrective "go for meaning" approach, one way to provide correct input without much anxiety is to <span class="gap-wrap"><input class="gap-input" style="--w:135px" data-ans="model" placeholder="________" autocomplete="off"><span class="gap-hint">demonstrate correct form</span><span class="answer-reveal">model</span></span> students' responses; that is, simply repeat the correct version of what the students are attempting. For example, if a student's response to the question "<em>¿Qué quiere hacer el Presidente Bush?</em>" was "<em>Quieres subir los presupuestos,</em>" the instructor would respond "<em>Sí, quiere subir los presupuestos.</em>" The instructor's <em>Sí</em> acknowledges that the student conveyed a meaningful message and by repeating with the correct form, <em>quiere</em> instead of <em>quieres,</em> the instructor provides the appropriate feedback for the class. Although we currently do not have absolute evidence that modeling is effective, we also do not have reason to believe it is not. Modeling, from a theoretical perspective, makes sense. In a modeling approach to error correction, students are not spotlighted in front of their peers and corrected, but correct feedback is provided for those language learners who feel they need it. If modeling is to work, however, students must learn to <span class="gap-wrap"><input class="gap-input" style="--w:185px" data-ans="listen carefully and strategically" placeholder="________" autocomplete="off"><span class="gap-hint">active listening skill</span><span class="answer-reveal">listen carefully and strategically</span></span>.</p>
+
+<p class="art">Another strategy that addresses the issue of error correction and anxiety stems from the classroom emphasis on grammar. If instructors reward students for successful communication, the message we send to our students is that there is more to language learning than just grammar rules and forms. Brandl provides a good example of this approach to grammar and error correction.</p>
+
+<p class="art">Student A writes: "<em>ich geh zu haus jezt.</em>" (correct: <em>Ich gehe jetzt nach Hause.</em> [I go home now.])<br>
+Student B writes: "<em>Jetzt ich gehe zu Hause.</em>" (correct: <em>Jetzt gehe ich nach Hause.</em>)</p>
+
+<p class="art">Brandl explains that "both student A and B show some degree of <span class="gap-wrap"><input class="gap-input" style="--w:200px" data-ans="communicative competence" placeholder="________" autocomplete="off"><span class="gap-hint">Canale &amp; Swain concept</span><span class="answer-reveal">communicative competence</span></span> in so far as they can get their message across. Student B, however, shows a better linguistic performance. Student A's sentence consists of six errors (three spelling, two grammar, and one word order mistake). Student B made only two mistakes (one word order and one grammar mistake)" (p. 41). In grading, six points are assigned to each correct sentence, three for linguistic accuracy and three for successful communication. Such an approach to error correction and grammar places as much emphasis on successful communication as on correct forms. Students may begin to get the message that instructors are equally interested in what they have to say as in how they say it, and this may lead to a reduction in anxiety over errors and <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="error correction" placeholder="________" autocomplete="off"><span class="gap-hint">feedback on mistakes</span><span class="answer-reveal">error correction</span></span>.</p>
+
+<p class="art">To decrease anxieties associated with classroom procedures, instructors can do more <span class="gap-wrap"><input class="gap-input" style="--w:80px" data-ans="pair work" placeholder="________" autocomplete="off"><span class="gap-hint">two-student activity</span><span class="answer-reveal">pair work</span></span>, play more games, and tailor their activities to the affective needs of the learner. Koch and Terrell, Price, Young (50), and Omaggio (52) suggest that language anxiety is alleviated when students work in small groups, do pair work, and experience personalized language instruction. Group work not only addresses the affective concerns of the students, it also increases the amount of student talk and <span class="gap-wrap"><input class="gap-input" style="--w:175px" data-ans="comprehensible input" placeholder="________" autocomplete="off"><span class="gap-hint">Krashen's key concept</span><span class="answer-reveal">comprehensible input</span></span> (see 26; 28; 43).</p>
+
+<p class="art">In the Natural Approach there is a concern to reduce the learners' <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="affective filter" placeholder="________" autocomplete="off"><span class="gap-hint">Krashen's barrier metaphor</span><span class="answer-reveal">affective filter</span></span>. This is done in several ways. Besides group work, it is the personalized aspect of the Natural Approach that makes students feel the most comfortable. Examples of personalizing instruction include using pictures to present vocabulary and associating the vocabulary with students and objects in class; personalizing grammar; and pairing students to work with another student or other students. The Natural Approach also emphasizes <span class="gap-wrap"><input class="gap-input" style="--w:175px" data-ans="listening comprehension" placeholder="________" autocomplete="off"><span class="gap-hint">receptive skill focus</span><span class="answer-reveal">listening comprehension</span></span> and an initial period where students do not have to speak in the foreign language.</p>
+
+<p class="art">Krashen suggests that the best way to reduce language anxiety is to make the message so interesting that students forget that it is in another language (52). According to him, when the teacher drops the book and starts talking about something really important, students listen (p. 22).</p>
+
+<p class="art">Saunders and Crookall suggest that playing games with the language can also reduce language anxiety. They posit that</p>
+
+<p class="art" style="margin-left:1.8em; font-style:italic;">If the learning of a new language provokes inhibition and caution in the part of the adult who fears ridicule because of incompetence in a real situation, the activity of play within game scenarios has great potential. In effect the person at play can be more easily forgiven for errors of judgment and poor communication. There is always the excuse of unfamiliarity with the social rules, roles and norms of a game for novice players (p. 169).</p>
+
+<p class="art">Playing games with the language does not necessarily mean playing traditional, competitive games such as Jeopardy, Password, or Hangman. Language games might include something as simple as using the target language to solve a problem. For example, student A has a diagram and has to describe it in the target language well enough for Student B to draw it. Diagrams are compared afterward to check for similarity. In this kind of "game" students focus on <span class="gap-wrap"><input class="gap-input" style="--w:215px" data-ans="communicating information" placeholder="________" autocomplete="off"><span class="gap-hint">conveying meaning</span><span class="answer-reveal">communicating information</span></span> to each other for an ultimate purpose.</p>
+
+<p class="art">Language games with an emphasis on <span class="gap-wrap"><input class="gap-input" style="--w:135px" data-ans="problem-solving" placeholder="________" autocomplete="off"><span class="gap-hint">task-based element</span><span class="answer-reveal">problem-solving</span></span> as suggested by Saunders and Crookall can be an effective way to create interest, motivate students, encourage participation and reduce language anxiety. They advise, however, that "some care has to be taken in the overzealous introduction of play in simulated contexts within the classroom, especially when games have the potential of arousing too much excitement, anxiety, or competition amongst more experienced or critical participants" (p. 171).<sup>8</sup></p>
+
+<p class="art">Tailoring activities to the <span class="gap-wrap"><input class="gap-input" style="--w:130px" data-ans="affective needs" placeholder="________" autocomplete="off"><span class="gap-hint">emotional requirements</span><span class="answer-reveal">affective needs</span></span> of the learner is also necessary in dealing with anxieties related to classroom procedures. For example, speaking in front of the class has been repeatedly cited as evoking anxiety. Foss and Reitzel describe an activity that takes into account learner's anxiety over speaking in front of the class – oral interpretation. In this kind of tailored activity students practice reading a script orally before an audience only after they have practiced it extensively in a small group (p. 403). Another way to tailor activities to meet the affective needs of the learner is to precede role plays, usually cited as highly anxiety-provoking, with activities that build class rapport, such as having students work in small groups enough times to get to know each other or attending a "fun" foreign film together.</p>
+
+<p class="art">Typical classroom procedures that fail to respond to the affective needs of the learner are further rejected in Daly. He advises instructors not to seat students alphabetically, not to require presentations from students such as oral reports and <span class="gap-wrap"><input class="gap-input" style="--w:110px" data-ans="oral readings" placeholder="________" autocomplete="off"><span class="gap-hint">reading aloud</span><span class="answer-reveal">oral readings</span></span>, and/or not to <span class="gap-wrap"><input class="gap-input" style="--w:145px" data-ans="call on students at random" placeholder="________" autocomplete="off"><span class="gap-hint">cold-calling practice</span><span class="answer-reveal">call on students at random</span></span>.</p>
+
+<p class="art">To decrease language testing anxieties, instructors and language programs as a whole must develop and oversee the construction of fair tests that accurately reflect <span class="gap-wrap"><input class="gap-input" style="--w:145px" data-ans="in-class instruction" placeholder="________" autocomplete="off"><span class="gap-hint">classroom teaching</span><span class="answer-reveal">in-class instruction</span></span>. This suggestion is merely common sense, but it bears repeating for the many language programs that continue to ignore the sound principle: <span class="gap-wrap"><input class="gap-input" style="--w:235px" data-ans="test what you teach in the context" placeholder="________" autocomplete="off"><span class="gap-hint">testing principle</span><span class="answer-reveal">test what you teach in the context</span></span> of how you teach it.</p>
+
+<p class="art">Madsen et al. found that students have reactions to particular language test items. Some can be more anxiety-evoking than others. If a test has been constructed that accurately reflects in-class practices and if the instructor has been sensitized to language anxiety, then the test is less likely to contain test items which increase students' anxiety, particularly if students have experienced the <span class="gap-wrap"><input class="gap-input" style="--w:135px" data-ans="test item-type" placeholder="________" autocomplete="off"><span class="gap-hint">format type</span><span class="answer-reveal">test item-type</span></span> in class. Whatever the objective of the test item, pre-test exposure to the item may help reduce student anxiety and frustration during a language test.</p>
+
+<p class="art">For example, consider a hypothetical situation where the emphasis in class has been on proficiency. The instructor develops a test item that consists of an incomplete dialogue in which the students have to complete the blanks so the dialogue makes sense (an integrative, communicatively oriented test item with some written production and reading comprehension).<sup>9</sup> Although students have participated in dialogues and in writing skits in groups, they may become frustrated and experience anxiety because of the lack of exposure to this particular item-type (see 37 for a study describing a situation in which <span class="gap-wrap"><input class="gap-input" style="--w:200px" data-ans="discrete-point testing practices" placeholder="________" autocomplete="off"><span class="gap-hint">item-by-item testing approach</span><span class="answer-reveal">discrete-point testing practices</span></span> did not match communicative instruction).</p>
+
+<p class="art">For pre-test exposure to this item-type, the instructor may want to write an incomplete dialogue on the board and have students work in pairs to complete it. Students could then share their solutions with the class. Once students understand that sometimes they have to respond to previous statements, sometimes to something said after the blank, and sometimes to both, and once they realize that there is not just one right way to respond or merely one correct answer and that a variety of responses are appropriate, they are likely to become more comfortable and experience less anxiety with the item-type.</p>
+
+<p class="art">Practice with item-types also gives learners information about "<span class="gap-wrap"><input class="gap-input" style="--w:195px" data-ans="performance expectations" placeholder="________" autocomplete="off"><span class="gap-hint">what students are expected to do</span><span class="answer-reveal">performance expectations</span></span>." For example, if a test contains contextual situations, the instructor should give students an example of the way they will be expected to perform, e.g., "On the test, I will ask you to respond to a variety of situations, such as, 'What would you say to the hotel clerk if you wanted to obtain a room for three nights and you wanted to pay half of the bill with your Mastercard and the other half with a check?'"</p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- CONCLUSION -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Conclusion</div>
+
+<p class="art">Language anxiety is a complex, <span class="gap-wrap"><input class="gap-input" style="--w:155px" data-ans="multidimensional" placeholder="________" autocomplete="off"><span class="gap-hint">many-faceted</span><span class="answer-reveal">multidimensional</span></span> phenomenon. It manifests itself in students quite differently depending on ethnic background, prior language experience, learner personality, and classroom circumstances. As a result, its impact on the learning experience is not easily assessed. Through interviews, questionnaires, and diaries in language anxiety research, the language learner has provided insight into language anxiety from the students' perspective, and interviews with language specialists have offered significant insight into the impact it has on language teaching, learning, and performance.</p>
+
+<p class="art">This article summarizes language anxiety research with a focus on classroom implications and offers anxiety reduction strategies, which are by no means inclusive. No doubt instructors and learners can identify other sources of language anxiety and offer additional suggestions for coping with it. We can conclude, however, that some evidence suggests that the sources of language anxiety are interrelated and may in part be a result of unnatural classroom methods. Until future research can document more fully such a contention, it is hoped that this article has provided a framework that can help the instructor begin to reduce current anxiety in <span class="gap-wrap"><input class="gap-input" style="--w:200px" data-ans="second and foreign language learning" placeholder="________" autocomplete="off"><span class="gap-hint">L2/FL learning</span><span class="answer-reveal">second and foreign language learning</span></span>.</p>
+
+<p class="art">The objective in ridding language learning of unnecessary anxiety is to create more effective language learning and to instill in students increased interest and motivation to learn another language. All too often foreign language learners dread their language requirement, refuse to enroll in a language class until their last year, or suffer through four semesters of a language only to forget it all gladly when the requirement is met. Similarly, second language learners experience unnecessary levels of anxiety and resulting unpleasant emotions and stress as they learn the second language. Our task as foreign and second language teachers is to create an atmosphere in our classes for effective language learning and an attitude in our learners that reflects genuine interest and motivation to learn the language. By <span class="gap-wrap"><input class="gap-input" style="--w:165px" data-ans="reducing language anxiety" placeholder="________" autocomplete="off"><span class="gap-hint">lowering affective barriers</span><span class="answer-reveal">reducing language anxiety</span></span>, we will begin to move in that direction.<sup>10</sup></p>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- NOTES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Notes</div>
+<div class="footnotes">
+<p><sup>1</sup>Although Gardner (14) has studied this area for thirty years, only recently has the foreign language profession begun to pay significant attention.</p>
+<p><sup>2</sup>See, for example, references 1; 3; 5; 7; 12; 15; 16; 22; 23; 38; 42; 45.</p>
+<p><sup>3</sup>See, for example, references 3; 5; 7; 15; 16; 23; 42; 45; 46; 48; 51.</p>
+<p><sup>4</sup>See, for example, references 7; 12; 15; 16; 23; 44; 45; 46; 51.</p>
+<p><sup>5</sup>State anxiety refers to an unpleasant emotional condition or temporary state, while trait anxiety refers to a stable propensity to be anxious. Trait is a permanent personality trait. Anxiety leading to improved performance is called facilitating anxiety and anxiety leading to impaired performance is called debilitating anxiety. Test anxiety refers to the unpleasant emotion due to a given task, e.g., a test (51).</p>
+<p><sup>6</sup>See, for example, references 2; 11; 22; 24; 34; 35; 39; 50.</p>
+<p><sup>7</sup>Krashen borrows this concept from Frank Smith's work, specifically his essay "Joining the Literacy Club," which appears in Smith's book of the same name, published by Heineman, 1988.</p>
+<p><sup>8</sup>Oxford and Nyikos also suggest that with some cognitive styles or personality types, game playing or group work itself can be anxiety-evoking.</p>
+<p><sup>9</sup>An example of this type of test item would look something like the following: Context: José runs into Roberto and Cristina (a newly married couple) at the Sears department store. All three are students at the local university.<br>
+José: <em>¡Roberto y Cristina, qué sorpresa encontrarles aquí en el almacén de Dillards!</em><br>
+Cristina: ________________________<br>
+José: <em>Muy bien gracias. Y, ¿cómo están Uds.?</em><br>
+Roberto: ________________________<br>
+Cristina: José, <em>¿qué haces por aquí?</em><br>
+José: ________________________<br>
+Roberto: <em>También busco ropa nueva. Hay una gran variedad de ropa en este almacén. ¿Qué tipo de ropa quieres comprar?</em></p>
+<p><sup>10</sup>I acknowledge and thank Janet Swaffar and Rebecca Oxford for the many useful suggestions they made on an early draft of this paper. I also acknowledge the insightful comments made by the MLJ referees.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- APPENDIX TABLE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Appendix: Quantitative Research on Anxiety and Foreign or Second Language Learning up to 1985</div>
+
+<div class="appendix-table-wrap">
+<table class="app">
+  <thead>
+    <tr>
+      <th>Researcher(s)</th>
+      <th>Language Setting</th>
+      <th>Population</th>
+      <th>Anxiety Interpretation</th>
+      <th>Anxiety Measure</th>
+      <th>Multifactor Study</th>
+      <th>Language Skill Related to Anxiety / Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Backman</td>
+      <td>SLL</td>
+      <td>University students</td>
+      <td>Foreign language class anxiety</td>
+      <td>Attitude and motivation questionnaire</td>
+      <td>Yes</td>
+      <td>Anxiety and placement test, oral comprehension, and oral skills. The least proficient student scored the highest and lowest on the anxiety variable of the oral interview test.</td>
+    </tr>
+    <tr>
+      <td>Bartz</td>
+      <td>FLL</td>
+      <td>University students</td>
+      <td>Trait anxiety</td>
+      <td>16 Personality Questionnaire</td>
+      <td>Yes</td>
+      <td>Communicative competence oral/writing. Linguistic ability best predictor of oral skill. Low anxiety Ss scored better in writing.</td>
+    </tr>
+    <tr>
+      <td>Brewster</td>
+      <td>FLL</td>
+      <td>Adults</td>
+      <td>Trait anxiety</td>
+      <td>Items on a personality test</td>
+      <td>Yes</td>
+      <td>Anxiety and grade with equal weight given.</td>
+    </tr>
+    <tr>
+      <td>Chastain</td>
+      <td>FLL</td>
+      <td>University students</td>
+      <td>Test anxiety</td>
+      <td>Test Anxiety Scale and Manifest Anxiety Scale</td>
+      <td>Yes</td>
+      <td>Anxiety and final grade high in all three FLs.</td>
+    </tr>
+    <tr>
+      <td>Dunkel</td>
+      <td>FLL</td>
+      <td>University students</td>
+      <td>Trait anxiety</td>
+      <td>Items on a psychological test</td>
+      <td>Yes</td>
+      <td>Anxiety and language placement test.</td>
+    </tr>
+    <tr>
+      <td>Gardner et al. (16)</td>
+      <td>SLL</td>
+      <td>Junior and senior high</td>
+      <td>Classroom anxiety</td>
+      <td>Items on an attitude motivation questionnaire</td>
+      <td>Yes</td>
+      <td>Anxiety and language skills. Grade 7: r = .32; Grade 8: r = .28; Grade 9: r = .33; Grade 10: r = .31; Grade 11: r = .43. Correlation between anxiety and final grade high in all 3 FLs, but not consistent within or across languages. Some anxiety had positive results.</td>
+    </tr>
+    <tr>
+      <td>Gardner et al. (15)</td>
+      <td>SLL</td>
+      <td>High school</td>
+      <td>Speaking anxiety in French class</td>
+      <td>Five-item anxiety scale</td>
+      <td>Yes</td>
+      <td>Anxiety and speech skills. Significant negative correlation between anxiety and French reading but not between anxiety and oral French.</td>
+    </tr>
+    <tr>
+      <td>Kleinmann</td>
+      <td>SLL</td>
+      <td>University students</td>
+      <td>Facilitating/debilitating anxiety</td>
+      <td>Facilitating/Debilitating Anxiety</td>
+      <td>No</td>
+      <td>Anxiety and speech skills.</td>
+    </tr>
+    <tr>
+      <td>Pimsleur et al.</td>
+      <td>FLL</td>
+      <td>Junior and senior high</td>
+      <td>Trait anxiety</td>
+      <td>Manifest Anxiety Scale</td>
+      <td>Yes</td>
+      <td>Anxiety and intelligence and previous language experience. Ss taking group tests were more nervous than Ss in pairs. Factor analysis showed anxiety as 1 of 2 factors affecting questionnaire answers.</td>
+    </tr>
+    <tr>
+      <td>Scott</td>
+      <td>FLL</td>
+      <td>University students</td>
+      <td>Test anxiety</td>
+      <td>Affective questionnaire</td>
+      <td>Yes</td>
+      <td>Anxiety and test format were more anxiety-evoking.</td>
+    </tr>
+    <tr>
+      <td>Steinberg &amp; Horwitz</td>
+      <td>SLL</td>
+      <td>Adults</td>
+      <td>Test anxiety</td>
+      <td>Test Anxiety Scale and Multiple Affect Adjective Checklist</td>
+      <td>No</td>
+      <td>Anxiety and oral skills. r = .69, p &lt; .05</td>
+    </tr>
+    <tr>
+      <td>Swain &amp; Burnaby (45)</td>
+      <td>SLL</td>
+      <td>Children</td>
+      <td>Trait anxiety</td>
+      <td>Items on a personality measure</td>
+      <td>Yes</td>
+      <td>Anxiety and French reading.</td>
+    </tr>
+    <tr>
+      <td>Tucker et al.</td>
+      <td>SLL</td>
+      <td>Junior high</td>
+      <td>Classroom anxiety</td>
+      <td>Items on an attitude motivation battery</td>
+      <td>Yes</td>
+      <td>Anxiety and French reading comprehension. Direction of correlation not consistent within or across languages. Some anxiety had positive results.</td>
+    </tr>
+    <tr>
+      <td>Westcott (48)</td>
+      <td>FLL</td>
+      <td>High school</td>
+      <td>State anxiety</td>
+      <td>Motivation, Aptitude, Peer Influence and Anxiety Test</td>
+      <td>Yes</td>
+      <td>Anxiety and final grade. Negative correlation between anxiety and grade for French but not Spanish.</td>
+    </tr>
+    <tr>
+      <td>Wittenborn et al.</td>
+      <td>FLL</td>
+      <td>University students</td>
+      <td>Foreign language test anxiety</td>
+      <td>Items on a self-report of study habits</td>
+      <td>Yes</td>
+      <td>Anxiety and grade. Better grade for French than grade for Foreign Language.</td>
+    </tr>
+    <tr>
+      <td>Young (51)</td>
+      <td>FLL</td>
+      <td>University students</td>
+      <td>State anxiety</td>
+      <td>STAI/FLCAS and CIQ; State Anxiety Inventory; FL Class Activity Scale &amp; Cognitive Interference Inventory</td>
+      <td>Yes</td>
+      <td>Anxiety-speaking, anxiety-dictation during State Anxiety during OPI were significant. Ss were more nervous during an OPI than during dictation. No significant r between OPI and anxiety, controlling for ability.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- BIBLIOGRAPHY (selected) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="section-title">Bibliography</div>
+
+<div class="bib-entry">1. Backman, Nancy. "Two Measures of Affective Factors as They Relate to Progress in Adult Second-Language Learning." <em>Working Papers in Bilingualism</em> 10 (1976): 100–22.</div>
+<div class="bib-entry">2. Bailey, Kathleen M. "Competitiveness and Anxiety in Adult Second Language Learning: Looking at and through the Diary Studies." <em>Classroom Oriented Research in Second Language Acquisition.</em> Ed. Herbert W. Seliger &amp; Michael H. Long. Rowley, MA: Newbury House, 1983: 67–102.</div>
+<div class="bib-entry">3. Bartz, Walter H. "A Study of the Relationship of Certain Factors with the Ability to Communicate in a Second Language (German) for the Development of Communicative Competence." Diss., Ohio State Univ., 1974.</div>
+<div class="bib-entry">4. Brandl, Klaus. "Eclecticism in Teaching Communicative Competence." Master's Thesis, Univ. of Texas, 1987.</div>
+<div class="bib-entry">5. Brewster, Elizabeth S. "Personality Factors Relevant to Intensive Audiolingual Foreign Language Learning." Diss., Univ. of Texas, 1975.</div>
+<div class="bib-entry">6. Campbell, Christine M. &amp; José A. Ortiz. "Helping Students Overcome Foreign Language Anxiety." <em>Language Anxiety. From Theory and Research to Classroom Implications.</em> Ed. Elaine K. Horwitz &amp; Dolly J. Young. Englewood Cliffs, NJ: Prentice Hall, 1991: 153–68.</div>
+<div class="bib-entry">7. Chastain, Kenneth. "Affective and Ability Factors in Second Language Learning." <em>Language Learning</em> 25 (1975): 153–61.</div>
+<div class="bib-entry">8. Clarke, Mark A. "Second Language Acquisition as a Clash of Consciousness." <em>Language Learning</em> 26 (1976): 377–89.</div>
+<div class="bib-entry">9. Cope Powell, Jo Ann. "Foreign Language Classroom Anxiety: Institutional Responses." <em>Language Anxiety: From Theory and Research to Classroom Implications.</em> Ed. Elaine K. Horwitz &amp; Dolly J. Young. Englewood Cliffs, NJ: Prentice Hall, 1991: 169–76.</div>
+<div class="bib-entry">10. Crookall, David &amp; Rebecca Oxford. "Dealing with Anxiety: Some Practical Activities for Language Learners and Teacher Trainees." <em>Language Anxiety: From Theory and Research to Classroom Implications.</em> Ed. Elaine K. Horwitz &amp; Dolly J. Young. Englewood Cliffs, NJ: Prentice Hall, 1991: 141–50.</div>
+<div class="bib-entry">11. Daly, John. "Understanding Communication Apprehension: An Introduction for Language Educators." <em>Language Anxiety: From Theory and Research to Classroom Implications.</em> Ed. Elaine K. Horwitz &amp; Dolly J. Young. Englewood Cliffs, NJ: Prentice Hall, 1991: 3–13.</div>
+<div class="bib-entry">12. Dunkel, Harold B. "The Effect of Personality on Language Achievement." <em>Journal of Educational Psychology</em> 38 (1947): 177–82.</div>
+<div class="bib-entry">13. Foss, Karen A. &amp; Armeda C. Reitzel. "A Relational Model for Managing Second Language Anxiety." <em>TESOL Quarterly</em> 22 (1988): 437–54.</div>
+<div class="bib-entry">14. Gardner, R. C. <em>Social Psychology and Second Language Learning; The Role of Attitudes and Motivation.</em> London: Arnold, 1985.</div>
+<div class="bib-entry">15. ——, P. C. Smythe &amp; G. R. Grunet. "Intensive Second Language Study: Effects on Attitudes, Motivation and French Achievement." <em>Language Learning</em> 27 (1977): 243–61.</div>
+<div class="bib-entry">16. ——, P. C. Smythe, R. Clément &amp; L. Gliksman. "Second Language Learning: A Social-Psychological Perspective." <em>Canadian Modern Language Review</em> 32 (1976): 198–213.</div>
+<div class="bib-entry">17. Guiora, A. Z. "Construct Validity and Transpositional Research: Toward an Empirical Study of Psychoanalytic Concepts." <em>Comprehension Psychiatry</em> 13 (1972): 139–50.</div>
+<div class="bib-entry">18. Gynan, Shaw N. "Preferred Learning Practices of Selected Foreign Language Students." American Association of Teachers of Spanish and Portuguese Annual Meeting, San Antonio, 10 August 1989.</div>
+<div class="bib-entry">19. Hembree, R. "Correlates, Causes, Effects, and Treatment of Test Anxiety." <em>Review of Educational Research</em> 58 (1988): 47–77.</div>
+<div class="bib-entry">20. Horwitz, Elaine K. "The Beliefs about Language Learning of Beginning University Foreign Language Students." <em>Modern Language Journal</em> 72 (1988): 283–94.</div>
+<div class="bib-entry">21. ——. "Preliminary Evidence for the Reliability and Validity of a Foreign Language Anxiety Scale." <em>TESOL Quarterly</em> 20 (1986): 559–62.</div>
+<div class="bib-entry">22. ——, Michael B. Horwitz &amp; Jo Ann Cope. "Foreign Language Classroom Anxiety." <em>Modern Language Journal</em> 70 (1986): 125–32.</div>
+<div class="bib-entry">23. Kleinmann, Howard. "Avoidance Behavior in Adult Second Language Acquisition." <em>Language Learning</em> 27 (1977): 93–107.</div>
+<div class="bib-entry">24. Koch, April &amp; Tracy D. Terrell. "Affective Reactions of Foreign Language Students to Natural Approach Activities and Teaching Techniques." <em>Language Anxiety: From Theory and Research to Classroom Implications.</em> Ed. Elaine K. Horwitz &amp; Dolly J. Young. Englewood Cliffs, NJ: Prentice Hall, 1991: 109–26.</div>
+<div class="bib-entry">25. Leary, Mark R. "Social Anxiety." <em>Review of Personality and Social Psychology</em> 3. Ed. Ladd Wheeler. Beverly Hills: Sage, 1982.</div>
+<div class="bib-entry">29. MacIntyre, Peter D. &amp; Robert C. Gardner. <em>Anxiety Factors in Second Language Learning.</em> Research Bulletin 677, Univ. of Western Ontario, 1988.</div>
+<div class="bib-entry">36. Oxford, Rebecca. <em>Language Learning Strategies.</em> New York: Newbury House, 1990.</div>
+<div class="bib-entry">39. Price, Mary Lou. "The Subjective Experience of Foreign Language Anxiety: Interviews with Anxious Students." <em>Language Anxiety: From Theory and Research to Classroom Implications.</em> Ed. Elaine K. Horwitz &amp; Dolly J. Young. Englewood Cliffs, NJ: Prentice Hall, 1991: 101–08.</div>
+<div class="bib-entry">40. Saunders, Danny &amp; David Crookall. "Playing with a Second Language." <em>Simulation/Games for Learning</em> 15 (1985): 166–72.</div>
+<div class="bib-entry">41. Schumann, J. H. "The Acculturation Model for Second Language Acquisition." <em>Second Language Acquisition and Foreign Language Teaching.</em> Ed. R. C. Gingras. Arlington, VA: Center for Applied Linguistics, 1978: 26–50.</div>
+<div class="bib-entry">44. Steinberg, Faith S. &amp; Elaine K. Horwitz. "The Effect of Induced Anxiety on the Denotative and Interpretive Content of Second Language Speech." <em>TESOL Quarterly</em> 20 (1986): 131–36.</div>
+<div class="bib-entry">50. Young, Dolly J. "An Investigation of Students' Perspectives on Anxiety and Speaking." <em>Foreign Language Annals</em> 23 (1990): 539–53.</div>
+<div class="bib-entry">51. ——. "The Relationship between Anxiety and Foreign Language Oral Proficiency Ratings." <em>Foreign Language Annals</em> 19 (1986): 439–45.</div>
+<div class="bib-entry">52. ——. "Thoughts on Language Anxiety by Alice Omaggio, Stephen Krashen, Tracy Terrell, and Jennybelle Rardin." <em>Foreign Language Annals</em> (forthcoming).</div>
+
+</div><!-- /page-wrap -->
+
+<div id="toast"></div>
+
+<script>
+// ── Gather all inputs ──────────────────────────────────────────
+const inputs = Array.from(document.querySelectorAll('.gap-input'));
+const totEl = document.getElementById('tot');
+const scEl  = document.getElementById('sc');
+const pctEl = document.getElementById('pct');
+const bar   = document.getElementById('progress-bar');
+
+totEl.textContent = inputs.length;
+
+function normalize(str) {
+  return str.trim().toLowerCase().replace(/['']/g, "'").replace(/\s+/g,' ');
+}
+
+function scoreOf(inp) {
+  const ans = normalize(inp.dataset.ans);
+  const val = normalize(inp.value);
+  // exact match or val is contained in ans (for flexibility)
+  return val.length > 0 && (val === ans || ans.includes(val) && val.length >= ans.length * 0.8);
+}
+
+function updateScore() {
+  const answered = inputs.filter(i => i.value.trim().length > 0);
+  const correct  = answered.filter(i => scoreOf(i));
+  const sc = correct.length;
+  scEl.textContent = sc;
+  const pct = answered.length ? Math.round(sc / answered.length * 100) : 0;
+  pctEl.textContent = answered.length ? pct + '%' : '—';
+  bar.style.width = (sc / inputs.length * 100) + '%';
+}
+
+inputs.forEach(inp => {
+  inp.addEventListener('input', () => {
+    inp.classList.remove('correct','wrong');
+    updateScore();
+  });
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); checkSingle(inp); }
+  });
+});
+
+function checkSingle(inp) {
+  if (!inp.value.trim()) return;
+  if (scoreOf(inp)) {
+    inp.classList.add('correct');
+    inp.classList.remove('wrong');
+  } else {
+    inp.classList.add('wrong');
+    inp.classList.remove('correct');
+  }
+}
+
+function checkAll() {
+  inputs.forEach(checkSingle);
+  updateScore();
+  const sc = inputs.filter(i => i.classList.contains('correct')).length;
+  showToast(`${sc} / ${inputs.length} correct`);
+}
+
+function revealAll() {
+  document.body.classList.add('show-answers');
+  inputs.forEach(inp => {
+    inp.value = inp.dataset.ans;
+    inp.classList.add('correct');
+    inp.classList.remove('wrong');
+  });
+  updateScore();
+}
+
+function resetAll() {
+  document.body.classList.remove('show-answers');
+  inputs.forEach(inp => {
+    inp.value = '';
+    inp.classList.remove('correct','wrong');
+  });
+  updateScore();
+  showToast('Reset complete');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+updateScore();
+</script>
+</body>
+</html>

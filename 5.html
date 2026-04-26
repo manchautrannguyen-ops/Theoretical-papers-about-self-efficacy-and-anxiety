@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language Anxiety in SLA – Gap-Fill</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#8b1a2a;--dred:#5c0f1a;--lred:#b5253a;
+  --gold:#c8973a;--bg:#faf8f5;--light:#f3ede6;
+  --border:#d4c4b0;--dark:#1a1a1a;--mid:#4a4040;
+  --card:#f5ede8;
+}
+body{font-family:'Merriweather',Georgia,serif;font-size:16px;line-height:1.9;
+  color:var(--dark);background:var(--bg);max-width:820px;margin:0 auto;padding:0 28px 90px}
+
+/* STICKY CONTROLS */
+.ctrl-bar{position:sticky;top:0;z-index:100;
+  background:linear-gradient(135deg,var(--dred) 0%,var(--lred) 100%);
+  color:#fff;padding:11px 20px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  box-shadow:0 3px 18px rgba(0,0,0,.3);margin:0 -28px 36px}
+.ctrl-bar h2{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;margin:0;flex:1;color:#fff;border:none;padding:0}
+.cbtn{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:700;
+  padding:7px 15px;border-radius:5px;border:none;cursor:pointer;transition:all .15s}
+.cbtn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.btn-check{background:#fff;color:var(--dred)}
+.btn-reset{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.33)}
+.btn-key  {background:rgba(255,255,255,.11);color:#fff;border:1px solid rgba(255,255,255,.28)}
+.score{font-family:'Source Sans 3',sans-serif;font-size:12.5px;font-weight:700;
+  background:rgba(255,255,255,.14);padding:5px 12px;border-radius:18px;white-space:nowrap}
+.sscore{font-family:'Source Sans 3',sans-serif;font-size:11px;
+  background:rgba(255,255,255,.1);color:rgba(255,255,255,.82);
+  padding:2px 8px;border-radius:10px;white-space:nowrap}
+.pbar{width:100%;height:5px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden;flex-basis:100%}
+.pbfill{height:100%;background:#ffb3a0;border-radius:3px;transition:width .5s}
+
+/* GAPS */
+.gw{display:inline-flex;align-items:center;vertical-align:baseline;position:relative}
+.gi{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:700;
+  border:none;border-bottom:2.5px solid var(--lred);border-radius:0;
+  padding:1px 5px;background:var(--light);color:var(--dark);outline:none;
+  transition:all .2s;min-width:55px;text-align:center;vertical-align:baseline}
+.gi:focus{border-bottom-color:var(--dred);background:#ecdbd5;box-shadow:0 2px 0 0 var(--dred)}
+.gi.ok{border-bottom-color:#27a844;background:#d4f0dc;color:#1a6030}
+.gi.wrong{border-bottom-color:#d93025;background:#fde8e6;color:#8b1a14}
+.gi.shown{border-bottom-color:#b08030;background:#fef3dc;color:#7a5a10;font-style:italic}
+.gf{font-size:13px;margin-left:3px;vertical-align:baseline}
+
+/* MODAL */
+.moverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;
+  justify-content:center;align-items:flex-start;padding:40px 20px;overflow-y:auto}
+.moverlay.open{display:flex}
+.mbox{background:var(--bg);border-radius:10px;padding:28px 32px;max-width:620px;
+  width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative}
+.mbox h3{font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:700;
+  color:var(--dred);margin-bottom:16px;border-bottom:2px solid var(--lred);padding-bottom:8px}
+.mclose{position:absolute;top:14px;right:18px;background:none;border:none;
+  font-size:22px;cursor:pointer;color:#888;line-height:1}
+.mclose:hover{color:#333}
+.ak-sec{margin-bottom:18px}
+.ak-sec h4{font-family:'Source Sans 3',sans-serif;font-size:12.5px;font-weight:700;
+  color:var(--lred);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px}
+.ak-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:4px}
+.ak-item{font-family:'Source Sans 3',sans-serif;font-size:13px;
+  padding:4px 8px;border-radius:4px;display:flex;align-items:center;gap:6px}
+.ak-ok{background:#d4f0dc;color:#1a6030}
+.ak-wrong{background:#fde8e6;color:#8b1a14}
+.ak-empty{background:var(--light);color:#666}
+.ak-w{font-weight:700}
+
+/* COVER */
+.cover-hdr{padding:44px 0 20px;border-bottom:3px solid var(--red);margin-bottom:30px}
+.cover-series{font-family:'Source Sans 3',sans-serif;font-size:12px;color:var(--mid);
+  text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
+.cover-chap{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:700;
+  color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.cover-title{font-family:'Merriweather',serif;font-size:26px;font-weight:700;
+  color:var(--dred);line-height:1.3;margin-bottom:8px}
+.cover-subtitle{font-family:'Merriweather',serif;font-size:17px;font-weight:300;
+  font-style:italic;color:var(--mid);margin-bottom:16px}
+.cover-authors{font-family:'Source Sans 3',sans-serif;font-size:15px;
+  color:var(--mid);font-weight:600}
+
+/* SECTION HEADINGS */
+.sh{font-family:'Source Sans 3',sans-serif;font-size:19px;font-weight:700;color:var(--red);
+  margin:44px 0 16px;padding-bottom:5px;border-bottom:2px solid var(--lred)}
+.ssh{font-family:'Source Sans 3',sans-serif;font-size:15.5px;font-weight:700;
+  color:var(--dark);margin:28px 0 11px}
+
+/* PARAGRAPHS */
+p{margin-bottom:13px}
+
+/* BLOCKQUOTE */
+blockquote{margin:18px 32px;padding:14px 18px;border-left:4px solid var(--lred);
+  background:var(--card);font-size:15.5px;line-height:1.8;color:var(--mid);font-style:italic}
+
+/* REFERENCES */
+.refs p{font-size:14px;line-height:1.65;margin-bottom:9px;
+  text-indent:-26px;padding-left:26px;color:var(--mid)}
+
+/* HR */
+hr{border:none;border-top:1px solid var(--border);margin:36px 0}
+
+@media(max-width:580px){
+  .cover-title{font-size:20px}
+  .ctrl-bar{gap:5px}
+}
+</style>
+</head>
+<body>
+
+<div class="ctrl-bar">
+  <h2>&#9679; Gap-Fill &#8212; Language Anxiety in SLA</h2>
+  <span class="sscore" id="ss-intro">Introduction: --</span><span class="sscore" id="ss-why">Why an Anthology about Language Anxiety?: --</span><span class="sscore" id="ss-change">Issues of Change and Challenge: --</span><span class="sscore" id="ss-org">The Organisation of this Anthology: --</span><span class="sscore" id="ss-audience">The Target Audience: --</span><span class="sscore" id="ss-ack">Acknowledgements: --</span>
+  <button class="cbtn btn-check" onclick="checkAll()">&#10003; Check All</button>
+  <button class="cbtn btn-key"   onclick="showKey()">Answer Key</button>
+  <button class="cbtn btn-key"   onclick="revealAll()">Reveal All</button>
+  <button class="cbtn btn-reset" onclick="resetAll()">&#8635; Reset</button>
+  <span class="score" id="sd">--</span>
+  <div class="pbar"><div class="pbfill" id="pb" style="width:0%"></div></div>
+</div>
+<div class="moverlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mbox">
+    <button class="mclose" onclick="document.getElementById('modal').classList.remove('open')">&times;</button>
+    <h3>Answer Key</h3>
+    <div id="mbody"></div>
+  </div>
+</div>
+
+<div class="cover-hdr">
+  <div class="cover-series">Language Anxiety in the Foreign Language Classroom</div>
+  <div class="cover-chap">Chapter 1 &nbsp;&#8212;&nbsp; Introduction</div>
+  <div class="cover-title">Preliminary Thoughts on Language Anxiety and the Focus of this Anthology</div>
+  <div class="cover-authors">Mark Daubney, Jean-Marc Dewaele and Christina Gkonou</div>
+</div>
+<h2 class="sh">Introduction</h2>
+<p>This anthology focuses on the topic of language anxiety (LA), a complex <span class="gw"><input type="text" class="gi" id="g1" data-answer="emotion" data-section="intro" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg1"></span></span> that, for approximately four decades, has consistently attracted the attention of second language acquisition (SLA) researchers, teacher educators and teachers across the globe. In turn, this interest has led to substantial, diverse and exciting contributions to the literature in the field. In their recent publication on learner characteristics, Gregersen and MacIntyre (2014: 3) describe LA as reflecting 'the worry and negative emotional reaction when learning and using a second language and is especially relevant in a classroom where self-expression takes place'. Within the classroom, it has been found to subtly and pervasively shape the thoughts, feelings and actions of those engaged in the teaching and <span class="gw"><input type="text" class="gi" id="g2" data-answer="learning" data-section="intro" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg2"></span></span> of a foreign or second language (L2). As a rule, LA research has focused on learners, yet teachers have also been shown to be susceptible to the nervous reactions anxiety arouses (Daubney, 2010; Horwitz, 1986). In L2 classrooms across many different settings, research has established that LA is a relatively common but largely unwelcome <span class="gw"><input type="text" class="gi" id="g3" data-answer="emotion" data-section="intro" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg3"></span></span>, due to its potential to impact negatively in a myriad of ways on the language learning experience.</p>
+<p>Indeed, contemplating the potential fallout from LA makes for fascinating yet unnerving reading. Among other things, it can impede the <span class="gw"><input type="text" class="gi" id="g4" data-answer="learning" data-section="intro" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg4"></span></span> of the target language and hinder academic success; lead learners to <span class="gw"><input type="text" class="gi" id="g5" data-answer="abandon" data-section="intro" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg5"></span></span> their studies; engender negative <span class="gw"><input type="text" class="gi" id="g6" data-answer="attitudes" data-section="intro" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg6"></span></span> towards the target language and its respective culture(s); diminish the willingness to communicate; create counterproductive tensions among a class of language learners; sow the seeds of self-doubt in the minds of learners regarding their identity, feelings of competence and degree of <span class="gw"><input type="text" class="gi" id="g7" data-answer="self-esteem" data-section="intro" style="width:121px" autocomplete="off" spellcheck="false"><span class="gf" id="fg7"></span></span>; and have a corrosive influence on the very lifeblood of L2 learning itself &#8211; the enthusiasm and <span class="gw"><input type="text" class="gi" id="g8" data-answer="motivation" data-section="intro" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg8"></span></span> necessary to engage and embrace another language other than one's own.</p>
+<p>Such a list helps to explain why LA continues to resonate with researchers and practitioners alike and why the ongoing fascination with this <span class="gw"><input type="text" class="gi" id="g9" data-answer="affective" data-section="intro" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg9"></span></span> variable is both relevant and understandable. It also underpins our desire, as editors of this volume, to bring this collection of chapters to fruition in order to achieve a more up-to-date understanding of this <span class="gw"><input type="text" class="gi" id="g10" data-answer="emotion" data-section="intro" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg10"></span></span>.</p>
+<p>It has been nearly 40 years since Scovel's (1978) review urged greater scientific and methodological <span class="gw"><input type="text" class="gi" id="g11" data-answer="rigour" data-section="intro" style="width:66px" autocomplete="off" spellcheck="false"><span class="gf" id="fg11"></span></span> upon SLA researchers investigating affective variables. In the ensuing years, much research has been undertaken, and LA is now indisputably part of the SLA landscape. Presently, the influence it is deemed to exert within the complex network of factors impacting on the degree of <span class="gw"><input type="text" class="gi" id="g12" data-answer="success" data-section="intro" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg12"></span></span> of language learning is such that it is rare indeed to encounter publications in SLA focusing on <span class="gw"><input type="text" class="gi" id="g13" data-answer="individual" data-section="intro" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg13"></span></span> differences or affective factors that do not refer to it. In fact, when SLA scholars ponder these characteristics, anxiety is often the first to be discussed (see Gregersen &amp; MacIntyre, 2014). Arnold and Brown (1999: 8) believe it to be the most influential affective factor 'obstructing the <span class="gw"><input type="text" class="gi" id="g14" data-answer="learning" data-section="intro" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg14"></span></span> process', while in terms of interest generated, Scovel (2001: 127) ranks it as 'second only to <span class="gw"><input type="text" class="gi" id="g15" data-answer="motivation" data-section="intro" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg15"></span></span>'.</p>
+<p>The present volume focuses on some of the most recent developments in LA theory and research as well as the implications these have for classroom <span class="gw"><input type="text" class="gi" id="g16" data-answer="practice" data-section="intro" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg16"></span></span>. Further, it does so in the light of an increasingly influential paradigm shift currently shaping the field of SLA, a dynamic turn, which currently positions research as 'situated and process-oriented, which means that learners attributes are neither stable nor context-independent, but interact with the context and over time' (Dewaele, 2012: 43). An important driver of this perspective is dynamic systems theory (DST; de Bot et al., 2007; Larsen-Freeman &amp; Cameron, 2008), also known as complex dynamic systems theory (CDST; MacIntyre et al., 2015), which we will consider further in the following <span class="gw"><input type="text" class="gi" id="g17" data-answer="sections" data-section="intro" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg17"></span></span>.</p>
+<h2 class="sh">Why an Anthology about Language Anxiety?</h2>
+<p>As editors, we are all of the firm conviction that the current climate shaping SLA research is a most <span class="gw"><input type="text" class="gi" id="g18" data-answer="propitious" data-section="why" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg18"></span></span> one for re-evaluating LA. When positioning the present volume in this landscape, one of the key considerations that has influenced our thinking is that, given the remarkable interest in LA over the last 40 years, accompanied and driven by what MacIntyre (1999: 24) referred to, at the advent of the 21st century, as 'a virtual explosion' in research, interestingly, only two bespoke <span class="gw"><input type="text" class="gi" id="g19" data-answer="volumes" data-section="why" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg19"></span></span> on LA have been published over the same period.</p>
+<p>The first was Horwitz and Young's (1991) landmark collection, which itself included reprints of key papers on the topic. The second was Young's (1999), which, like the first, brought together theoretical, <span class="gw"><input type="text" class="gi" id="g20" data-answer="empirical" data-section="why" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg20"></span></span> and practical contributions, and whose subtitle &#8211; <em>A Practical Guide to Creating a Low-Anxiety Classroom Atmosphere</em> &#8211; gives a clear indication of the overarching goal that preoccupied &#8211; and continues to preoccupy &#8211; researchers and <span class="gw"><input type="text" class="gi" id="g21" data-answer="practitioners" data-section="why" style="width:143px" autocomplete="off" spellcheck="false"><span class="gf" id="fg21"></span></span> when addressing LA. A 17-year hiatus, then, between Young's and the present volume, would suggest a reassessment, including new insights, is somewhat overdue.</p>
+<p>Further, the aforementioned <span class="gw"><input type="text" class="gi" id="g22" data-answer="paradigm" data-section="why" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg22"></span></span> shift and growing influence of DST, together with the flourishing field of language learning psychology (Gkonou et al., 2016; Mercer et al., 2012; Williams et al., 2015) means the absence of such a volume at this important juncture in SLA research would leave LA somewhat under-represented when considering learner <span class="gw"><input type="text" class="gi" id="g23" data-answer="characteristics" data-section="why" style="width:165px" autocomplete="off" spellcheck="false"><span class="gf" id="fg23"></span></span>. This is of particular concern when LA, according to D&#246;rnyei and Ryan (2015: 176), can be regarded 'as a kind of bellwether of various theoretical and methodological changes occurring in the field of L2 <span class="gw"><input type="text" class="gi" id="g24" data-answer="individual" data-section="why" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg24"></span></span> differences'.</p>
+<p>So while this anthology comprises contributions on theory, research and practice, and is therefore organised in a similar vein to that of the two aforementioned volumes, we are also keenly aware of the flux and complexity presently characterising the field and the need to consider anxiety within this emerging and increasingly influential <span class="gw"><input type="text" class="gi" id="g25" data-answer="paradigm" data-section="why" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg25"></span></span> shift, including the attendant calls for researchers to explore different and more dynamic <span class="gw"><input type="text" class="gi" id="g26" data-answer="conceptualisations" data-section="why" style="width:198px" autocomplete="off" spellcheck="false"><span class="gf" id="fg26"></span></span> of the affective dimension (see Gregersen et al., this volume; MacIntyre, this volume; Pavlenko, 2013; &#350;im&#351;ek &amp; D&#246;rnyei, this volume). Thus, D&#246;rnyei and Ryan (2015: 180) suggest that future research into LA 'will need to foreground a more dynamic conception of anxiety, highlighting aspects of change as well as types of adaptations that can lead the behavioural outcomes of anxiety both in the positive and negative direction'. We see the present volume as dovetailing with these recommendations, thereby constituting a current and thought-provoking pool of knowledge and ideas from which both researchers and practitioners can draw for their own present and future projects.</p>
+<p>All three editors share a common interest in LA research and the need to bring about a greater and more nuanced understanding of this <span class="gw"><input type="text" class="gi" id="g27" data-answer="emotion" data-section="why" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg27"></span></span>. We are also equally aware of the <span class="gw"><input type="text" class="gi" id="g28" data-answer="applied" data-section="why" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg28"></span></span> nature of our field and how this understanding should be factored into further investigation, teacher training and <span class="gw"><input type="text" class="gi" id="g29" data-answer="pedagogy" data-section="why" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg29"></span></span>, contributing, ultimately, to both effective language learning and teaching characterised by engagement and enjoyment.</p>
+<h2 class="sh">Issues of Change and Challenge: Language Anxiety in a Landscape of Increasing Complexity</h2>
+<p>The aforementioned calls for anxiety to be conceptualised and researched from more dynamic perspectives reflect the underlying changes in the SLA field and the challenges arising from these. Generally speaking, LA has been conceptualised as a single, powerful and negative influence residing within the learner, and therefore a force to be reduced or, better still, eliminated from individuals and the classroom, although some researchers have questioned the wisdom of this view (see Scovel, 2001). Shaped and influenced by cognitive psychology, approaches to LA research have shifted from seeing this emotion as a <span class="gw"><input type="text" class="gi" id="g30" data-answer="transference" data-section="change" style="width:132px" autocomplete="off" spellcheck="false"><span class="gf" id="fg30"></span></span> to the L2 domain of other types of anxiety, such as test anxiety or communication <span class="gw"><input type="text" class="gi" id="g31" data-answer="apprehension" data-section="change" style="width:132px" autocomplete="off" spellcheck="false"><span class="gf" id="fg31"></span></span>, to the now prevailing notion that it is in fact unique to L2 learning itself, and therefore a <span class="gw"><input type="text" class="gi" id="g32" data-answer="situation-specific" data-section="change" style="width:198px" autocomplete="off" spellcheck="false"><span class="gf" id="fg32"></span></span> anxiety (Horwitz et al., 1986; MacIntyre, 1999). Having taken on board Scovel's recommendations by fine-tuning definitions and developing more sophisticated instruments, LA research has, until very recently, settled into somewhat insistent patterns of investigation, the thrust of which has been to first measure levels of anxiety with <span class="gw"><input type="text" class="gi" id="g33" data-answer="self-reports" data-section="change" style="width:132px" autocomplete="off" spellcheck="false"><span class="gf" id="fg33"></span></span> &#8211; the Foreign Language Classroom Anxiety Scale (FLCAS; Horwitz et al., 1986) being the best known &#8211; then to identify causes of the anxiety, followed by the application of strategies to reduce it. Over two decades ago, calls (see Skehan, 1989) were already being made to move away from this somewhat limited <span class="gw"><input type="text" class="gi" id="g34" data-answer="methodological" data-section="change" style="width:154px" autocomplete="off" spellcheck="false"><span class="gf" id="fg34"></span></span>, and largely quantitative, research framework. Indeed, the aforementioned shift towards complexity and a move away from seeing learner characteristics as stable aspects of the learner has only served to highlight the need for new and creative approaches to LA research. The challenge, then, is to find new ways of researching anxiety in the changing L2 <span class="gw"><input type="text" class="gi" id="g35" data-answer="landscape" data-section="change" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg35"></span></span>.</p>
+<p>In fact, some of the previous and overriding concerns in research, including the somewhat sterile and circular arguments attempting to ascertain whether LA is a cause or <span class="gw"><input type="text" class="gi" id="g36" data-answer="effect" data-section="change" style="width:66px" autocomplete="off" spellcheck="false"><span class="gf" id="fg36"></span></span> of L2 performance, have gradually given way to a greater interest in the broader experience of anxiety as <span class="gw"><input type="text" class="gi" id="g37" data-answer="lived" data-section="change" style="width:62px" autocomplete="off" spellcheck="false"><span class="gf" id="fg37"></span></span> by learners (see Horwitz, 2001; King &amp; Smith; MacIntyre; Oxford; T&#243;th, this volume) as well as its impact on classroom <span class="gw"><input type="text" class="gi" id="g38" data-answer="interaction" data-section="change" style="width:121px" autocomplete="off" spellcheck="false"><span class="gf" id="fg38"></span></span> and learning. This represents a recalibrating of perspective, with the focus now squarely on how the <span class="gw"><input type="text" class="gi" id="g39" data-answer="learning" data-section="change" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg39"></span></span> process as a whole is affected, as opposed to a narrower focus on measurable outcomes. In fact, recent LA research (e.g. Gregersen et al., this volume; MacIntyre &amp; Gregersen, 2012; MacIntyre &amp; Serroul, 2015) has resorted to more innovative <span class="gw"><input type="text" class="gi" id="g40" data-answer="methodologies" data-section="change" style="width:143px" autocomplete="off" spellcheck="false"><span class="gf" id="fg40"></span></span> in order to investigate anxiety over varying timescales, thereby reflecting a concern with exploring the fluctuating and dynamic natures of <span class="gw"><input type="text" class="gi" id="g41" data-answer="individual" data-section="change" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg41"></span></span> differences rather than conceiving and investigating them as stable traits. However, Dewaele and Al-Saraj's (2015) recent work alerts us to the danger of dismissing the influence of psychological <span class="gw"><input type="text" class="gi" id="g42" data-answer="traits" data-section="change" style="width:66px" autocomplete="off" spellcheck="false"><span class="gf" id="fg42"></span></span> on anxiety and, by extension, on other learner characteristics.</p>
+<p>Nevertheless, given the growing influence of the view of learner psychology as an interdependent network of aspects shaped by context and time, it is no surprise that anxiety, with its intimate connections to <span class="gw"><input type="text" class="gi" id="g43" data-answer="motivation" data-section="change" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg43"></span></span>, risk-taking and other <span class="gw"><input type="text" class="gi" id="g44" data-answer="affective" data-section="change" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg44"></span></span> variables, presents L2 researchers with fascinating challenges.</p>
+<p>To start with, LA may be conceptualised as a <span class="gw"><input type="text" class="gi" id="g45" data-answer="trait" data-section="change" style="width:62px" autocomplete="off" spellcheck="false"><span class="gf" id="fg45"></span></span> or a situation-specific anxiety, that is, an emotion which is either stable across both time and contexts, or specific to one domain only. Can a learner experience both trait and <span class="gw"><input type="text" class="gi" id="g46" data-answer="state" data-section="change" style="width:62px" autocomplete="off" spellcheck="false"><span class="gf" id="fg46"></span></span> anxiety? Can the learner experience both at the same time?</p>
+<p>Further, are the underlying causes of anxiety to be found in the learner, the teacher or the communicative environment or the subtle interplay of all of these? Yet another conundrum is whether anxiety may be conceived as <span class="gw"><input type="text" class="gi" id="g47" data-answer="facilitating" data-section="change" style="width:132px" autocomplete="off" spellcheck="false"><span class="gf" id="fg47"></span></span>, a helpful anxiety leading to greater attention, effort and performance, or <span class="gw"><input type="text" class="gi" id="g48" data-answer="debilitating" data-section="change" style="width:132px" autocomplete="off" spellcheck="false"><span class="gf" id="fg48"></span></span>, that is, a downward spiral of negative thoughts and feelings, leading to diminished attention and poorer performance. Presently, researchers (see Horwitz; R&#250;bio, this volume) largely view LA as a debilitating, unhelpful emotion. Yet recent research (Dewaele &amp; MacIntyre, 2014) has looked at <span class="gw"><input type="text" class="gi" id="g49" data-answer="enjoyment" data-section="change" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg49"></span></span> and anxiety and how these two emotions interact within learners, highlighting how positive and negative emotions may mutually shape one another. Novel in its approach, such research should see greater caution exercised regarding the somewhat simplistic binary <span class="gw"><input type="text" class="gi" id="g50" data-answer="conceptualisations" data-section="change" style="width:198px" autocomplete="off" spellcheck="false"><span class="gf" id="fg50"></span></span> that may unnecessarily constrain our view of learner characteristics and hence our vision for research frameworks.</p>
+<p>It is our opinion that the present anthology rises to the challenge of conceptualising, investigating and addressing anxiety from fresh <span class="gw"><input type="text" class="gi" id="g51" data-answer="perspectives" data-section="change" style="width:132px" autocomplete="off" spellcheck="false"><span class="gf" id="fg51"></span></span>, through different lenses and in relation to areas that have been little studied, and opens up exciting paths to further explore this multifaceted <span class="gw"><input type="text" class="gi" id="g52" data-answer="emotion" data-section="change" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg52"></span></span>.</p>
+<h2 class="sh">The Organisation of this Anthology</h2>
+<p>The anthology itself is divided into three sections. Part 1 focuses on <span class="gw"><input type="text" class="gi" id="g53" data-answer="theoretical" data-section="org" style="width:121px" autocomplete="off" spellcheck="false"><span class="gf" id="fg53"></span></span> insights, with Chapters 2 and 3 exploring how LA has been theorised and researched up to the present time, thereby providing solid theoretical and <span class="gw"><input type="text" class="gi" id="g54" data-answer="conceptual" data-section="org" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg54"></span></span> foundations which underpin, inform and interconnect with the subsequent chapters. Further, these first two chapters &#8211; written by the prominent LA scholars, Peter MacIntyre and Elaine Horwitz &#8211; also discuss key issues, misconceptions and controversies that, over the years, have left and continue to leave their mark on the field. Part 2 (Chapters 4&#8211;9) is concerned with the <span class="gw"><input type="text" class="gi" id="g55" data-answer="empirical" data-section="org" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg55"></span></span> study of LA. The body of research represented in Part 2 not only details a concern with anxiety in L2 contexts that include European, North American and Asian settings, but also reveals the rich <span class="gw"><input type="text" class="gi" id="g56" data-answer="conceptual" data-section="org" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg56"></span></span> frameworks and methodological instruments which researchers are working with and applying to LA research. Part 3 (Chapters 10 and 11) centres on thinking about LA in educational settings and how <span class="gw"><input type="text" class="gi" id="g57" data-answer="practitioners" data-section="org" style="width:143px" autocomplete="off" spellcheck="false"><span class="gf" id="fg57"></span></span> might consider addressing it in their own contexts. Finally, we conclude the volume (Chapter 12) by drawing together the key <span class="gw"><input type="text" class="gi" id="g58" data-answer="themes" data-section="org" style="width:66px" autocomplete="off" spellcheck="false"><span class="gf" id="fg58"></span></span> arising from the previous contributions, and look towards possible paths that might be forged and explored by future LA research.</p>
+<h2 class="sh">The Target Audience</h2>
+<p>We think the scope of the anthology is likely to capture the interest of a range of interested readers. Firstly, <span class="gw"><input type="text" class="gi" id="g59" data-answer="researchers" data-section="audience" style="width:121px" autocomplete="off" spellcheck="false"><span class="gf" id="fg59"></span></span> in the field of SLA &#8211; both established and less experienced &#8211; will find that the chapters provide exciting and fresh perspectives on LA as well as rich possibilities for future <span class="gw"><input type="text" class="gi" id="g60" data-answer="research" data-section="audience" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg60"></span></span>. Those on undergraduate, master and doctoral programmes, and likely to be among the less-experienced researchers, will also benefit. Teacher trainers, teachers and language students will encounter much to reflect on, including guidance on how to identify and address anxiety &#8211; including its <span class="gw"><input type="text" class="gi" id="g61" data-answer="alleviation" data-section="audience" style="width:121px" autocomplete="off" spellcheck="false"><span class="gf" id="fg61"></span></span> &#8211; in classroom practice (see Oxford; R&#250;bio, this volume). Finally, we hope those engaged in the wider field of <span class="gw"><input type="text" class="gi" id="g62" data-answer="applied" data-section="audience" style="width:77px" autocomplete="off" spellcheck="false"><span class="gf" id="fg62"></span></span> linguistics, as well as general psychology, will find bridges, interconnections and points of interest that will allow them to reflect productively on their own particular areas of specialisation and <span class="gw"><input type="text" class="gi" id="g63" data-answer="expertise" data-section="audience" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg63"></span></span>.</p>
+<h2 class="sh">Acknowledgements</h2>
+<p>Our sincere thanks go to all the contributors for their willingness to come on board this rewarding project and for having done so much to bring about this <span class="gw"><input type="text" class="gi" id="g64" data-answer="anthology" data-section="ack" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg64"></span></span>. Much of the groundwork was laid in informal conversations that took place at the international <span class="gw"><input type="text" class="gi" id="g65" data-answer="conference" data-section="ack" style="width:110px" autocomplete="off" spellcheck="false"><span class="gf" id="fg65"></span></span>, Matters of the Mind: Psychology and Language Learning, held in Graz, Austria, in May 2014. Thanks also to the contributors to this volume who reviewed the chapters and to Sarah Mercer and Stephen Ryan for their insightful <span class="gw"><input type="text" class="gi" id="g66" data-answer="feedback" data-section="ack" style="width:88px" autocomplete="off" spellcheck="false"><span class="gf" id="fg66"></span></span>. Finally, our gratitude goes to David Singleton, who was such an enthusiastic supporter from the start, and to Multilingual Matters, especially Laura Longworth, for being a supportive and professional <span class="gw"><input type="text" class="gi" id="g67" data-answer="publisher" data-section="ack" style="width:99px" autocomplete="off" spellcheck="false"><span class="gf" id="fg67"></span></span>.</p>
+<hr>
+<h2 class="sh">References</h2>
+<div class="refs">
+<p>Arnold, J. and Brown, H.D. (1999) A map of the terrain. In J. Arnold (ed.) <em>Affect in Language Learning</em> (pp. 1&#8211;24). Cambridge: Cambridge University Press.</p>
+<p>Daubney, M. (2010) Language anxiety in English teachers during their teaching practice. Unpublished PhD thesis, University of Aveiro, Portugal.</p>
+<p>de Bot, K., Lowie, W. and Verspoor, M. (2007) A dynamic systems theory to second language acquisition. <em>Bilingualism: Language and Cognition</em> 10, 7&#8211;21.</p>
+<p>Dewaele, J.-M. (2012) Personality: Personality traits as independent and dependent variables. In S. Mercer, S. Ryan and M. Williams (eds) <em>Psychology for Language Learning: Insights from Research, Theory and Practice</em> (pp. 42&#8211;57). Basingstoke: Palgrave Macmillan.</p>
+<p>Dewaele, J.-M. and MacIntyre, P.D. (2014) The two faces of Janus? Anxiety and enjoyment in the foreign language classroom. <em>Studies in Second Language Learning and Teaching</em> 4 (2), 237&#8211;274.</p>
+<p>Dewaele, J.-M. and Al-Saraj, T.M. (2015) Foreign language classroom anxiety of Arab learners of English: The effect of personality, linguistic and sociobiographical variables. <em>Studies in Second Language Learning and Teaching</em> 5 (2), 205&#8211;228.</p>
+<p>D&#246;rnyei, Z. and Ryan, S. (2015) <em>The Psychology of the Language Learner Revisited.</em> New York: Routledge.</p>
+<p>Gkonou, C., Daubney, M. and Dewaele, J.-M. (eds) (2016) <em>New Insights into Language Anxiety: Theory, Research and Educational Implications.</em> Bristol: Multilingual Matters.</p>
+<p>Gregersen, T. and MacIntyre, P.D. (2014) <em>Capitalizing on Language Learners&#8217; Individuality: From Premise to Practice.</em> Bristol: Multilingual Matters.</p>
+<p>Horwitz, E.K. (1986) Preliminary evidence for the reliability and validity of a foreign language anxiety scale. <em>TESOL Quarterly</em> 20 (3), 559&#8211;562.</p>
+<p>Horwitz, E.K. (2001) Language anxiety and achievement. <em>Annual Review of Applied Linguistics</em> 21, 112&#8211;126.</p>
+<p>Horwitz, E.K. and Young, D.J. (eds) (1991) <em>Language Anxiety: From Theory and Research to Classroom Implications.</em> Englewood Cliffs: Prentice Hall.</p>
+<p>Horwitz, E.K., Horwitz, M.B. and Cope, J. (1986) Foreign language classroom anxiety. <em>The Modern Language Journal</em> 70 (2), 125&#8211;132.</p>
+<p>Larsen-Freeman, D. and Cameron, L. (2008) <em>Complex Systems and Applied Linguistics.</em> Oxford: Oxford University Press.</p>
+<p>MacIntyre, P.D. (1999) Language anxiety: A review of the research for language teachers. In D.J. Young (ed.) <em>Affect in Foreign Language and Second Language Learning: A Practical Guide to Creating a Low-Anxiety Classroom Atmosphere</em> (pp. 24&#8211;45). Boston: McGraw-Hill.</p>
+<p>MacIntyre, P.D. and Gregersen, T. (2012) Affect: The role of language anxiety and other emotions in language learning. In S. Mercer, S. Ryan and M. Williams (eds) <em>Psychology for Language Learning: Insights from Research, Theory and Practice</em> (pp. 103&#8211;118). Basingstoke: Palgrave Macmillan.</p>
+<p>MacIntyre, P.D. and Serroul, A. (2015) Motivation on a per-second timescale: Examining approach-avoidance motivation during L2 task performance. In Z. D&#246;rnyei, P.D. MacIntyre and A. Henry (eds) <em>Motivational Dynamics in Language Learning</em> (pp. 109&#8211;138). Bristol: Multilingual Matters.</p>
+<p>MacIntyre, P.D., Dörnyei, Z. and Henry, A. (2015) Conclusion: Hot enough to be cool &#8211; The promise of dynamic systems research. In Z. D&#246;rnyei, P.D. MacIntyre and A. Henry (eds) <em>Motivational Dynamics in Language Learning</em> (pp. 419&#8211;429). Bristol: Multilingual Matters.</p>
+<p>Mercer, S., Ryan, S. and Williams, M. (eds) (2012) <em>Psychology for Language Learning: Insights from Research, Theory and Practice.</em> Basingstoke: Palgrave Macmillan.</p>
+<p>Pavlenko, A. (2013) The affective turn in SLA: From &#8216;affect&#8217; as a category to &#8216;emotionality&#8217; as a discursive practice. In D. Gabrys-Barker and J. Bielska (eds) <em>The Affective Dimension in Second Language Acquisition</em> (pp. 3&#8211;28). Bristol: Multilingual Matters.</p>
+<p>Scovel, T. (1978) The effect of affect on foreign language learning: A review of the anxiety research. <em>Language Learning</em> 28, 129&#8211;142.</p>
+<p>Scovel, T. (2001) Learning new languages: A guide to second language acquisition. In F. Hudsdon (ed.) <em>Foreign Language Acquisition: An Introduction</em> (pp. 125&#8211;138). Boston: Heinle &amp; Heinle.</p>
+<p>Skehan, P. (1989) <em>Individual Differences in Second Language Learning.</em> London: Edward Arnold.</p>
+<p>Williams, M., Mercer, S. and Ryan, S. (2015) <em>Exploring Psychology in Language Learning and Teaching.</em> Oxford: Oxford University Press.</p>
+<p>Young, D.J. (ed.) (1999) <em>Affect in Foreign Language and Second Language Learning: A Practical Guide to Creating a Low-Anxiety Classroom Atmosphere.</em> Boston: McGraw-Hill.</p>
+</div>
+
+
+<script>
+const GAPS=[{"id": "g1", "answer": "emotion", "section": "intro"}, {"id": "g2", "answer": "learning", "section": "intro"}, {"id": "g3", "answer": "emotion", "section": "intro"}, {"id": "g4", "answer": "learning", "section": "intro"}, {"id": "g5", "answer": "abandon", "section": "intro"}, {"id": "g6", "answer": "attitudes", "section": "intro"}, {"id": "g7", "answer": "self-esteem", "section": "intro"}, {"id": "g8", "answer": "motivation", "section": "intro"}, {"id": "g9", "answer": "affective", "section": "intro"}, {"id": "g10", "answer": "emotion", "section": "intro"}, {"id": "g11", "answer": "rigour", "section": "intro"}, {"id": "g12", "answer": "success", "section": "intro"}, {"id": "g13", "answer": "individual", "section": "intro"}, {"id": "g14", "answer": "learning", "section": "intro"}, {"id": "g15", "answer": "motivation", "section": "intro"}, {"id": "g16", "answer": "practice", "section": "intro"}, {"id": "g17", "answer": "sections", "section": "intro"}, {"id": "g18", "answer": "propitious", "section": "why"}, {"id": "g19", "answer": "volumes", "section": "why"}, {"id": "g20", "answer": "empirical", "section": "why"}, {"id": "g21", "answer": "practitioners", "section": "why"}, {"id": "g22", "answer": "paradigm", "section": "why"}, {"id": "g23", "answer": "characteristics", "section": "why"}, {"id": "g24", "answer": "individual", "section": "why"}, {"id": "g25", "answer": "paradigm", "section": "why"}, {"id": "g26", "answer": "conceptualisations", "section": "why"}, {"id": "g27", "answer": "emotion", "section": "why"}, {"id": "g28", "answer": "applied", "section": "why"}, {"id": "g29", "answer": "pedagogy", "section": "why"}, {"id": "g30", "answer": "transference", "section": "change"}, {"id": "g31", "answer": "apprehension", "section": "change"}, {"id": "g32", "answer": "situation-specific", "section": "change"}, {"id": "g33", "answer": "self-reports", "section": "change"}, {"id": "g34", "answer": "methodological", "section": "change"}, {"id": "g35", "answer": "landscape", "section": "change"}, {"id": "g36", "answer": "effect", "section": "change"}, {"id": "g37", "answer": "lived", "section": "change"}, {"id": "g38", "answer": "interaction", "section": "change"}, {"id": "g39", "answer": "learning", "section": "change"}, {"id": "g40", "answer": "methodologies", "section": "change"}, {"id": "g41", "answer": "individual", "section": "change"}, {"id": "g42", "answer": "traits", "section": "change"}, {"id": "g43", "answer": "motivation", "section": "change"}, {"id": "g44", "answer": "affective", "section": "change"}, {"id": "g45", "answer": "trait", "section": "change"}, {"id": "g46", "answer": "state", "section": "change"}, {"id": "g47", "answer": "facilitating", "section": "change"}, {"id": "g48", "answer": "debilitating", "section": "change"}, {"id": "g49", "answer": "enjoyment", "section": "change"}, {"id": "g50", "answer": "conceptualisations", "section": "change"}, {"id": "g51", "answer": "perspectives", "section": "change"}, {"id": "g52", "answer": "emotion", "section": "change"}, {"id": "g53", "answer": "theoretical", "section": "org"}, {"id": "g54", "answer": "conceptual", "section": "org"}, {"id": "g55", "answer": "empirical", "section": "org"}, {"id": "g56", "answer": "conceptual", "section": "org"}, {"id": "g57", "answer": "practitioners", "section": "org"}, {"id": "g58", "answer": "themes", "section": "org"}, {"id": "g59", "answer": "researchers", "section": "audience"}, {"id": "g60", "answer": "research", "section": "audience"}, {"id": "g61", "answer": "alleviation", "section": "audience"}, {"id": "g62", "answer": "applied", "section": "audience"}, {"id": "g63", "answer": "expertise", "section": "audience"}, {"id": "g64", "answer": "anthology", "section": "ack"}, {"id": "g65", "answer": "conference", "section": "ack"}, {"id": "g66", "answer": "feedback", "section": "ack"}, {"id": "g67", "answer": "publisher", "section": "ack"}];
+const SEC_NAMES={"intro": "Introduction", "why": "Why an Anthology about Language Anxiety?", "change": "Issues of Change and Challenge", "org": "The Organisation of this Anthology", "audience": "The Target Audience", "ack": "Acknowledgements"};
+function checkAll(){
+  let tot=0,cor=0,ss={};
+  GAPS.forEach(g=>{
+    const inp=document.getElementById(g.id);
+    const fb=document.getElementById('f'+g.id);
+    if(!inp)return;
+    const v=inp.value.trim().toLowerCase();
+    const a=g.answer.toLowerCase();
+    tot++;if(!ss[g.section])ss[g.section]={t:0,c:0};ss[g.section].t++;
+    if(v===a){inp.className='gi ok';if(fb){fb.textContent='✓';fb.style.color='#27a844'}cor++;ss[g.section].c++;}
+    else if(v===''){inp.className='gi';if(fb)fb.textContent='';}
+    else{inp.className='gi wrong';if(fb){fb.textContent='✗';fb.style.color='#d93025'}}
+  });
+  const pct=tot?Math.round(cor/tot*100):0;
+  document.getElementById('sd').textContent=cor+'/'+tot+' ('+pct+'%)';
+  const b=document.getElementById('pb');if(b)b.style.width=pct+'%';
+  Object.entries(ss).forEach(([s,v])=>{
+    const el=document.getElementById('ss-'+s);
+    if(el)el.textContent=(SEC_NAMES[s]||s)+': '+v.c+'/'+v.t;
+  });
+}
+function resetAll(){
+  GAPS.forEach(g=>{
+    const inp=document.getElementById(g.id);
+    const fb=document.getElementById('f'+g.id);
+    if(!inp)return;inp.value='';inp.className='gi';
+    if(fb)fb.textContent='';
+  });
+  document.getElementById('sd').textContent='--';
+  const b=document.getElementById('pb');if(b)b.style.width='0%';
+  Object.keys(SEC_NAMES).forEach(s=>{
+    const el=document.getElementById('ss-'+s);
+    if(el)el.textContent=(SEC_NAMES[s]||s)+': --';
+  });
+}
+function revealAll(){
+  GAPS.forEach(g=>{
+    const inp=document.getElementById(g.id);
+    if(!inp||inp.classList.contains('ok'))return;
+    inp.value=g.answer;inp.className='gi shown';
+    const fb=document.getElementById('f'+g.id);if(fb)fb.textContent='';
+  });checkAll();
+}
+function showKey(){
+  const gr={};GAPS.forEach(g=>{if(!gr[g.section])gr[g.section]=[];gr[g.section].push(g)});
+  let h='';
+  Object.entries(gr).forEach(([s,gs])=>{
+    h+='<div class="ak-sec"><h4>'+(SEC_NAMES[s]||s)+'</h4><div class="ak-grid">';
+    gs.forEach(g=>{
+      const inp=document.getElementById(g.id);
+      const v=inp?inp.value.trim():'';
+      const ok=v.toLowerCase()===g.answer.toLowerCase();
+      const cls=v?(ok?'ak-ok':'ak-wrong'):'ak-empty';
+      const ic=v?(ok?'✓':'✗'):'○';
+      h+='<div class="ak-item '+cls+'"><span>'+ic+'</span><span class="ak-w">'+g.answer+'</span></div>';
+    });
+    h+='</div></div>';
+  });
+  document.getElementById('mbody').innerHTML=h;
+  document.getElementById('modal').classList.add('open');
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const ins=Array.from(document.querySelectorAll('.gi'));
+  ins.forEach((inp,i)=>{
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){e.preventDefault();const n=ins[i+1];if(n)n.focus();else checkAll();}
+    });
+    inp.addEventListener('blur',()=>{
+      const v=inp.value.trim().toLowerCase();
+      const a=inp.dataset.answer.toLowerCase();
+      const fb=document.getElementById('f'+inp.id);
+      if(!v){inp.className='gi';if(fb)fb.textContent='';}
+      else if(v===a){inp.className='gi ok';if(fb){fb.textContent='✓';fb.style.color='#27a844'}}
+      else{inp.className='gi wrong';if(fb){fb.textContent='✗';fb.style.color='#d93025'}}
+    });
+  });
+});
+</script>
+</body>
+</html>
