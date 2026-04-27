@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-efficacy: Bandura – Gap Fill</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --aged: #e8e0cc;
+    --accent: #8b3a1a;
+    --accent-light: #c4622d;
+    --correct: #2a6b3a;
+    --correct-bg: #d4edda;
+    --wrong: #8b1a1a;
+    --wrong-bg: #f8d7da;
+    --hint: #5a4a3a;
+    --gap-border: #8b3a1a;
+    --gap-bg: #faf6ee;
+    --shadow: rgba(26,20,16,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(139,58,26,0.06) 28px);
+    font-family: 'Source Serif 4', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 36px 48px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(245,240,232,0.03) 20px,
+      rgba(245,240,232,0.03) 40px
+    );
+  }
+
+  .journal-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 10px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+    max-width: 700px;
+    margin-bottom: 6px;
+  }
+
+  header .subtitle {
+    font-size: 14px;
+    font-style: italic;
+    color: rgba(245,240,232,0.65);
+    font-weight: 300;
+  }
+
+  .instructions {
+    max-width: 820px;
+    margin: 28px auto 0;
+    padding: 0 32px;
+    background: var(--aged);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    padding: 16px 20px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--hint);
+    margin: 32px auto 0;
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .section {
+    margin-top: 44px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    border-bottom: 1px solid rgba(139,58,26,0.3);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+  }
+
+  .para {
+    font-size: 16px;
+    line-height: 1.85;
+    text-align: justify;
+    hyphens: auto;
+    margin-bottom: 4px;
+  }
+
+  /* Gap styling */
+  .gap-wrap {
+    display: inline-block;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  .gap-input {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid var(--gap-border);
+    background: transparent;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--ink);
+    padding: 0 4px 1px;
+    min-width: 80px;
+    width: auto;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    vertical-align: baseline;
+  }
+
+  .gap-input:focus {
+    border-bottom-color: var(--accent-light);
+    background: rgba(139,58,26,0.04);
+  }
+
+  .gap-input.correct {
+    border-bottom-color: var(--correct);
+    background: var(--correct-bg);
+    color: var(--correct);
+  }
+
+  .gap-input.wrong {
+    border-bottom-color: var(--wrong);
+    background: var(--wrong-bg);
+    color: var(--wrong);
+  }
+
+  .hint-btn {
+    display: inline-block;
+    margin-left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--paper);
+    font-size: 10px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    line-height: 16px;
+    vertical-align: middle;
+    position: relative;
+    border: none;
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  .hint-btn:hover { background: var(--accent-light); }
+
+  .hint-tooltip {
+    display: none;
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    font-style: italic;
+    padding: 6px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .hint-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--ink);
+  }
+
+  .hint-btn:hover .hint-tooltip,
+  .hint-btn:focus .hint-tooltip { display: block; }
+
+  .answer-reveal {
+    font-size: 12px;
+    color: var(--correct);
+    font-style: italic;
+    margin-left: 4px;
+    display: none;
+  }
+
+  .answer-reveal.show { display: inline; }
+
+  /* Controls */
+  .controls {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--ink);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 200;
+    box-shadow: 0 -4px 20px var(--shadow);
+  }
+
+  .btn {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 10px 28px;
+    border: 2px solid var(--paper);
+    background: transparent;
+    color: var(--paper);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border-radius: 2px;
+  }
+
+  .btn:hover { background: var(--paper); color: var(--ink); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); }
+  .btn.primary:hover { background: var(--accent-light); border-color: var(--accent-light); }
+
+  .score-display {
+    color: var(--paper);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .score-display span {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-light);
+  }
+
+  /* Result modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,20,16,0.7);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--paper);
+    border: 2px solid var(--accent);
+    max-width: 440px;
+    width: 90%;
+    padding: 36px 40px;
+    text-align: center;
+  }
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .modal p { font-size: 16px; line-height: 1.7; color: var(--hint); }
+  .modal .big-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin: 16px 0;
+  }
+  .modal .close-btn {
+    margin-top: 24px;
+    display: inline-block;
+  }
+
+  /* Sub-list formatting (for Sources section) */
+  .sub-section {
+    margin: 12px 0 12px 0;
+  }
+  .sub-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="journal-label">Gap-Fill Exercise · SLA / TESOL Focus</div>
+  <h1>Self-efficacy: Toward a Unifying Theory of Behavioral Change</h1>
+  <div class="subtitle">Albert Bandura — Summary</div>
+</header>
+
+<div class="container">
+  <div class="instructions">
+    <strong>Instructions:</strong> Fill in each gap with the missing word. Hover over the <strong>?</strong> button next to each gap to reveal a hint. When you have finished, click <strong>Check Answers</strong> to see your score. Click <strong>Show All Answers</strong> to reveal every correct word.
+  </div>
+
+  <!-- ==================== SECTION 1 ==================== -->
+  <div class="section">
+    <div class="section-title">Cognitive Locus of Operation</div>
+    <p class="para">
+      Bandura argues that earlier behavioral theories relied on peripheral mechanisms — behavior was shaped automatically by stimuli and consequences, without conscious 
+      <span class="gap-wrap"><input class="gap-input" data-answer="involvement" size="10" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: active participation or engagement in a process (noun)</span></button></span>.
+      Evidence from multiple lines of research shifted this view. The section establishes that cognition plays a central role in how behavior is 
+      <span class="gap-wrap"><input class="gap-input" data-answer="acquired" size="8" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in SLA, this verb describes how learners take in new language; past participle</span></button></span>,
+      retained, and regulated. Key points include: behavior is coded in symbolic memory and learned through modeling; learning from consequences is itself a cognitive process (people discern patterns, not just react); reinforcement works through expectations it creates, not through automatic strengthening; and motivation is partly driven by cognitive representations of future outcomes and self-evaluative standards.
+    </p>
+  </div>
+
+  <!-- ==================== SECTION 2 ==================== -->
+  <div class="section">
+    <div class="section-title">Efficacy Expectations as a Mechanism of Operation</div>
+    <p class="para">
+      Bandura introduces the core distinction between two types of expectations: outcome expectations (belief that a behavior will produce certain outcomes) and efficacy expectations (conviction that one can actually execute the required behavior). The two are different — a person can believe an action would work while doubting their ability to perform it. Efficacy expectations influence whether 
+      <span class="gap-wrap"><input class="gap-input" data-answer="coping" size="6" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: dealing with or managing difficulty; adjective that collocates with "behavior" and "strategies"</span></button></span>
+      behavior is initiated, how much effort is applied, and how long effort is sustained in the face of obstacles. Stronger perceived self-efficacy leads to more active, 
+      <span class="gap-wrap"><input class="gap-input" data-answer="persistent" size="9" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: continuing despite difficulty; collocates with "effort" and "motivation" in SLA research</span></button></span>
+      coping. However, self-efficacy is not the sole determinant — requisite skills and incentives must also be present.
+    </p>
+  </div>
+
+  <!-- ==================== SECTION 3 ==================== -->
+  <div class="section">
+    <div class="section-title">Dimensions of Efficacy Expectations</div>
+    <p class="para">
+      Efficacy expectations are not a single, static factor. They vary along three important dimensions: magnitude (how difficult the tasks a person believes they can handle), 
+      <span class="gap-wrap"><input class="gap-input" data-answer="generality" size="9" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: the degree to which learning transfers across contexts; key SLA concept (noun)</span></button></span>
+      (whether mastery expectations extend beyond specific treatment situations to broader contexts), and strength (how firmly expectations are held — weak expectations are easily undermined by setbacks, while strong ones persist despite failure). Bandura criticizes prior research for using global, outcome-focused measures that conflate hope, wishful thinking, and faith in the therapist with genuine self-efficacy. Adequate research must 
+      <span class="gap-wrap"><input class="gap-input" data-answer="assess" size="6" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: to evaluate or measure learner performance; a core TESOL/assessment verb</span></button></span>
+      all three dimensions at multiple points throughout the change process.
+    </p>
+  </div>
+
+  <!-- ==================== SECTION 4 ==================== -->
+  <div class="section">
+    <div class="section-title">Sources of Efficacy Expectations</div>
+    <p class="para">Four main sources inform people's sense of efficacy:</p>
+
+    <div class="sub-section">
+      <div class="sub-heading">Performance accomplishments</div>
+      <p class="para">
+        The most powerful source, as it is based on direct personal 
+        <span class="gap-wrap"><input class="gap-input" data-answer="mastery" size="7" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: full command of a skill; in SLA, "___-based learning" and "___-oriented goals" are key terms</span></button></span>.
+        Successes raise efficacy; early failures lower it. 
+        <span class="gap-wrap"><input class="gap-input" data-answer="Generalization" size="13" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in SLA, the transfer of learned forms or rules to new contexts (noun, capital letter)</span></button></span>
+        of efficacy to similar situations occurs after mastery is established. Performance-based treatments (e.g., participant modeling) consistently outperform symbolic ones.
+      </p>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-heading">Vicarious experience</div>
+      <p class="para">
+        Observing others succeed raises the observer's sense of capability through social 
+        <span class="gap-wrap"><input class="gap-input" data-answer="comparison" size="10" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: evaluating oneself against others; collocates with "social ___" in SLA motivation research</span></button></span>.
+        This is a weaker, less reliable source than direct experience. Its effectiveness is enhanced by coping 
+        <span class="gap-wrap"><input class="gap-input" data-answer="models" size="6" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in SLA, these are the people learners observe and imitate; plural noun</span></button></span>
+        (who overcome struggle), similar models, clear outcomes, and diversified modeling.
+      </p>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-heading">Verbal persuasion</div>
+      <p class="para">
+        Widely used but limited in power. 
+        <span class="gap-wrap"><input class="gap-input" data-answer="Suggestion" size="10" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: indirect prompting or implying; in TESOL, linked to Lozanov's Suggestopedia (noun, capital)</span></button></span>
+        alone cannot create a durable sense of efficacy, especially in the face of a long history of failure. It works best in conjunction with performance aids and is unlikely to produce 
+        <span class="gap-wrap"><input class="gap-input" data-answer="lasting" size="7" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: collocates with "change," "effect," and "acquisition"; means durable or enduring (adjective)</span></button></span>
+        change if not supported by actual successes.
+      </p>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-heading">Physiological/emotional arousal</div>
+      <p class="para">
+        People use their internal states as a cue to judge their capability. High 
+        <span class="gap-wrap"><input class="gap-input" data-answer="arousal" size="7" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in affective filter theory, excessive ___ impedes acquisition; a key Krashen-related term (noun)</span></button></span>
+        signals vulnerability; reduced arousal signals greater competence. Treatments that extinguish anxiety (e.g., desensitization) can raise efficacy, though arousal is the least 
+        <span class="gap-wrap"><input class="gap-input" data-answer="dependable" size="10" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: reliable and consistent; collocates with "source" (adjective)</span></button></span>
+        source. False or misattributed arousal feedback has little lasting effect on behavior.
+      </p>
+    </div>
+  </div>
+
+  <!-- ==================== SECTION 5 ==================== -->
+  <div class="section">
+    <div class="section-title">Cognitive Processing of Efficacy Information</div>
+    <p class="para">
+      The impact of information on self-efficacy depends on how it is cognitively 
+      <span class="gap-wrap"><input class="gap-input" data-answer="appraised" size="9" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: evaluated or interpreted mentally; past participle linked to cognitive appraisal theory</span></button></span>.
+      For instance, successes might be discounted if they occur under highly safeguarded conditions or are 
+      <span class="gap-wrap"><input class="gap-input" data-answer="attributed" size="10" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in attribution theory, successes are ___ to internal or external causes; past participle</span></button></span>
+      to external aids rather than personal skill. Conversely, successes achieved with minimal effort foster a stronger sense of ability than those requiring high effort. Self-directed mastery is essential to authenticate personal efficacy and ensure that gains are not insulated from real-life application.
+    </p>
+  </div>
+
+  <!-- ==================== SECTION 6 ==================== -->
+  <div class="section">
+    <div class="section-title">Differing Perspectives on Self-efficacy</div>
+    <p class="para">
+      Bandura compares his theory to two related constructs. Against effectance motivation (White, 1959) — an intrinsic drive for competence — Bandura argues his social learning approach is more 
+      <span class="gap-wrap"><input class="gap-input" data-answer="precise" size="7" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: exact and clearly defined; collocates with "measurement" in research methodology (adjective)</span></button></span>:
+      self-efficacy is measured independently of performance, varies by situation, and arises from diverse identifiable sources (not just novel stimulation). Against locus of control (Rotter, 1966) — beliefs about whether outcomes are controlled internally or externally — Bandura distinguishes that locus of control is about 
+      <span class="gap-wrap"><input class="gap-input" data-answer="contingencies" size="13" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in behavioral SLA, action-outcome ___; what must be present for a reinforcer to work (noun, plural)</span></button></span>,
+      not personal capability. A person can believe outcomes are personally determined while still doubting their own ability, which social learning theory treats as a separate and consequential construct. He also contrasts his theory with learned helplessness (Seligman), noting that giving up can stem from either low efficacy expectations or low outcome expectations, and these have different remedies.
+    </p>
+  </div>
+
+  <!-- ==================== SECTION 7 ==================== -->
+  <div class="section">
+    <div class="section-title">Microanalysis of Self-efficacy and Behavioral Change</div>
+    <p class="para">
+      Bandura reports an experiment with severe snake phobics assigned to participant modeling, modeling only, or no treatment. The study used a 
+      <span class="gap-wrap"><input class="gap-input" data-answer="microanalytic" size="13" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: describes fine-grained, item-by-item measurement; adjective modifying "method"</span></button></span>
+      method: measuring level, strength, and generality of efficacy expectations at multiple points, task by task. Key findings: participant modeling produced the highest and most 
+      <span class="gap-wrap"><input class="gap-input" data-answer="generalized" size="11" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in SLA, when a learned form or belief transfers broadly; past participle / adjective</span></button></span>
+      efficacy expectations, followed by modeling alone, then controls. Crucially, self-efficacy was an accurate predictor of subsequent performance at the individual task level — ~89% congruence for enactive treatment and ~86% for vicarious — regardless of how the efficacy was induced. Stronger efficacy expectations were consistently associated with higher probability of successful task completion. Efficacy expectations predicted generalized behavior toward novel, dissimilar threats better than past performance did.
+    </p>
+  </div>
+
+  <!-- ==================== SECTION 8 ==================== -->
+  <div class="section">
+    <div class="section-title">Comparison of Self-efficacy and Dual-Process Theory</div>
+    <p class="para">
+      This section pits self-efficacy theory against dual-process (anxiety-drive) theory, which underlies standard desensitization. Dual-process theory holds that anxiety drives avoidance behavior, so eliminating anxiety should eliminate avoidance. Bandura critiques this: evidence shows autonomic arousal is not causally necessary for avoidance learning or maintenance; avoidance can outlast anxiety 
+      <span class="gap-wrap"><input class="gap-input" data-answer="extinction" size="10" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in behaviorism/SLA, the weakening and disappearance of a conditioned response (noun)</span></button></span>;
+      and anxiety reduction alone produces variable behavior change. Social learning theory instead treats anxiety and defensive behavior as co-effects of perceived 
+      <span class="gap-wrap"><input class="gap-input" data-answer="threat" size="6" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: a perceived danger; in affective filter research, learners experience ___ in the classroom (noun)</span></button></span>,
+      not causally linked. In an experiment where snake phobics were fully desensitized (anxiety extinguished to imagined threats), subjects emerged with widely differing efficacy expectations — and behavior corresponded closely to those efficacy levels (r = .74), not to the degree of anxiety extinction. Self-efficacy microanalysis showed 85% congruence between expectations and performance.
+    </p>
+  </div>
+
+  <!-- ==================== SECTION 9 ==================== -->
+  <div class="section">
+    <div class="section-title">Microanalysis of Self-efficacy and Performance During the Process of Change</div>
+    <p class="para">
+      A further study tracked the evolution of efficacy expectations and behavior during treatment (not just at its end), using participant modeling administered in sequential blocks of increasing difficulty. After mastering each block, subjects were 
+      <span class="gap-wrap"><input class="gap-input" data-answer="assessed" size="8" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: measured or evaluated; the core TESOL term for gauging learner progress (past participle)</span></button></span>
+      for efficacy expectations and then tested on subsequent, more threatening tasks. Key finding: subjects who achieved the same partial mastery during treatment varied considerably in what they could subsequently do — past performance alone was a poor 
+      <span class="gap-wrap"><input class="gap-input" data-answer="predictor" size="9" autocomplete="off" spellcheck="false"><button class="hint-btn" tabindex="-1">?<span class="hint-tooltip">Hint: in research, a variable that forecasts an outcome; collocates with "reliable ___" and "strong ___" (noun)</span></button></span>.
+      However, efficacy expectations formed during treatment predicted subsequent performance at 92% accuracy overall, and 84% for highly threatening tasks the subjects had never performed before. This confirms that efficacy expectations, not behavioral history, are the operative mechanism of change.
+    </p>
+  </div>
+
+</div><!-- /container -->
+
+<!-- Fixed controls -->
+<div class="controls">
+  <div class="score-display" id="scoreDisplay">— / —</div>
+  <button class="btn primary" onclick="checkAnswers()">Check Answers</button>
+  <button class="btn" onclick="showAll()">Show All Answers</button>
+  <button class="btn" onclick="resetAll()">Reset</button>
+</div>
+
+<!-- Result modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2>Your Score</h2>
+    <div class="big-score" id="modalScore"></div>
+    <p id="modalMessage"></p>
+    <button class="btn primary close-btn" onclick="document.getElementById('modalOverlay').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<script>
+  // Auto-size inputs as user types
+  document.querySelectorAll('.gap-input').forEach(inp => {
+    inp.addEventListener('input', () => {
+      inp.style.width = Math.max(80, inp.value.length * 10 + 16) + 'px';
+    });
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const inputs = Array.from(document.querySelectorAll('.gap-input'));
+        const idx = inputs.indexOf(inp);
+        if (idx < inputs.length - 1) inputs[idx + 1].focus();
+      }
+    });
+  });
+
+  function normalize(str) {
+    return str.trim().toLowerCase();
+  }
+
+  function checkAnswers() {
+    const inputs = document.querySelectorAll('.gap-input');
+    let correct = 0, attempted = 0;
+    inputs.forEach(inp => {
+      const val = normalize(inp.value);
+      if (val === '') return;
+      attempted++;
+      const ans = normalize(inp.dataset.answer);
+      if (val === ans) {
+        inp.classList.add('correct');
+        inp.classList.remove('wrong');
+        correct++;
+      } else {
+        inp.classList.add('wrong');
+        inp.classList.remove('correct');
+      }
+    });
+    const total = inputs.length;
+    document.getElementById('scoreDisplay').innerHTML = `<span>${correct}</span> / ${total}`;
+
+    const pct = Math.round((correct / total) * 100);
+    document.getElementById('modalScore').textContent = `${correct} / ${total}`;
+    let msg = '';
+    if (pct === 100) msg = 'Perfect! Every gap filled correctly.';
+    else if (pct >= 75) msg = 'Excellent work! Review the highlighted gaps.';
+    else if (pct >= 50) msg = 'Good effort. Focus on the red gaps and try again.';
+    else msg = 'Keep going — re-read the text and use the hints.';
+    document.getElementById('modalMessage').textContent = msg;
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function showAll() {
+    document.querySelectorAll('.gap-input').forEach(inp => {
+      inp.value = inp.dataset.answer;
+      inp.style.width = Math.max(80, inp.value.length * 10 + 16) + 'px';
+      inp.classList.remove('wrong');
+      inp.classList.add('correct');
+    });
+    const total = document.querySelectorAll('.gap-input').length;
+    document.getElementById('scoreDisplay').innerHTML = `<span>${total}</span> / ${total}`;
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.gap-input').forEach(inp => {
+      inp.value = '';
+      inp.style.width = '';
+      inp.classList.remove('correct', 'wrong');
+    });
+    document.getElementById('scoreDisplay').textContent = '— / —';
+  }
+</script>
+</body>
+</html>
