@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide for Constructing Self-efficacy Scales – Gap Fill</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2ede4;
+    --paper: #faf7f2;
+    --rule: #c8bfae;
+    --ink: #1c1810;
+    --faded: #6b6055;
+    --accent: #2a5c8a;
+    --accent-light: #3a7abf;
+    --correct: #1e5c33;
+    --correct-bg: #d6edd9;
+    --wrong: #7a1e1e;
+    --wrong-bg: #f0d4d4;
+    --gap-line: #2a5c8a;
+    --bar: #1c2a3a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Crimson Pro', 'Georgia', serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 90px;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--bar);
+    padding: 40px 52px 32px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    display: block;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 60%, transparent 100%);
+  }
+
+  .eyebrow {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 10.5px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #f2ede4;
+    line-height: 1.3;
+    max-width: 680px;
+    margin-bottom: 6px;
+  }
+
+  header .byline {
+    font-size: 15px;
+    font-style: italic;
+    color: rgba(242,237,228,0.55);
+    font-weight: 300;
+  }
+
+  /* ── Instructions banner ── */
+  .banner {
+    background: var(--accent);
+    color: #f2ede4;
+    padding: 14px 52px;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .banner strong { font-weight: 600; }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 52px;
+  }
+
+  /* ── Sections ── */
+  .section { margin-top: 48px; }
+
+  .section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--rule);
+    margin-bottom: 18px;
+  }
+
+  /* ── Paragraphs ── */
+  .para {
+    font-size: 17px;
+    line-height: 1.9;
+    text-align: justify;
+    hyphens: auto;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+
+  /* ── Gap elements ── */
+  .gw {
+    display: inline;
+    white-space: nowrap;
+  }
+
+  .gap {
+    display: inline-block;
+    position: relative;
+    border: none;
+    border-bottom: 2px solid var(--gap-line);
+    background: transparent;
+    font-family: 'Crimson Pro', 'Georgia', serif;
+    font-size: 17px;
+    line-height: 1;
+    color: var(--ink);
+    padding: 0 3px 1px;
+    min-width: 70px;
+    outline: none;
+    vertical-align: baseline;
+    transition: border-color 0.18s, background 0.18s;
+  }
+
+  .gap:focus {
+    border-bottom-color: var(--accent-light);
+    background: rgba(42,92,138,0.06);
+  }
+
+  .gap.correct {
+    color: var(--correct);
+    background: var(--correct-bg);
+    border-bottom-color: var(--correct);
+  }
+
+  .gap.wrong {
+    color: var(--wrong);
+    background: var(--wrong-bg);
+    border-bottom-color: var(--wrong);
+  }
+
+  /* ── Hint button ── */
+  .hb {
+    display: inline-block;
+    position: relative;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #f2ede4;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 17px;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 2px;
+    border: none;
+    transition: background 0.15s;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  .hb:hover, .hb:focus { background: var(--accent-light); outline: none; }
+
+  .ht {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bar);
+    color: #f2ede4;
+    font-family: 'Crimson Pro', serif;
+    font-size: 12.5px;
+    font-style: italic;
+    font-weight: 300;
+    padding: 7px 11px;
+    border-radius: 3px;
+    white-space: nowrap;
+    z-index: 200;
+    pointer-events: none;
+    max-width: 280px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .ht::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--bar);
+  }
+
+  .hb:hover .ht, .hb:focus .ht { display: block; }
+
+  /* ── Fixed footer controls ── */
+  .controls {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--bar);
+    padding: 13px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    z-index: 300;
+    box-shadow: 0 -3px 18px rgba(0,0,0,0.25);
+  }
+
+  .btn {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 13px;
+    letter-spacing: 0.8px;
+    padding: 9px 24px;
+    border: 1.5px solid rgba(242,237,228,0.5);
+    background: transparent;
+    color: #f2ede4;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.18s, border-color 0.18s;
+  }
+
+  .btn:hover { background: rgba(242,237,228,0.12); border-color: #f2ede4; }
+
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .btn.primary:hover { background: var(--accent-light); border-color: var(--accent-light); }
+
+  .tally {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 13px;
+    color: rgba(242,237,228,0.6);
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .tally em {
+    font-style: normal;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-light);
+  }
+
+  /* ── Modal ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(28,24,16,0.72);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--paper);
+    border-top: 5px solid var(--accent);
+    max-width: 420px;
+    width: 92%;
+    padding: 40px 44px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+
+  .modal h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+
+  .modal .num {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 62px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin: 16px 0 14px;
+  }
+
+  .modal p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--faded);
+    margin-bottom: 24px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Gap-Fill Exercise · SLA / TESOL Focus</div>
+  <h1>Guide for Constructing Self-efficacy Scales</h1>
+  <div class="byline">Albert Bandura — Summary</div>
+</header>
+
+<div class="banner">
+  <strong>Instructions:</strong> Fill in each gap with the missing word. Hover the <strong>?</strong> button beside a gap to see a hint. When finished, click <strong>Check Answers</strong> to see how you did. Use <strong>Show All</strong> to reveal every answer, or <strong>Reset</strong> to start over. Press <strong>Enter</strong> to jump to the next gap.
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════ 1 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Introductory Remarks</div>
+    <p class="para">
+      Self-efficacy is not a global trait but a differentiated set of beliefs tied to specific
+      <span class="gw"><input class="gap" data-answer="domains" size="7" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA, the areas of language skill or subject knowledge within which learning occurs (noun, plural)</span></button></span>
+      of functioning — a business executive may be highly efficacious in organizational matters but not in parenting. There is no all-purpose self-efficacy measure; scales must be tailored to the particular domain under study, as generic items divorced from situational demands leave
+      <span class="gw"><input class="gap" data-answer="ambiguity" size="9" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In test design, this refers to unclear or double-edged items that confuse test-takers (noun)</span></button></span>
+      about what is being measured. That said, efficacy beliefs can co-vary across domains under certain conditions: when different activities share common sub-skills; when higher-order self-regulatory skills (diagnosing task demands, goal-setting, managing stress) transfer across domains; when competencies in dissimilar areas are developed simultaneously through the same social structure (e.g., a school that promotes high achievement across all subjects); or when extraordinary mastery experiences produce a transformational restructuring of efficacy beliefs broadly.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════ 2 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Content Validity</div>
+    <p class="para">
+      Items must reflect perceived capability, not intention — phrased as "can do" rather than "will do." Self-efficacy must also be clearly distinguished from related but separate
+      <span class="gw"><input class="gap" data-answer="constructs" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA/TESOL research, these are theoretical concepts that researchers define and measure, e.g., motivation, anxiety (noun, plural)</span></button></span>.
+      It is not self-esteem (a judgment of self-worth), not locus of control (a belief about whether outcomes are personally or externally determined), and not outcome expectations (beliefs about what results will follow from a performance). These are conceptually and empirically distinct phenomena. Bandura emphasizes the far-reaching influence of efficacy beliefs: they shape whether people think strategically or erratically, the goals they set, their effort and
+      <span class="gw"><input class="gap" data-answer="persistence" size="11" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA motivation research, continuing with a task despite difficulty; a key learner attribute (noun)</span></button></span>,
+      their resilience, their emotional life, and ultimately the accomplishments they realize — all confirmed across domains by meta-analyses.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════ 3 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Domain Specification and Conceptual Analysis of Self-Efficacy Multicausality</div>
+    <p class="para">
+      Sound scale construction requires a thorough
+      <span class="gw"><input class="gap" data-answer="conceptual" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">Relating to ideas and theoretical frameworks; in TESOL, "___ analysis" underpins curriculum and test design (adjective)</span></button></span>
+      analysis of the domain to identify which specific aspects of efficacy to measure. Using weight management as an example, Bandura shows that behavior is better predicted by assessing multiple facets of efficacy within the domain — regulating food purchases, eating habits, and physical exercise — than by measuring only one. Different facets may also matter more at different phases of change: before self-regulatory skills are developed, efficacy to purchase healthful foods predicts caloric intake; afterward, efficacy to curb overeating becomes primary. Multifaceted scales therefore both improve
+      <span class="gw"><input class="gap" data-answer="prediction" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In language assessment, the degree to which a test forecasts future learner performance (noun)</span></button></span>
+      and reveal the dynamics of self-management. Critically, if the scale targets factors that are causally irrelevant to the domain (e.g., relaxation efficacy when relaxation has no effect on drug use), negative findings reflect faulty theory, not limitations of self-efficacy itself.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════ 4 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Gradations of Challenge</div>
+    <p class="para">
+      Efficacy scales must be built around graduated levels of task demands, since self-efficacy appraisals reflect what level of difficulty a person believes they can
+      <span class="gw"><input class="gap" data-answer="surmount" size="8" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">To overcome an obstacle or difficulty; collocates with "barrier" and "challenge" in learner strategy research (verb)</span></button></span>.
+      When there are no obstacles, everyone performs easily and the measure is uninformative. The relevant challenges vary by domain — they may be graded by ingenuity, exertion, accuracy, threat, or self-regulation required. Many domains primarily concern self-regulatory efficacy: not whether someone can do an activity occasionally, but whether they can sustain it regularly under various dissuading conditions (e.g., fatigue, bad weather, emotional distress, competing demands). Constructing such scales requires preliminary work — open-ended interviews and
+      <span class="gw"><input class="gap" data-answer="pilot" size="5" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In TESOL, a small-scale trial run of a test or questionnaire before full administration (adjective/noun modifying "questionnaires")</span></button></span>
+      questionnaires — to identify the real forms that impediments take, which are then built directly into the items. Sufficient difficulty gradations must be included to avoid ceiling effects.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════ 5 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Response Scale</div>
+    <p class="para">
+      The standard format presents items portraying different task demands, with respondents rating confidence on a 0–100 scale in 10-unit intervals — from "Cannot do at all" (0) through "Moderately certain can do" (50) to "Highly certain can do" (100). A simplified 0–10 single-unit version retains the same structure. Scales with only a few steps should be avoided: they are less
+      <span class="gw"><input class="gap" data-answer="sensitive" size="9" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In language testing, the ability of a scale to detect fine differences between test-takers (adjective)</span></button></span>
+      and less reliable, and since people avoid extreme positions, a small-step scale may effectively collapse to one or two usable points. The 0–100 format is empirically a stronger predictor of performance than a 5-interval scale. The scale is
+      <span class="gw"><input class="gap" data-answer="unipolar" size="8" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In rating scale design, having only one pole (e.g., 0 to maximum), as opposed to a bipolar scale (adjective)</span></button></span>
+      — ranging from 0 to maximum — because complete incapability has no meaningful lower gradation; bipolar scales with negative values are conceptually incoherent. Preliminary instructions should orient respondents to rate their current operative capabilities, not hypothetical future ones. Practice items should be used to familiarize respondents, and for young children, physical demonstrations or pictorial (not emotional) descriptors should be used — happy/sad faces are explicitly to be avoided as they measure mood rather than confidence.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════ 6 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Minimizing Response Biases</div>
+    <p class="para">
+      Several safeguards are built into the standard procedure to reduce motivational distortion. Responses are recorded privately, without personal identification, to reduce social
+      <span class="gw"><input class="gap" data-answer="evaluative" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA, "___ anxiety" arises when learners fear being judged by others; adjective collocating with "concerns" and "threat"</span></button></span>
+      concerns; scales are labeled with nondescript titles (e.g., "Appraisal Inventory") rather than "Self-Efficacy." Respondents are informed their responses are confidential and used only with code numbers. Efficacy judgments are made across the full range of tasks at once — not immediately before each performance — and assessments of efficacy and behavior are conducted in different settings by different assessors, removing carryover social influence. Research consistently shows that merely recording efficacy judgments does not reactively alter motivation, affect, or performance across diverse domains including coping, pain tolerance,
+      <span class="gw"><input class="gap" data-answer="cognitive" size="9" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">Relating to mental processes such as memory, attention, and comprehension; a central term in SLA theory (adjective)</span></button></span>
+      attainment, and health behaviors. Efficacy judgments are also not distorted by social desirability, even for sensitive topics such as sexual behavior, alcohol use, or dietary practices.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════ 7 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Item Analysis in Scale Construction</div>
+    <p class="para">
+      Items should be pretested and those that are ambiguous or that elicit the same response from nearly all respondents should be discarded or rewritten. Items on which the vast majority check the maximum efficacy category lack sufficient challenge and fail to
+      <span class="gw"><input class="gap" data-answer="differentiate" size="13" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In assessment, to distinguish between learners of different ability levels; a key criterion of test quality (verb)</span></button></span>
+      among respondents — the solution is to raise the difficulty level. Items tapping the same efficacy domain should intercorrelate with each other and with the total scale score; factor analyses verify item
+      <span class="gw"><input class="gap" data-answer="homogeneity" size="11" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In test construction, the degree to which items measure the same underlying trait; related to internal consistency (noun)</span></button></span>.
+      Different domains require separate scales, each with internal homogeneity. Internal consistency should be assessed using Cronbach's alpha; items with low correlations should be revised or removed. Scales with very few items will produce low alpha — increasing the number of items is recommended.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════ 8 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Assessment of Perceived Collective Efficacy</div>
+    <p class="para">
+      Social cognitive theory extends agency to the collective level: people's shared beliefs in their group's capability are a key ingredient of group functioning. Collective efficacy is not simply the sum of individual efficacy beliefs — it is an
+      <span class="gw"><input class="gap" data-answer="emergent" size="8" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In complexity theory and SLA, a property that arises from interaction and cannot be reduced to individual parts (adjective)</span></button></span>
+      property that includes the interactive, coordinative, and synergistic dynamics of group transactions, though it resides in individual members' minds, not in a disembodied group entity. Two main measurement approaches exist: aggregating members' appraisals of their own personal contributions to the group, or aggregating members' holistic appraisals of the group as a whole. The discussion-consensus approach (having the group reach a single agreed judgment) is methodologically problematic because it is distorted by power dynamics, social
+      <span class="gw"><input class="gap" data-answer="conformity" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">Adjusting one's attitudes or behavior to match the group; in SLA, peer pressure and ___ affect learner identity (noun)</span></button></span>
+      pressures, and the disproportionate influence of higher-status members — and because a measurement method should not alter what it is measuring. The relative superiority of the two aggregation indexes depends on the degree of interdependence required: holistic appraisals are more suitable for tasks requiring tight coordination (e.g., soccer), while aggregated personal efficacies suit more independent performances (e.g., gymnastics). Research across educational, business, athletic, and community settings consistently shows that higher perceived collective efficacy predicts greater motivational investment, persistence through setbacks, and performance accomplishments.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════ 9 ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-title">Predictive and Construct Validation</div>
+    <p class="para">
+      Self-efficacy scales must have face validity (measuring perceived capability as defined), discriminative
+      <span class="gw"><input class="gap" data-answer="validity" size="8" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In language testing, the extent to which a test measures what it is intended to measure; a core assessment concept (noun)</span></button></span>
+      (distinguishing self-efficacy from related constructs like self-esteem and locus of control), and predictive validity (forecasting behavior as the theory specifies). Construct validation is an ongoing process of
+      <span class="gw"><input class="gap" data-answer="hypothesis" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">A testable proposition or claim about a relationship between variables; the basis of empirical SLA research (noun)</span></button></span>
+      testing within the broader theoretical network: people scoring high on self-efficacy should differ from those scoring low in specific, theoretically predicted ways. Because self-efficacy affects motivation, thought, affect, and action across many contexts, there are numerous verifiable consequences to test — there is no single validity coefficient. Both the measures and the postulated causal structure of the theory are being evaluated simultaneously. The scientific value of a theory, Bandura concludes, is judged not only by its explanatory and predictive power, but by its operational power to produce change — and knowing how self-efficacy is built and how it works provides practical guidelines for structuring experiences that enable people to realize desired personal and social outcomes.
+    </p>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ── Fixed footer ── -->
+<div class="controls">
+  <div class="tally" id="tally">— / —</div>
+  <button class="btn primary" onclick="checkAnswers()">Check Answers</button>
+  <button class="btn" onclick="showAll()">Show All</button>
+  <button class="btn" onclick="resetAll()">Reset</button>
+</div>
+
+<!-- ── Modal ── -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Results</h2>
+    <div class="num" id="mNum"></div>
+    <p id="mMsg"></p>
+    <button class="btn primary" onclick="document.getElementById('overlay').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<script>
+  /* Auto-resize inputs */
+  document.querySelectorAll('.gap').forEach(inp => {
+    const resize = () => { inp.style.width = Math.max(70, inp.value.length * 10 + 14) + 'px'; };
+    inp.addEventListener('input', resize);
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const all = [...document.querySelectorAll('.gap')];
+        const next = all[all.indexOf(inp) + 1];
+        if (next) next.focus();
+      }
+    });
+  });
+
+  const norm = s => s.trim().toLowerCase();
+
+  function checkAnswers() {
+    const gaps = document.querySelectorAll('.gap');
+    let correct = 0;
+    gaps.forEach(g => {
+      if (!g.value.trim()) return;
+      if (norm(g.value) === norm(g.dataset.answer)) {
+        g.classList.add('correct'); g.classList.remove('wrong'); correct++;
+      } else {
+        g.classList.add('wrong'); g.classList.remove('correct');
+      }
+    });
+    const total = gaps.length;
+    document.getElementById('tally').innerHTML = `<em>${correct}</em> / ${total}`;
+    const pct = Math.round(correct / total * 100);
+    document.getElementById('mNum').textContent = `${correct} / ${total}`;
+    document.getElementById('mMsg').textContent =
+      pct === 100 ? 'Outstanding — every gap correct!' :
+      pct >= 75  ? 'Excellent work. Review the highlighted gaps.' :
+      pct >= 50  ? 'Good effort. Focus on the red gaps and try again.' :
+                   'Keep going — use the hints and re-read carefully.';
+    document.getElementById('overlay').classList.add('open');
+  }
+
+  function showAll() {
+    const gaps = document.querySelectorAll('.gap');
+    gaps.forEach(g => {
+      g.value = g.dataset.answer;
+      g.style.width = Math.max(70, g.value.length * 10 + 14) + 'px';
+      g.classList.remove('wrong'); g.classList.add('correct');
+    });
+    document.getElementById('tally').innerHTML = `<em>${gaps.length}</em> / ${gaps.length}`;
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.gap').forEach(g => {
+      g.value = ''; g.style.width = ''; g.classList.remove('correct','wrong');
+    });
+    document.getElementById('tally').textContent = '— / —';
+  }
+</script>
+</body>
+</html>

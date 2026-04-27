@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foreign Language Classroom Anxiety – Gap Fill</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Serif+Text:ital@0;1&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #eef2f7;
+    --surface:   #f8fafc;
+    --ink:       #14202e;
+    --muted:     #5a6a7e;
+    --rule:      #c8d4e0;
+    --accent:    #1a5276;
+    --accent2:   #2e86c1;
+    --correct:   #1a6b3a;
+    --correct-bg:#d4edda;
+    --wrong:     #7b1c1c;
+    --wrong-bg:  #fadddd;
+    --gap-line:  #1a5276;
+    --bar:       #0d1b2a;
+    --tag-bg:    #d6e4f0;
+    --tag-ink:   #1a5276;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Serif Text', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--bar);
+    padding: 44px 56px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 90% 50%, rgba(46,134,193,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  header::after {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent2) 0%, rgba(46,134,193,0.2) 80%, transparent 100%);
+    margin-top: 32px;
+  }
+
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 14px;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: #eef2f7;
+    line-height: 1.28;
+    max-width: 700px;
+    margin-bottom: 8px;
+  }
+
+  header .byline {
+    font-family: 'DM Serif Text', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: rgba(238,242,247,0.45);
+  }
+
+  /* ── Instructions ── */
+  .banner {
+    background: var(--accent);
+    color: #eef2f7;
+    padding: 13px 56px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13.5px;
+    font-weight: 300;
+    line-height: 1.65;
+    letter-spacing: 0.15px;
+  }
+
+  .banner strong { font-weight: 600; }
+
+  /* ── Container ── */
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 56px;
+  }
+
+  /* ── Sections ── */
+  .section { margin-top: 52px; }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .sec-num {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--tag-ink);
+    background: var(--tag-bg);
+    padding: 3px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  .sec-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .subsection { margin-top: 32px; }
+
+  .sub-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ── Paragraphs ── */
+  .para {
+    font-size: 17.5px;
+    line-height: 1.95;
+    text-align: justify;
+    hyphens: auto;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+
+  /* ── Gap elements ── */
+  .gw { display: inline; white-space: nowrap; }
+
+  .gap {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid var(--gap-line);
+    background: transparent;
+    font-family: 'DM Serif Text', Georgia, serif;
+    font-size: 17.5px;
+    line-height: 1;
+    color: var(--ink);
+    padding: 0 3px 1px;
+    min-width: 72px;
+    outline: none;
+    vertical-align: baseline;
+    transition: border-color .18s, background .18s;
+  }
+
+  .gap:focus {
+    border-bottom-color: var(--accent2);
+    background: rgba(46,134,193,0.07);
+  }
+
+  .gap.correct {
+    color: var(--correct);
+    background: var(--correct-bg);
+    border-bottom-color: var(--correct);
+  }
+
+  .gap.wrong {
+    color: var(--wrong);
+    background: var(--wrong-bg);
+    border-bottom-color: var(--wrong);
+  }
+
+  /* ── Hint button ── */
+  .hb {
+    display: inline-block;
+    position: relative;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: var(--accent2);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 17px;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 2px;
+    border: none;
+    transition: background .15s;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  .hb:hover, .hb:focus { background: var(--accent); outline: none; }
+
+  .ht {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bar);
+    color: #eef2f7;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    font-style: italic;
+    padding: 8px 12px;
+    border-radius: 4px;
+    white-space: normal;
+    max-width: 260px;
+    text-align: center;
+    z-index: 200;
+    pointer-events: none;
+    line-height: 1.55;
+  }
+
+  .ht::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--bar);
+  }
+
+  .hb:hover .ht, .hb:focus .ht { display: block; }
+
+  /* ── Divider ── */
+  hr.soft {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 36px 0 0;
+  }
+
+  /* ── Fixed footer ── */
+  .controls {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--bar);
+    padding: 13px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 300;
+    box-shadow: 0 -4px 22px rgba(0,0,0,0.3);
+  }
+
+  .btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(238,242,247,0.35);
+    background: transparent;
+    color: #eef2f7;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background .17s, border-color .17s;
+  }
+
+  .btn:hover { background: rgba(238,242,247,0.1); border-color: #eef2f7; }
+  .btn.primary { background: var(--accent2); border-color: var(--accent2); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+  .tally {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(238,242,247,0.5);
+    min-width: 70px;
+    text-align: center;
+  }
+
+  .tally em {
+    font-style: normal;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent2);
+  }
+
+  /* ── Modal ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,27,42,0.75);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border-top: 5px solid var(--accent2);
+    max-width: 430px;
+    width: 92%;
+    padding: 42px 48px;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  }
+
+  .modal h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .modal .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 66px;
+    color: var(--ink);
+    line-height: 1;
+    margin: 18px 0 14px;
+  }
+
+  .modal p {
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Gap-Fill Exercise · SLA / TESOL Focus</div>
+  <h1>Foreign Language Classroom Anxiety</h1>
+  <div class="byline">Elaine K. Horwitz, Michael B. Horwitz &amp; Joann Cope — Summary</div>
+</header>
+
+<div class="banner">
+  <strong>Instructions:</strong> Fill in each gap with the missing word. Hover the <strong>?</strong> button beside a gap to see a hint. When finished, click <strong>Check Answers</strong> to see your score. Use <strong>Show All</strong> to reveal answers, or <strong>Reset</strong> to start over. Press <strong>Enter</strong> to move to the next gap.
+</div>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION 1 — Introductory Remarks
+  ══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span class="sec-num">§ 1</span>
+      <span class="sec-title">Introductory Remarks</span>
+    </div>
+
+    <p class="para">
+      The paper opens by noting that many people claim a "mental block" against foreign language learning despite being capable learners in other domains, motivated, and positively disposed toward target language speakers. The authors identify anxiety as the likely culprit — defined as the subjective feeling of tension, apprehension, nervousness, and worry linked to autonomic nervous system
+      <span class="gw"><input class="gap" data-answer="arousal" size="7" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In affective filter theory, this physiological state can block language intake; also central to Krashen's hypothesis (noun)</span></button></span>.
+      Foreign language anxiety is framed as a specific anxiety reaction (anxiety tied to a particular situation, not a general personality trait), analogous to math or science anxiety. Although teachers and students widely recognize anxiety as a major obstacle, and some teaching methods (community language learning, suggestopedia) were explicitly designed to reduce it, second language research had neither adequately defined the
+      <span class="gw"><input class="gap" data-answer="construct" size="9" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA/TESOL research, a theoretical concept that is defined and operationalised for measurement (noun, singular)</span></button></span>
+      nor described its specific effects. The paper's purpose is to fill that gap by establishing foreign language anxiety as a conceptually distinct variable and grounding it in existing theory and empirical work on specific anxiety reactions.
+    </p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION 2 — Effects of anxiety on language learning
+  ══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span class="sec-num">§ 2</span>
+      <span class="sec-title">Effects of Anxiety on Language Learning</span>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-title">2.1 — Second Language Studies</div>
+
+      <p class="para">
+        Scholars have long recognized that foreign language learning is anxiety-provoking. Curran and Stevick describe the defensive position imposed on learners by most teaching methods; Guiora argues that language learning is psychologically unsettling because it threatens self-concept and worldview. Attempts to quantify the anxiety-achievement relationship have yielded mixed results, largely because anxiety measures used were not specific to foreign language learning. Scovel concluded in 1978 that a clear-cut relationship between anxiety and overall language
+        <span class="gw"><input class="gap" data-answer="achievement" size="11" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA, attained language proficiency or test performance; contrasted with aptitude and acquisition (noun)</span></button></span>
+        had not been established. Studies focused on more specific effects were more informative: Kleinmann found that highly anxious ESL students attempted different grammatical constructions than less anxious ones; Steinberg and Horwitz found that anxiety led students toward less interpretive, more concrete messages. These findings show anxiety shapes the communication
+        <span class="gw"><input class="gap" data-answer="strategies" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA, learner-deployed techniques for managing communication gaps or difficulty; plural noun (e.g., avoidance, paraphrase)</span></button></span>
+        students use — more anxious learners avoid difficult or personally revealing messages. The only instrument specifically designed for foreign language anxiety at the time was a five-item French class anxiety scale developed by Gardner and colleagues, which yielded small negative correlations with achievement measures (r = -.13 to -.43). The authors conclude that prior research failed to establish clear conclusions for two reasons: anxiety measures were rarely specific to foreign language learning, and studies rarely examined anxiety's subtler effects on learning processes.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-title">2.2 — Clinical Experience</div>
+
+      <p class="para">
+        The psychophysiological and behavioral symptoms of anxious foreign language learners mirror those of other specific anxieties: apprehension, worry, dread, difficulty concentrating, forgetfulness, sweating, palpitations, and avoidance behaviors such as missing class or postponing homework. Clinical work at the University of Texas Learning Skills Center reveals that anxiety centers especially on the two core demands of language learning — listening and speaking. Students typically feel more comfortable with drills or prepared speeches but freeze in spontaneous role-play situations. Anxious learners report difficulty discriminating the
+        <span class="gw"><input class="gap" data-answer="sounds" size="6" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In phonology and SLA, the basic units of speech perception; learners struggle to distinguish L2 ___ from L1 categories (noun, plural)</span></button></span>
+        of the target language (one student heard only "a loud buzz" when his teacher spoke), and difficulty grasping the content of extended utterances. In testing situations, students frequently "know" material but forget it under the pressure of coordinating multiple grammar points simultaneously, making careless errors they recognize only after the test — and this awareness can escalate anxiety further. Overstudying is one response (one student studied eight hours daily for a beginning Spanish class and still failed); avoidance is another. Certain counterproductive beliefs also contribute to anxiety — such as the conviction that nothing should be said until it can be said perfectly, or that guessing is impermissible — which are incompatible with the realities of language learning. The authors connect this to Krashen's affective
+        <span class="gw"><input class="gap" data-answer="filter" size="6" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In Krashen's Monitor Model, the affective ___ hypothesis holds that anxiety blocks comprehensible input from becoming intake (noun)</span></button></span>
+        hypothesis (anxiety blocks intake of language input) and Savignon's emphasis on spontaneous interaction for developing communicative competence, concluding that anxiety is a serious impediment to both fluency development and performance.
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION 3 — Conceptual Foundations
+  ══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span class="sec-num">§ 3</span>
+      <span class="sec-title">Foreign Language Anxiety: Conceptual Foundations</span>
+    </div>
+
+    <p class="para">
+      The authors identify three related performance anxieties that help explain foreign language anxiety conceptually. Communication
+      <span class="gw"><input class="gap" data-answer="apprehension" size="12" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">Fear or anxiety specifically about communicating with others; one of the three component anxieties in Horwitz et al.'s model (noun)</span></button></span>
+      — fear or anxiety about communicating with others — is highly relevant because foreign language learners have limited control over communicative situations and are constantly monitored. Unlike ordinary communication anxiety, the foreign language version carries the near-certainty that one will have difficulty understanding and being understood. Interestingly, the reverse can also occur: ordinarily inhibited speakers sometimes feel less anxious in a foreign language because it feels as if "someone else is speaking." Test anxiety — performance anxiety rooted in fear of failure — is also relevant given the frequency of evaluations in language classes; oral tests can provoke both test anxiety and communication anxiety simultaneously. Fear of negative
+      <span class="gw"><input class="gap" data-answer="evaluation" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">Apprehension about others' judgements of oneself; the third component anxiety in Horwitz et al.'s framework (noun)</span></button></span>
+      — apprehension about others' judgments, avoidance of evaluative situations, and expectation of negative appraisal — is broader than test anxiety since it applies to any social evaluative context. In the foreign language classroom, the only fluent speaker is typically the teacher, who evaluates students continuously; students are also acutely sensitive to peers' reactions.
+    </p>
+
+    <p class="para">
+      Despite drawing on these three constructs, the authors argue that foreign language anxiety is not simply a transfer of these fears to a new domain. Rather, it is a distinct complex of self-perceptions, beliefs, feelings, and behaviors arising from the uniqueness of language learning itself. Adults ordinarily perceive themselves as intelligent, socially competent communicators — assumptions rarely challenged in one's
+      <span class="gw"><input class="gap" data-answer="native" size="6" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA, the ___ language (L1) is the first language acquired in childhood; contrasted with target language (adjective)</span></button></span>
+      language. In a foreign language, however, every communicative attempt is evaluated against uncertain linguistic and socio-cultural standards, requiring complex and non-spontaneous mental operations that challenge the self-concept as a competent communicator. Furthermore, the immature command of the second language restricts the range of meaning and affect that can be expressed, creating a gap between one's "true self" and the limited self that can be presented in the foreign language. This threat to self-expression and authentic self-presentation distinguishes foreign language anxiety from other academic anxieties such as math or science — probably no other academic subject implicates self-concept and self-expression to the same
+      <span class="gw"><input class="gap" data-answer="degree" size="6" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In academic writing, the extent or level to which something applies; collocates with "to the same ___" (noun)</span></button></span>.
+    </p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION 4 — Identifying Foreign Language Anxiety
+  ══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span class="sec-num">§ 4</span>
+      <span class="sec-title">Identifying Foreign Language Anxiety</span>
+    </div>
+
+    <p class="para">
+      In 1983, students in beginning language classes at the University of Texas were invited to join a "Support Group for Foreign Language Learning." Of 225 students informed, 78 — over one-third — expressed enough concern to want to join, suggesting that anxiety is common in foreign language classrooms. These students described freezing in class, standing outside the door unable to enter, going blank before tests, and a range of psychophysiological symptoms (trembling, perspiring, palpitations, sleep disturbances). Their experiences informed the development of the Foreign Language Classroom Anxiety Scale (FLCAS), which achieved strong internal
+      <span class="gw"><input class="gap" data-answer="reliability" size="11" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In language testing, the consistency of a measure; "internal ___" is assessed with Cronbach's alpha (noun)</span></button></span>
+      (alpha = .93) and test-retest reliability over eight weeks (r = .83). Pilot testing with 75 introductory Spanish students revealed several consistent patterns. Anxious students feared speaking the target language — 49% reported panicking when required to speak without
+      <span class="gw"><input class="gap" data-answer="preparation" size="11" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In TESOL, planning done before a communicative task; "without ___" triggers spontaneous production anxiety (noun)</span></button></span>,
+      and 47% rejected the statement "I feel confident when I speak in foreign language class." They feared not comprehending all input — 35% were frightened when they did not understand the teacher, reflecting a belief that comprehension requires understanding every word. They feared being less competent than peers — 59% worried about getting left behind in the pace of the class; 38% believed other students were better at languages than them. They feared making mistakes and perceived every correction as a failure — 65% disagreed that they did not worry about making mistakes. Two items particularly supported the distinctiveness of foreign language anxiety: 34% felt overwhelmed by the number of rules to learn, and 38% felt more tense in language class than in other classes — with the latter being the single best discriminator on the scale. The authors conclude that significant foreign language anxiety is widespread, with 19 of 33 FLCAS items endorsed by a third or more of students, and 7 items endorsed by over half.
+    </p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION 5 — Pedagogical Implications and Conclusion
+  ══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">
+      <span class="sec-num">§ 5</span>
+      <span class="sec-title">Pedagogical Implications and Conclusion</span>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-title">Pedagogical Implications</div>
+
+      <p class="para">
+        Teachers have two main options: help students cope with anxiety-producing situations, or reduce the stressfulness of the learning context itself. Before either is possible, teachers must first recognize that anxiety exists. Because highly anxious students are motivated to avoid feared activities, they may appear indifferent or unprepared — teachers should consider anxiety as an explanation for poor performance before attributing it to lack of ability or
+        <span class="gw"><input class="gap" data-answer="motivation" size="10" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">In SLA, the drive or desire to learn a language; integrative and instrumental types are classically distinguished (noun)</span></button></span>.
+        Specific classroom techniques include relaxation exercises, guidance on effective learning strategies, behavioral contracting, and journal keeping. For severe anxiety reactions, referral to outside counselors or learning specialists is recommended, as therapists using systematic
+        <span class="gw"><input class="gap" data-answer="desensitization" size="15" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">A behaviour therapy technique that gradually reduces anxiety responses through repeated exposure; used to treat specific learning anxieties (noun)</span></button></span>
+        and other behavior modification techniques have successfully treated specific learning anxieties. Addressing the learning context itself is harder but more important: as long as formal school settings tie evaluation to performance, anxiety will persist. Teachers should build student support systems, monitor classroom climate carefully, and approach error correction thoughtfully — selecting techniques that reduce defensive reactions rather than amplify them. The authors acknowledge that the relative contributions of teaching practices versus the intrinsic nature of language learning to anxiety remain to be studied before firm intervention recommendations can be made.
+      </p>
+    </div>
+
+    <div class="subsection">
+      <div class="sub-title">Conclusions</div>
+
+      <p class="para">
+        The paper ends by acknowledging that the field is only beginning to understand foreign language anxiety — its prevalence and precise classroom effects remain unclear, and individual reactions vary widely from severe avoidance (postponing required courses, changing majors) to moderate disruption (procrastination, silence, sitting in the back row) to no anxiety at all. The broader stakes are significant: just as math anxiety acts as a career filter steering some groups away from high-demand fields, foreign language anxiety may shape course and major selection and contribute to student resistance to language
+        <span class="gw"><input class="gap" data-answer="requirements" size="12" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">Mandatory courses or conditions that students must fulfil; language ___ are institutional mandates for FL study (noun, plural)</span></button></span>.
+        With growing institutional emphasis on foreign language study and communicative competence — which foregrounds spontaneous speech, the most anxiety-provoking activity — teachers will increasingly encounter anxious students. The authors call for recognizing, coping with, and ultimately overcoming debilitating foreign language anxiety as a central concern of language
+        <span class="gw"><input class="gap" data-answer="education" size="9" autocomplete="off" spellcheck="false"><button class="hb" tabindex="-1">?<span class="ht">The field encompassing the teaching and learning of languages in formal and informal contexts; collocates with "language ___" (noun)</span></button></span>.
+      </p>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ── Fixed footer controls ── -->
+<div class="controls">
+  <div class="tally" id="tally">— / —</div>
+  <button class="btn primary" onclick="checkAnswers()">Check Answers</button>
+  <button class="btn" onclick="showAll()">Show All</button>
+  <button class="btn" onclick="resetAll()">Reset</button>
+</div>
+
+<!-- ── Modal ── -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Your Results</h2>
+    <div class="num" id="mNum"></div>
+    <p id="mMsg"></p>
+    <button class="btn primary" onclick="document.getElementById('overlay').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<script>
+  const gaps = () => document.querySelectorAll('.gap');
+  const norm = s => s.trim().toLowerCase();
+
+  /* Auto-resize */
+  gaps().forEach(inp => {
+    inp.addEventListener('input', () => {
+      inp.style.width = Math.max(72, inp.value.length * 10.5 + 14) + 'px';
+    });
+    inp.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const all = [...gaps()];
+      const next = all[all.indexOf(inp) + 1];
+      if (next) next.focus();
+    });
+  });
+
+  function checkAnswers() {
+    let correct = 0, total = 0;
+    gaps().forEach(g => {
+      total++;
+      const filled = norm(g.value);
+      if (!filled) return;
+      if (filled === norm(g.dataset.answer)) {
+        g.classList.add('correct'); g.classList.remove('wrong'); correct++;
+      } else {
+        g.classList.add('wrong'); g.classList.remove('correct');
+      }
+    });
+    document.getElementById('tally').innerHTML = `<em>${correct}</em> / ${total}`;
+    const pct = Math.round(correct / total * 100);
+    document.getElementById('mNum').textContent = `${correct} / ${total}`;
+    document.getElementById('mMsg').textContent =
+      pct === 100 ? 'Outstanding — every gap correct!' :
+      pct >= 75   ? 'Excellent work. Review the highlighted gaps.' :
+      pct >= 50   ? 'Good effort. Focus on the red gaps and try again.' :
+                    'Keep going — use the hints and re-read carefully.';
+    document.getElementById('overlay').classList.add('open');
+  }
+
+  function showAll() {
+    const all = [...gaps()];
+    all.forEach(g => {
+      g.value = g.dataset.answer;
+      g.style.width = Math.max(72, g.value.length * 10.5 + 14) + 'px';
+      g.classList.remove('wrong'); g.classList.add('correct');
+    });
+    document.getElementById('tally').innerHTML = `<em>${all.length}</em> / ${all.length}`;
+  }
+
+  function resetAll() {
+    gaps().forEach(g => {
+      g.value = ''; g.style.width = '';
+      g.classList.remove('correct', 'wrong');
+    });
+    document.getElementById('tally').textContent = '— / —';
+  }
+</script>
+</body>
+</html>
