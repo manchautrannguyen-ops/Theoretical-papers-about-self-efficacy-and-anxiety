@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language Anxiety: A Review of the Research for Language Teachers</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300;1,8..60,400&display=swap');
+
+  :root {
+    --cream: #f5f0e8;
+    --ink: #1a1614;
+    --burgundy: #7a1f2e;
+    --gold: #b8962e;
+    --warm-gray: #e8e2d8;
+    --mid-gray: #9a9088;
+    --light-ink: #3a3230;
+    --correct: #2d6a4f;
+    --incorrect: #9b2335;
+    --highlight: #fff3cd;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.82;
+    padding: 0;
+  }
+
+  .page-wrapper {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  /* Header */
+  .chapter-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4em;
+    font-style: italic;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .author {
+    text-align: center;
+    font-style: italic;
+    color: var(--mid-gray);
+    font-size: 0.95em;
+    margin-bottom: 4px;
+  }
+
+  .affiliation {
+    text-align: center;
+    color: var(--mid-gray);
+    font-size: 0.88em;
+    margin-bottom: 40px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--gold);
+    margin: 36px 0;
+    opacity: 0.5;
+  }
+
+  /* Section headings */
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05em;
+    font-weight: 700;
+    font-style: italic;
+    text-align: center;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 44px 0 20px;
+  }
+
+  .subsection-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05em;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 36px 0 14px;
+  }
+
+  /* Paragraphs */
+  p {
+    margin-bottom: 1.1em;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4em;
+    float: left;
+    line-height: 0.82;
+    margin: 0.08em 0.08em 0 0;
+    color: var(--burgundy);
+    font-weight: 700;
+  }
+
+  /* Gap input */
+  .gap {
+    display: inline-block;
+    position: relative;
+  }
+
+  .gap input {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.95em;
+    border: none;
+    border-bottom: 2px solid var(--burgundy);
+    background: transparent;
+    color: var(--ink);
+    padding: 0 4px 1px;
+    width: 130px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    text-align: center;
+  }
+
+  .gap input:focus {
+    border-bottom-color: var(--gold);
+    background: rgba(184,150,46,0.06);
+  }
+
+  .gap input.correct {
+    border-bottom-color: var(--correct);
+    background: rgba(45,106,79,0.08);
+    color: var(--correct);
+  }
+
+  .gap input.incorrect {
+    border-bottom-color: var(--incorrect);
+    background: rgba(155,35,53,0.08);
+    color: var(--incorrect);
+  }
+
+  .gap input.revealed {
+    border-bottom-color: var(--gold);
+    background: rgba(184,150,46,0.12);
+    color: var(--burgundy);
+    font-style: italic;
+  }
+
+  /* Italics in text */
+  em { font-style: italic; }
+  strong { font-weight: 700; }
+
+  /* Figure */
+  .figure-container {
+    margin: 36px auto;
+    text-align: center;
+    border: 1px solid var(--warm-gray);
+    padding: 24px 20px 16px;
+    background: #fff;
+  }
+
+  .figure-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 14px;
+  }
+
+  .figure-caption {
+    font-size: 0.88em;
+    font-style: italic;
+    color: var(--light-ink);
+    line-height: 1.5;
+  }
+
+  /* Table */
+  .table-container {
+    margin: 32px 0;
+  }
+
+  .table-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+  }
+
+  table caption {
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+
+  thead tr {
+    border-bottom: 2px solid var(--ink);
+    border-top: 2px solid var(--ink);
+  }
+
+  th {
+    padding: 6px 10px;
+    text-align: left;
+    font-weight: 700;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  td {
+    padding: 5px 10px;
+    border-bottom: 1px solid var(--warm-gray);
+    vertical-align: top;
+  }
+
+  .table-section-row td {
+    padding-top: 12px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--mid-gray);
+  }
+
+  .table-indent {
+    padding-left: 24px !important;
+  }
+
+  /* Footnote */
+  .footnote {
+    font-size: 0.83em;
+    color: var(--light-ink);
+    line-height: 1.55;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--warm-gray);
+  }
+
+  /* Buttons */
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 1px solid var(--warm-gray);
+    padding: 14px 0 12px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.88em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1.5px solid;
+    padding: 8px 22px;
+    transition: all 0.18s;
+    background: transparent;
+  }
+
+  .btn-check {
+    border-color: var(--burgundy);
+    color: var(--burgundy);
+  }
+
+  .btn-check:hover {
+    background: var(--burgundy);
+    color: var(--cream);
+  }
+
+  .btn-reveal {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .btn-reveal:hover {
+    background: var(--gold);
+    color: var(--cream);
+  }
+
+  .btn-reset {
+    border-color: var(--mid-gray);
+    color: var(--mid-gray);
+  }
+
+  .btn-reset:hover {
+    background: var(--mid-gray);
+    color: var(--cream);
+  }
+
+  .score-display {
+    font-size: 0.88em;
+    color: var(--ink);
+    font-style: italic;
+    min-width: 90px;
+    text-align: center;
+  }
+
+  /* Score bar */
+  .score-bar-wrap {
+    width: 120px;
+    height: 6px;
+    background: var(--warm-gray);
+    border-radius: 3px;
+    overflow: hidden;
+    display: none;
+  }
+
+  .score-bar {
+    height: 100%;
+    background: var(--burgundy);
+    border-radius: 3px;
+    transition: width 0.4s;
+  }
+
+  /* References */
+  .references p {
+    text-indent: -24px;
+    padding-left: 24px;
+    text-align: left;
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+  }
+
+  .references p:first-of-type::first-letter {
+    font-size: 1em;
+    float: none;
+    line-height: inherit;
+    margin: 0;
+    color: inherit;
+    font-weight: inherit;
+  }
+
+  @media (max-width: 600px) {
+    .page-wrapper { padding: 28px 18px 60px; }
+    .chapter-title { font-size: 1.7em; }
+    .gap input { width: 100px; }
+    .controls { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <div class="controls">
+    <button class="btn btn-check" onclick="checkAnswers()">Check Answers</button>
+    <button class="btn btn-reveal" onclick="revealAnswers()">Reveal Answers</button>
+    <button class="btn btn-reset" onclick="resetAll()">Reset</button>
+    <span class="score-display" id="scoreDisplay"></span>
+    <div class="score-bar-wrap" id="scoreBarWrap"><div class="score-bar" id="scoreBar"></div></div>
+  </div>
+
+  <p class="chapter-label">Chapter 3</p>
+  <h1 class="chapter-title">Language Anxiety: A Review of the Research<br>for Language Teachers</h1>
+  <p class="author">Peter D. MacIntyre</p>
+  <p class="affiliation">University College of Cape Breton</p>
+
+  <hr class="divider">
+
+  <p>The 1990s have seen a virtual explosion of research into the topic of language anxiety. A number of articles have been published that demonstrate the pervasive effects that anxiety has on the language-learning process. The purpose of this chapter<sup>1</sup> is to review that body of work with the language teacher and student in mind.</p>
+
+  <p>Anxiety is one of those topics on which significant differences of opinion can be found. Some people believe that anxiety is a minor inconvenience for a language student, perhaps an excuse for not participating in class or a guise to hide a lack of study. Others seem to feel that anxiety may be the linchpin of the entire affective reaction to language learning and that, as soon as students are made to feel relaxed, immediate positive results will be forthcoming. Noteworthy is that language learning is not alone in stimulating this sort of debate about the importance of anxiety; over the years similar discussions have occurred in the research literature on <span class="gap"><input type="text" data-answer="communication apprehension" placeholder="___________" autocomplete="off" spellcheck="false"></span> (Daly &amp; McCroskey 1984) and test anxiety (Saraon 1980, 1986).</p>
+
+  <p>The opposing views on the importance of language anxiety have also been expressed in the research literature. Campbell and Ortiz (1991) state that the level of anxiety in language classrooms is "alarming"; Horwitz and Young (1991b) estimate that half of the students enrolled in language courses experience <span class="gap"><input type="text" data-answer="debilitating" placeholder="___________" autocomplete="off" spellcheck="false"></span> levels of language anxiety. However, a contrasting view is expressed by researchers such as Sparks and Ganschow (1991, 1993a, 1993b), who argue that studying anxiety does not add much to our understanding of the language achievement. For them, language anxiety is an unfortunate by-product of difficulties rooted in native-language coding.</p>
+
+  <p>The following review of the literature shows that anxiety can influence both language learning and communication processes. It should be noted, however, that other factors, such as learning strategies, aptitude, attitudes, and motivation, also play a role in successful language learning. However, the focus here will be on the role of language anxiety.</p>
+
+  <p>Several issues will be addressed in order to capture the state of the art in language anxiety research. The first issue is conceptual; it is important to clearly define what <em>language anxiety</em> means. Second, the development of language anxiety will be considered. This issue can be tied to the conceptualization of anxiety and some interesting findings reported in the literature. Finally, we will examine the effects of language anxiety in four main areas: academic, cognitive, social, and personal. One issue that will be left for other contributors to this volume is methods for the remediation of language anxiety; some interesting instructional approaches have been proposed, and readers may find it useful to apply and evaluate the pedagogical suggestions offered for their potential effectiveness in different programs.</p>
+
+  <h2 class="section-heading">Understanding Language Anxiety Conceptualization and Research</h2>
+
+  <p>To understand the conceptualization of language anxiety and the research from which most theoretical frameworks in anxiety are based, an explanation of correlational research may be useful. Since anxiety is an abstract psychological phenomenon, most of the research in this field—and summarized in this chapter—relies on data from questionnaires, self-reports, and interviews. Most analyses of this data, with the exception of interview data, consist of correlations between and/or among variables. For example, to ascertain the relationship between language anxiety and test anxiety, researchers use <span class="gap"><input type="text" data-answer="correlational" placeholder="___________" autocomplete="off" spellcheck="false"></span> analysis whereby they measure how similar and different learners' responses are to questionnaire or self-report items designed to measure language anxiety and test anxiety. One statistical technique that can be used to measure the amount of relationship between two distributions of scores is called the <em>Pearson Product Moment Correlation</em>, or the <em>Pearson r</em>. A Pearson r of .90 indicates a very strong relationship between two variables.<sup>2</sup> If we square the correlation, it means that only 19% of the variance shared between the two variables is due to chance, whereas 81% is due to some type of relationship between the two variables. A correlation of .40 may still be considered worthwhile because it indicates that although much of the relationship is unexplained, 16% of the variance indicates some relationship between the variables. The lower the correlation, which runs from <u>0 to 1</u>, the weaker the relationship between the variables; the higher the correlation, the stronger the relationship.</p>
+
+  <p>Correlational research does not indicate cause and effect. It merely indicates the strength and direction of a relationship among two or more variables. A positive relationship between two variables indicates that as the amount of one variable goes up, the other variable also goes up. The relationship of the variables moves in the same direction. For example, a positive correlation between language anxiety and test anxiety would mean that as language anxiety increases, so does test anxiety, and vice versa. A negative relationship means that as the amount of one variable goes up, the other variable goes down. In this case, the relationship of the variables moves in opposite directions. For example, a negative relationship between language anxiety and language performance indicates that as language anxiety increases, language performance decreases, and vice versa. No correlation between two variables indicates that the variables appear to be <span class="gap"><input type="text" data-answer="unrelated" placeholder="___________" autocomplete="off" spellcheck="false"></span> in that sample.</p>
+
+  <p>Correlational analysis helps researchers understand differences and similarities among <span class="gap"><input type="text" data-answer="constructs" placeholder="___________" autocomplete="off" spellcheck="false"></span>, which in turn can inform researchers about psychological constructs.</p>
+
+  <h2 class="section-heading">Conceptualization</h2>
+
+  <p>Horwitz, Horwitz, and Cope (1986), in the introduction to their seminal article on language anxiety, note that "research has neither adequately defined foreign language anxiety nor described its specific effects on foreign language learning" (p. 125). At the time, the term <em>foreign language anxiety</em>, or more simply <em>language anxiety</em>, was just beginning to be used in the literature. This allowed for a more focused conceptual basis from which later research has flourished.</p>
+
+  <p>Horwitz and Young (1991b, p. 1) note that there are two general approaches to identifying language anxiety: (1) language anxiety is simply a transfer of anxiety from another domain (for example, test anxiety) or (2) something about language learning makes language anxiety a unique experience. These two approaches are not necessarily opposing positions but represent different perspectives from which to define language anxiety.</p>
+
+  <p>Theorists who adopt the first perspective view language anxiety as the transfer of other forms of anxiety, such as test anxiety or <span class="gap"><input type="text" data-answer="communication apprehension" placeholder="___________" autocomplete="off" spellcheck="false"></span>, into the second language domain. The advantage of this approach is that knowledge gained from research into those other types of anxiety can be assumed to apply to language anxiety as well. For example, Kleinmann (1977) considered the effect that forms of test anxiety might have on the use of difficult linguistic structures in the second language. Daly (1991) discussed the manner in which communication apprehension may operate in a second language context, and Mejias, Applbaum, Applbaum, and Trotter (1991) studied the communication apprehension of American and Hispanic-American students. Early studies conducted on anxiety and language learning used the "anxiety transfer" approach (see Scovel 1978) and found mixed and confusing results. Perhaps the best example is a study by Chastain (1975), which reported positive, negative, and near zero-correlations between anxiety and second language learning in three languages: French, German, and Spanish. While the correlations between anxiety and language learning were tested for all three languages, the directions of the correlations were not consistent. For example, for one, language anxiety was positively related to language performance: the higher the anxiety, the higher the performance. For another language, Chastain found negative correlations between anxiety and language learning: the higher the anxiety, the lower the language performance. In this same study, results also indicated no relationship between anxiety and performance. The implications of Chastain's results are difficult to interpret because the same study indicates that anxiety facilitates second language performance, and that there is no relationship between anxiety and performance. The other studies reported in Scovel's (1978) review of the literature showed similar contradictory results, both within and across studies. A summary compiled by Young (1991) listed sixteen studies of anxiety and language learning (see pp. 438–439). Several of the investigations showed some relation between anxiety and language learning, but, overall, the results were fairly inconsistent.</p>
+
+  <p>One of the problems associated with the research on the relationship between anxiety and language learning, as summarized by Scovel (1978) and Young (1991), is that the anxiety being studied was not what we would now consider to be language anxiety (MacIntyre &amp; Gardner 1991a). For example, among the sixteen described by Young (1991), only three used a specific language anxiety scale. As Young indicates, this produced "scattered and inconclusive" results. For example, the study by Chastain (1975), mentioned previously, used scales of test anxiety and trait anxiety. Recent research has shown that these types of anxiety are not consistently related to <span class="gap"><input type="text" data-answer="second language" placeholder="___________" autocomplete="off" spellcheck="false"></span> learning (MacIntyre &amp; Gardner 1989). The body of research reviewed by Scovel (1978) was consistent in assuming that anxiety from one domain could influence language learning. The results, however, did not support this assumption.</p>
+
+  <p>The second approach to identifying language anxiety proposes that language learning produces a unique type of anxiety. From this perspective, we can define language anxiety as the worry and negative emotional reaction aroused when learning or using a second language. MacIntyre and Gardner (1989, 1991b) found that language anxiety was distinct from more general types of anxiety and that <span class="gap"><input type="text" data-answer="performance" placeholder="___________" autocomplete="off" spellcheck="false"></span> in the second language was negatively correlated with language anxiety but not with more general types of anxiety. In other words, the higher the language anxiety score, the lower the language performance score. However, this pattern was not maintained for other types of anxiety measures. Since the mid-1980s, research has supported Gardner's (1985) hypothesis that "a construct of anxiety which is not general but instead is specific to the language acquisition context is related to second language achievement" (p. 34).</p>
+
+  <p>Whereas some of the early studies focused on language anxiety yielded conflicting conclusions (Scovel 1978), several studies by Gardner, Clément, and associates were able to show a consistent, negative relation between anxiety and language performance (Clément, Gardner, &amp; Smythe, 1977, 1980; Gardner, Smythe, Clément, &amp; Gliksman 1976; Gardner, Smythe, &amp; Lalonde 1984). These studies demonstrated that high levels of language anxiety were associated with low levels of achievement in the second language. Because the preceding studies were conducted in the broader context of research on attitudes and motivation for second language learning, and not exclusively on language anxiety, their contribution to the literature on language anxiety is sometimes overlooked. Nevertheless, these studies employed measures of anxiety experienced when using the second language, and the results were highly consistent in demonstrating a negative correlation between anxiety and indices of language achievement.</p>
+
+  <p>Bridging the two perspectives identified at the beginning of this section, Horwitz and associates (1986) argue that language anxiety stems from three primary sources: <span class="gap"><input type="text" data-answer="communication apprehension" placeholder="___________" autocomplete="off" spellcheck="false"></span>, fear of negative evaluation by others, and test anxiety. Some support has been obtained for each of these sources (Horwitz 1986; MacIntyre &amp; Gardner 1989, 1991a, 1991b, 1991c). However, Horwitz and associates (1986) do not view language anxiety as the simple transfer of these three anxieties to the language classroom; they regard language anxiety as "a distinct complex of self-perceptions, beliefs, feelings, and behaviors related to classroom language learning arising from the uniqueness of the language-learning process." It is now clear that when discussing the effects of anxiety on language learning, one must specifically consider the anxiety aroused in second language contexts.</p>
+
+  <p>Even if one views language anxiety as being a unique form of anxiety, specific to second language contexts, it is still instructive to explore the links between it and the rest of the anxiety literature. It is hoped that this will lead to a clearer understanding of what language anxiety means. To place language anxiety in the broader context of research on anxiety (see Endler 1980; Levitt 1980), it is useful to distinguish between three broad perspectives on the nature of anxiety. These perspectives can be identified as <span class="gap"><input type="text" data-answer="trait" placeholder="___________" autocomplete="off" spellcheck="false"></span>, situation-specific, and state anxiety (see Cattell &amp; Schier 1963; MacIntyre &amp; Gardner 1989, 1991a; Speilberger 1966). An explanation of these types of anxieties will help clarify some of the issues involved in the discussion of the research to follow.</p>
+
+  <p>Trait anxiety refers to a stable predisposition to become nervous in a wide range of situations (Speilberger 1983). People with high levels of trait anxiety are generally nervous people; they lack emotional stability (Goldberg 1993). Someone with low trait anxiety is emotionally stable, usually a calm and relaxed person. Trait anxiety is, by definition, a feature of an individual's personality and therefore is both stable over time and applicable to a wide range of situations. Speilberger (1983) defines trait anxiety as a probability of becoming anxious in any situation.</p>
+
+  <p>The second level at which to conceptualize anxiety can be referred to as situation-specific. This is like trait anxiety, except applied to a single context or situation only. Thus it is stable over time but not necessarily consistent across situations. Examples of situation-specific anxieties are stage fright, test anxiety, math anxiety, and language anxiety because each of these refers to a specific type of context: giving a speech, taking a test, doing math, or using a second language. Each situation is different; a person may be nervous in one and not in the others. If one adopts Speilberger's conceptualization, <span class="gap"><input type="text" data-answer="situation-specific" placeholder="___________" autocomplete="off" spellcheck="false"></span> anxieties represent the probability of becoming anxious in a particular type of situation.</p>
+
+  <p>The term <em>state anxiety</em> is used in a somewhat different manner. State anxiety refers to the moment-to-moment experience of anxiety; it is the transient emotional state of feeling nervous that can fluctuate over time and vary in intensity. It is important to stress that state anxiety is essentially the same experience whether it is caused by test taking, public speaking, meeting the fiancé's parents, or trying to <span class="gap"><input type="text" data-answer="communicate" placeholder="___________" autocomplete="off" spellcheck="false"></span> in a second language. Both trait anxiety and situation-specific anxieties refer to the likelihood of becoming nervous in a certain type of situation. They do not refer to the experience of anxiety itself, which is best labelled <em>state anxiety</em>. State anxiety has an effect on emotions, cognition, and behavior. Its effect on emotions results in heightened levels of arousal and a more sensitive automatic nervous system; individuals with state anxiety feel energized or "keyed-up," but anything above a minimal level of anxiety is perceived as unpleasant arousal. In terms of its effect on cognition, when people experience state anxiety they are more sensitive to what other people are thinking of them (Carver &amp; Scheier 1986). With regard to behavior, people with state anxiety evaluate their behavior, ruminate over real and imagined failures, and often try to plan ways to escape from the situation. The behavioral effects include physical manifestations of anxiety (wringing hands, sweaty palms, faster heartbeat) and attempts to physically withdraw from the situation.</p>
+
+  <p>The usefulness of discussing trait and situation-specific anxieties is to predict who will most likely experience state anxiety, which allows the prediction of the negative consequences of anxiety arousal (unpleasant emotions, worry, and physical symptoms). Applied to language learning, we can see that a person with a high level of language anxiety will experience state anxiety frequently; a person with a low level of language anxiety will not experience state anxiety very often in the <em>second language context</em>.</p>
+
+  <p>From a theoretical perspective, language anxiety is a form of situation-specific anxiety; therefore, research on language anxiety should employ measures of anxiety experienced in second language contexts. There are various questionnaire-type scales available that ask students to indicate how anxious they feel in the language classroom (Gardner 1985; Horwitz et al. 1986) (see Appendices A and B at the end of this volume) when using the new language (MacIntyre &amp; Gardner 1988) (see Appendix C) and when learning the language (MacIntyre &amp; Gardner 1994b) (see Appendix D). MacIntyre and Gardner (1988) and Young (1995) have compiled an extensive list of scales measuring language-related and other types of anxiety (see Appendix E). It is research on the relation between language anxiety and other types of anxiety that has clarified the conceptualization of the construct. Let us now consider those studies in more detail.</p>
+
+  <h2 class="section-heading">Relation of Language Anxiety to Other Anxieties</h2>
+
+  <p>Before discussing the results of the studies, a brief description of the statistical method called <em>factor analysis</em> is needed. Factor analysis is a technique for analyzing the relationships within a set of variables. Factor analysis uses the correlations among variables to identify those variables that occur in clusters. Each cluster of variables is separate from other clusters of variables. By examining the variables that cluster, patterns of relationships and influences common to several variables can be identified. These common, underlying influences are called <em>factors</em>. It is possible for any variable to be influenced by only one factor or by several different factors. One of the purposes of <span class="gap"><input type="text" data-answer="factor analysis" placeholder="___________" autocomplete="off" spellcheck="false"></span> is to take a large set of variables and summarize them by identifying a smaller number of factors (Tabachnick &amp; Fidell 1989).</p>
+
+  <p>Following up on a similar study done in 1989, MacIntyre and Gardner (1991b) employed factor analysis to investigate the relations among various anxiety scales. They assembled a total of 23 scales representing trait anxiety, state anxiety, audience anxiety, <span class="gap"><input type="text" data-answer="communication apprehension" placeholder="___________" autocomplete="off" spellcheck="false"></span>, interpersonal anxiety, novelty anxiety, math anxiety, two measures of French test anxiety, French use anxiety, and French classroom anxiety. Results of a factor analysis showed that, among this large set of anxiety variables, there were three clusters of anxieties. The first factor was found to include most of the anxiety scales (including measures of trait anxiety, communication apprehension, interpersonal anxiety, and others) and was labelled <em>General anxiety</em>. The second factor was found to be <em>State anxiety</em>. The third factor, separate from the other two, was composed of <em>French use anxiety</em>, <em>French classroom anxiety</em>, and two measures of <em>French test anxiety</em>. This factor was labelled <em>Language anxiety</em>. The procedure used for this factor analysis specified that there could be no correlation among the anxiety factors. Thus, it is possible to separate language anxiety from other forms of anxiety.</p>
+
+  <p>The practical implications of this in the language classroom are interesting. Because the types of anxiety are relatively separate, it may be difficult to predict who will experience language anxiety. On the positive side, those who experience considerable anxiety in other courses may not feel at all nervous about learning a second language. Unfortunately, in some cases, students who have never experienced anxiety about any other subject may develop language anxiety. Even highly intelligent, capable students could experience debilitating levels of language anxiety. Teachers may find that these students are especially troubled about their perceived inability to learn languages. If a capable student is experiencing trouble in a language course, it is possible that language anxiety is at fault. Proper diagnosis of the nature of the problem and, if anxiety is an issue, steps taken to relieve the <span class="gap"><input type="text" data-answer="apprehension" placeholder="___________" autocomplete="off" spellcheck="false"></span> may prove especially successful with these students.</p>
+
+  <p>In summary, language anxiety is a <span class="gap"><input type="text" data-answer="situation-specific" placeholder="___________" autocomplete="off" spellcheck="false"></span> form of anxiety that does not appear to bear a strong relation to other forms of anxiety. This means that it is difficult to predict those students likely to experience this type of anxiety. Teachers may want to pay special attention to those students for whom anxiety about learning is a relatively new experience; they may be the ones for whom the negative effects of anxiety can most easily be reversed. To see how the effects of language anxiety may be ameliorated, let us consider the manner in which it may have developed.</p>
+
+  <h2 class="section-heading">Development of Language Anxiety</h2>
+
+  <p>Unfortunately, there is not much empirical research on the origins of language anxiety. Several authors have identified the potential sources of language anxiety based on their experience, theoretical sophistication, and discussions with anxious language learners (Bailey 1983; Horwitz et al. 1986; Lucas 1984; Young 1992). In addition, a model has been proposed that is consistent with research in other areas of psychology and communication.</p>
+
+  <p>Based on the work of Horwitz and associates (1986) and others (e.g., Lucas 1984; Young 1986), MacIntyre and Gardner (1989) described the way in which language anxiety is likely to develop. At the earliest stages of language learning, a student will encounter many difficulties in learning, comprehension, grammar, and other areas. If that student becomes anxious about these experiences, if he/she feels uncomfortable making mistakes, then <span class="gap"><input type="text" data-answer="state anxiety" placeholder="___________" autocomplete="off" spellcheck="false"></span> occurs. After experiencing repeated occurrences of state anxiety, the anxiety student comes to associate anxiety arousal with the second language. When this happens, the student <em>expects</em> to be anxious in second language contexts; this is the genesis of language anxiety. Note that this is consistent with the preceding discussion of the difference between state and situation-specific anxiety.</p>
+
+  <p>This model is also consistent with psychological theories of the development of anxiety and other emotions, such as communication apprehension (McCroskey &amp; Beatty 1984). Beatty and Andriate (1985) have proposed that a similar process underlies the development of a similar situation-specific anxiety: public speaking anxiety. Beatty and Andriate found support for the model just described when tested at the beginning and end of a communication course in which students were required to give public speeches. Initially, state anxiety experiences did not correlate significantly with scores on a public speaking anxiety scale, but after some experience with giving speeches, the two measures were significantly correlated.</p>
+
+  <p>This model also describes how language anxiety can come to be separate from other types of anxiety. Language anxiety occurs when a student reliably associates anxiety with the second language. Students doing well in other courses may find language-learning to be very different, possibly because of personality, specific problems with language acquisition, or specific reactions to a language learning context. As noted by Skehan (1991) and others, a shy, introverted personality will usually do well in most school subjects. However, the extrovert is more likely to enjoy the communication associated with language learning; thus the introvert may find language learning to be a very different experience. With respect to language acquisition deficits, Sparks and Ganschow (1991) suggest that students doing well in other courses may experience language anxiety because they have specific language-encoding difficulty. Such students may develop strategies to compensate for the problem in the native language but not in the second language (MacIntyre 1995). Finally, the native language but not in the second language (MacIntyre 1995). Finally, it is also possible that a specific teacher, set of classmates, or intercultural setting provokes an intense anxiety reaction (Bailey 1983; Clément 1980; Clément, Dörnyei, &amp; Noels 1994), possibly because self-esteem, self-presentation, identity, and the ability to communicate are so intimately tied (Brown 1991; Cohen &amp; Norst 1989). For these reasons, language learning may provoke reactions that are quite different from those instilled in other learning situations.</p>
+
+  <p>Several authors have examined the potential origins of language anxiety. Price (1991) summarized several sources of language anxiety in the classroom. She noted that students seemed to be most concerned about speaking in front of their peers. Fear of being laughed at, embarrassed, and making a fool of oneself are major concerns of anxious language students. The more technical aspects of language learning also cause problems among students. Price's interviews show that students were very concerned about making errors in pronunciation and that they in particular wished to develop an accent that approximated that of a native speaker. Students were also worried about not communicating effectively. These fears about communicating and social evaluation are likely based on a students' relationships with their teacher and peers, although Clément, Dörnyei, and Noels (1994) did not find ratings of group cohesion to be correlated with language anxiety.</p>
+
+  <p>Young (1991) offered a more extensive list of the potential sources of language anxiety, stemming from the learner, the teacher, and instructional practice. A learner's personal problems, such as low <span class="gap"><input type="text" data-answer="self-esteem" placeholder="___________" autocomplete="off" spellcheck="false"></span>, and interpersonal problems, like competitiveness and fear of losing one's sense of identity, can be the seeds for anxiety. Unrealistic learner beliefs, such as beliefs about how quickly the language can be learned or that speakers need excellent accent and pronunciation, add to the apprehension. Further, some instructors believe that they must become drill sergeants and/or intimidate their students into learning; these behaviors can cause anxiety. The method of error correction may sour the relationship between teacher and student and lead to nervous students, especially if harsh, embarrassing error correction is done in front of other students. Finally, methods of testing may arouse anxiety, though oral testing is not always the most disturbing (see Madsen, Brown, &amp; Jones 1991).</p>
+
+  <p>In cases where language learning occurs in a multicultural setting, Clément (1980) notes that the frequency and quality of contact with native speakers will have an important influence on anxiety levels. Ultimately, motivation for language learning will be based on a tension created between the desire to learn a new language/culture and the opposing fear of losing one's own language and ethnic identity. Within this framework, Clément (1980, 1986) considers language anxiety to be part of a larger construct called <em>self-confidence</em>, which also includes the perception of proficiency in the second language. Low levels of anxiety, a positive self-perception of proficiency, and high levels of self-confidence are seen as a second motivational process for language learning.</p>
+
+  <p>MacIntyre and Noels (1994) found evidence that students' self-perceptions of their <span class="gap"><input type="text" data-answer="proficiency" placeholder="___________" autocomplete="off" spellcheck="false"></span> may be affected by language anxiety. On one hand, students with high levels of language anxiety tend to underestimate their ability to speak, comprehend, and write the second language. On the other hand, the more relaxed students tended to overestimate their ability in these areas. Having expectations of failure may be an important manner in which anxious students maintain their high levels of anxiety. By underestimating their ability, anxious students may avoid those learning/and communication activities that would both validate their current level of ability and facilitate language learning. Language anxiety affects not only the way in which learners perform but also the way in which they perceive their performance, which can serve to maintain high levels of anxiety.</p>
+
+  <p>The personality of the learner seems to predispose him or her to developing language anxiety. Based on work by Lalonde and Gardner (1984), who found that personality traits may indirectly influence language learning, MacIntyre and Charos (1995) investigated the role of personality in the development of language-related attitudes, motivation, and language anxiety among beginning language students. The results show that language anxiety is more closely related to introversion than it is to a personality trait of nervousness. This is consistent with the previous research showing that general anxiety does not necessarily dispose a student to language anxiety (MacIntyre &amp; Gardner 1989, 1991b). The data supports the suggestion that people who are shy and introverted are likely to develop language anxiety, possibly because they are less willing to engage in the communication necessary for language-learning success (for a practical discussion see Brown 1991). The results further show that language anxiety influences a student's desire to <span class="gap"><input type="text" data-answer="affiliate" placeholder="___________" autocomplete="off" spellcheck="false"></span> with members of the second language community, which has been shown to affect motivation for language learning (e.g., Clément, Dörnyei, &amp; Noels 1994; Gardner &amp; Tremblay, this volume).</p>
+
+  <p>Overall, the single most important source of language anxiety seems to be the fear of speaking in front of other people using a language with which one has limited proficiency. For this reason, language learning has more potential for students to embarrass themselves, to frustrate their self-expression, and to challenge their self-esteem and sense of identity than almost any other learning activity. Cohen and Norst (1989) describe the concern well when they say, "there is something fundamentally different about learning a language, compared to learning another skill or gaining other knowledge, namely, that language and self are so closely bound, if not identical, that an attack on one is an attack on the other" (p. 61).</p>
+
+  <p>In summary, it would appear that the development of language anxiety is partly based in the personality of the individual student. Those who are shy appear to be more likely to develop language anxiety. However, those who tend to be nervous individuals do not appear to be disposed toward language anxiety. Further, the results reported in the literature are consistent with the notion that negative experiences, both inside and outside the second language classroom, contribute to the development of a situational-type anxiety, language anxiety (Aida 1994; Young 1991; but see Clément, Dörnyei, &amp; Noels 1994). It appears likely that one of the reasons language anxiety persists is its negative effect on a students' self-perception of proficiency.</p>
+
+  <p>The results reported above represent only the first steps in understanding the sources of language anxiety; further research into its development would likely be productive. Once the origins of language anxiety are more completely understood, we may be in an even better position to explain its effects on language achievement.</p>
+
+  <h2 class="section-heading">Effects of Language Anxiety</h2>
+
+  <p>Interest in language anxiety may be most strongly related to its effects. One of the major reasons for concern, particularly among educators and administrators, is its potential negative effect on academic achievement, including course grades and standardized <span class="gap"><input type="text" data-answer="proficiency" placeholder="___________" autocomplete="off" spellcheck="false"></span> tests (Cope-Powell 1991; Young 1986). Students also may spend a considerable amount of time and effort simply compensating for the effects of debilitating levels of language anxiety, because anxiety arousal has a number of specific cognitive effects (MacIntyre &amp; Gardner 1994a, 1994b; Price 1991). In addition, the importance of language learning in the global economy may make language anxiety a barrier to a successful career (Daly 1991) and to successful interpersonal relations (Clément 1980; 1986). In addition, the unpleasant personal experience of a severe anxiety reaction makes its effect on the person a major concern as well. Each of these effects, academic, cognitive, social, and personal, will be examined below.</p>
+
+  <h2 class="subsection-heading">Academic Effects</h2>
+
+  <p>Several studies have investigated the relation between language anxiety and language course grades. For example, Aida (1994), Horwitz (1986), MacIntyre and Gardner (1994b), and Young (1986) have all shown significant, negative correlations between language anxiety and grades in a variety of language courses. These correlations range up to a high of r = −.65 (MacIntyre &amp; Gardner 1994b), which indicates the potential for a substantial relationship between anxiety and academic achievement in language courses.</p>
+
+  <p>In an extensive study reported in an article by Gardner, Smythe, Clément, and Gliksman (1976) and subsequently in a detailed monograph by Gardner, Smythe, and Lalonde (1984), the relation between attitudes, motivation, and anxiety was investigated in seven locations across Canada. The results pertaining to language anxiety indicated that it was among the strongest predictors of second language achievement and that the correlation between anxiety and course grades was strongest among students in higher grades, particularly in grade 11 (Gardner, Smythe, Clément, &amp; Gliksman 1976). Further, considering the nature of the different regions of the country and the various grade levels of the students, the results are remarkably consistent in showing that language anxiety was associated with both the perception of second language <span class="gap"><input type="text" data-answer="competence" placeholder="___________" autocomplete="off" spellcheck="false"></span> (Gardner, Smythe, &amp; Lalonde 1984). Clearly, low course grades and impaired performance on tests is one of the effects of language anxiety.</p>
+
+  <p>An additional academic effect of language anxiety can be identified as "overstudying" (Horwitz et al. 1986). It has been reported that students who experience anxiety feel the need to compensate for the negative effects of anxiety arousal by increased effort at learning (Price 1991), and experimental data shows this effect (MacIntyre &amp; Gardner 1994b). This is a common response when an individual notices that he or she is not performing well because of anxiety arousal (Eysenck 1979; Schwarzer 1986). In an academic setting, this often leaves students with lower levels of achievement than would be expected based on the work and time that they invest in language study. This complaint was noted prominently by Price (1991) in a series of interviews with nervous language learners.</p>
+
+  <p>It seems clear that high levels of language anxiety are associated with low levels of academic achievement in second or foreign language courses. To examine the origins of these effects, studies have been conducted to investigate specific cognitive processes required for language learning and the manner in which anxiety can interfere with <span class="gap"><input type="text" data-answer="cognition" placeholder="___________" autocomplete="off" spellcheck="false"></span>.</p>
+
+  <h2 class="subsection-heading">Cognitive Effects</h2>
+
+  <p>In a series of experiments to examine the effects of language anxiety on cognitive processing, MacIntyre and Gardner have shown that such effects may be quite pervasive. At the core of these studies is a model of the effects of anxiety arousal on learning from instruction, as in a language classroom (Tobias 1979, 1980, 1986). A variation on the Tobias model is shown in Figure 3.1. The model shows three stages—Input, Processing, and Output—and is generic enough to be applied to many types of situation-specific anxiety. The arousal of anxiety may interfere with cognitive performance at any or all of these stages. Briefly, anxiety arousal is associated with self-related cognition: thoughts of failure, worry over how one is performing in the situation, and self-deprecating thoughts. These types of thoughts compete for cognitive resources with normal cognitive demands (for example, in communicating one must encode the words, comprehend the meaning of phrases and the structure of a message, and plan what one is about to say next). Because the capacity to process information is limited, anxiety-related cognition usually hinders performance (Eysenck 1979). Further, if anxiety disrupts the cognitive work at one stage, then information is not passed along to the next stage.</p>
+
+  <p>At the input stage, anxiety acts like a filter preventing some information from getting into the cognitive processing system. This is analogous to Krashen's well-known concept of the "affective filter." For example, in language class, anxious students may not be able to take in spoken dialogue fast enough because anxiety interferes with their ability to process information. Relaxed students would be better able to gather information because they do not experience this type of interference. Naturally, if words or phrases do not enter the system, they cannot be processed or used later. Wheeless (1975) has identified this as the problem of "receiver apprehension," which has been shown to have a number of negative effects on communication (Preiss, Wheeless, &amp; Allen 1991).</p>
+
+  <p>During the processing stage, anxiety can influence both the speed and accuracy of learning. Because anxiety acts as a distraction, students may not be able to learn new words, phrases, grammar, and so on when they are worried. This worry may take the form of preoccupation with future communication or more simply the fear of misunderstanding something. Students who process information more deeply, who integrate it with existing knowledge, who attempt to understand both what they hear and its structure, create a better understanding of the language and its use. Research in the area of language-learning strategies shows that deeper processing of language input facilitates learning (Cohen 1990; Oxford &amp; Nyikos 1989).</p>
+
+  <p>Anxiety arousal at the output stage can influence the quality of second language communication. Many people have had the experience of "freezing-up" on an important test; they know the correct answer but it will not come to mind. This happens because the presence of anxiety acts as a disruption to the retrieval of information. Similar effects can be observed when speaking or writing in the second language; the correct word may be on the "tip of the tongue," but no amount of effort will bring it forward. If a student becomes embarrassed by this gaffe, anxiety may increase, making further communication even more difficult.</p>
+
+  <p>Several laboratory studies, informed by this three-stage model, have been conducted. The initial study (MacIntyre &amp; Gardner 1991b) examined the effects of language anxiety on the input and output stages. To examine the input stage, a task was used that did not require learning, only taking in second language stimuli. For this task, native English speakers were read a series of numbers spoken in English and another series spoken in French. The test required the listeners to write down the numbers on a sheet of paper in the same order in which the digits were presented. This kept interpretation and production of the second language to a minimum. To measure performance at the output stage, participants were asked to recall vocabulary items fitting a particular category, again in both English and French. Results showed that high levels of language anxiety were associated with low scores at both the input and output stages, but only for the second language tasks.</p>
+
+  <p>A later study expanded on these results by employing at least three measures of performance at each of the three stages: input, processing, and output (MacIntyre &amp; Gardner 1994b). Several of the tasks were constructed to show that language anxiety may affect one stage but not another, such as when increased effort at processing compensates for information missed during the input stage. Further, some of the tasks were administered in both native and second languages to again examine the degree to which language anxiety affects only second language processing.</p>
+
+  <p>Results show that performance at all three stages may be hindered by language anxiety but that the strongest correlations were observed for the processing and output stages. Significant correlations were obtained with time required to recognize words, ability to hold words in short-term memory, memory for grammar rules, ability to translate a paragraph, length of time studying new vocabulary items, memory for new vocabulary items, time required to complete a test of vocabulary, retrieval of vocabulary from long-term memory, ability to repeat items in native language (L1) and second language (L2), ability to speak with an L2 accent, complexity of sentences spoken, and fluency of speech. Further, it was shown that language anxiety is negatively correlated with second language tasks but not with native language tasks. Finally, the results clearly indicate that the effects of language anxiety on a particular task may be observed at one stage and not the others. Results on some tasks show that anxious students may require more time to intake information, but this extra effort can reduce the effects of language anxiety at later stages (in essence, the extra effort pays off, and performance at later stages is not affected by anxiety). Other tasks show that when giving extra effort is not an option (e.g., because of a time limit), language anxiety may hinder performance at the processing and output stages. MacIntyre and Gardner (1994b) conclude that "the potential effects of language anxiety on cognitive processing in the second language appear pervasive and may be quite subtle" (p. 301).</p>
+
+  <p>Two other studies were conducted that attempted to arouse anxiety during vocabulary learning to determine its effects on cognitive processing in a controlled environment. In both studies, a video camera was used to increase the anxiety of one group of learners. The first of these studies (Gardner, Day, &amp; MacIntyre 1992) examined both language anxiety and Gardner's concept of <span class="gap"><input type="text" data-answer="integrative motivation" placeholder="___________" autocomplete="off" spellcheck="false"></span> (Tremblay &amp; Gardner 1995). English-speaking students were required to complete an attitude and motivation test battery and then to learn French vocabulary items using a computer. Half of the subjects performed this task in the presence of a video camera. Results showed that students who were integratively motivated, that is motivated to learn French in order to meet and communicate with Francophones, learned the vocabulary at a faster pace. The video camera, however, did not appear to affect the rate of learning, possibly because it did not create the expected elevation in anxiety.</p>
+
+  <p>A more extensive follow-up study (MacIntyre &amp; Gardner 1994a) also tried using a video camera to arouse anxiety. To examine the effects of anxiety arousal on the three stages of learning, four groups were created by introducing the video camera immediately before the input, processing, or output stages; a control group never saw the video camera. All learners were told that they were learning the new vocabulary in order to use the items later in the study. Analysis of learners' reactions showed that this emphasis on communication may have made the video camera more effective in arousing anxiety because each group showed the expected elevation in anxiety just after the camera was introduced. Further, as the anxiety dissipated, the effects on learning diminished, and formerly anxious students were partially able to compensate for deficits created by anxiety. However, the results showed that the anxious students were not fully able to make up the deficit within the time span of the experiment. Thus, the effects of anxiety are strongest immediately after it is aroused, dissipate with time, and can be overcome if sufficient time and effort are given.</p>
+
+  <p>The effects of anxiety observed in this study were considered to be analogous to the effect of anxiety on a language student. When anxiety is aroused, students may need more time to achieve the same results as their relaxed counterparts. Anxious students may also take more time to write tests, and the quality of their written or spoken output may be diminished. In any event, a nervous student risks performing more poorly than a relaxed one.</p>
+
+  <p>It should be made clear that the effects of anxiety on cognitive processes are a consequence of state anxiety arousal. As defined previously, language anxiety can be defined as the tendency to experience a state anxiety reaction during language learning or communication. This accounts for the correlation observed between language anxiety scales and measures of L2 performance. It also may account for some of the difficulties in communication that anxious learners experience in social settings.</p>
+
+  <h2 class="subsection-heading">Social Effects</h2>
+
+  <p>There are many ways in which the social context can influence language anxiety. A competitive classroom atmosphere, difficult interactions with teachers, risks of embarrassment, opportunity for contact with members of the target language group, and tension among ethnic groups may all influence language anxiety.</p>
+
+  <p>Studies conducted by Clément, Gardner, and Smythe (1977, 1980) show the important role that social context plays in second language learning. Clément (1980) notes that in situations where minority group members are learning the language of a majority group, there is a tension between the desire to learn the new language/culture and the fear of losing one's native language/culture. In addition to its influence on motivation for language learning, which is defined by a lack of anxiety and the self-perception of <span class="gap"><input type="text" data-answer="competence" placeholder="___________" autocomplete="off" spellcheck="false"></span> with the second language. Self-confidence is considered to be a motivating influence, directing the language learner toward contact with the second language community (Clément 1980, 1986). In contact situations, a self-confident learner will be more highly motivated to communicate with speakers of the target language.</p>
+
+  <p>In one example of a study in which language groups are in contact, Mejías and associates (1991) investigated the communication apprehension of bilingual Mexican-American students in Texas. The students were native speakers of Spanish but predominately used English in their daily lives. They found that both high school and college students felt less anxious when speaking in their second language (English) than when speaking in their native Spanish. The authors concluded that the frequency of language use may be more influential than the distinction between native and second languages in determining the communication anxiety reaction. The results also show that a considerable number of Mexican-American high school students experienced high communication apprehension in both Spanish and English. Comparison groups of Anglophone students were very anxious speaking Spanish but much more relaxed speaking English. As Clément (1980, 1986) suggests, the majority and minority groups experience different effects of intergroup contact. One effect appears to be that the Anglophone students experience high communication apprehension in Spanish (their second language) but the Mexican-American students are relatively more comfortable with their second language (English). The apparent "downside" is that Mexican-American students appear to experience higher apprehension in their native language, Spanish, than otherwise would be expected.</p>
+
+  <p>Perhaps the most recurring finding in the literature on language anxiety, and one of its most important social effects, is that anxious learners do not communicate as often as more relaxed learners (MacIntyre &amp; Gardner 1991a, 1991c). The prospect of communicating in a second language appears to be the major source of language anxiety. Although there has not been much research on the interpersonal effects of avoiding second language communication, it is clear that avoiding communication in the native language generates a number of negative assumptions about a reticent speaker (Daly &amp; McCroskey 1984). How anxious second language communicators are perceived by others in the classroom and in interactions outside the classroom would be interesting topics of future research. Skehan (1991) has stated that successful language learners possess a willingness to "talk in order to learn." Evidence from a preliminary study (MacIntyre &amp; Charos 1995) indicates that anxious learners are less willing to communicate and, when given the opportunity to communicate in a natural setting, do so less frequently.</p>
+
+  <h2 class="subsection-heading">Personal Effects</h2>
+
+  <p>Among the most troublesome effects of language anxiety is the severe anxiety reaction for an individual language learner. Although extreme anxiety is a rare occurrence, language learning should not be a traumatic experience. Unfortunately, for some students, it is just that. Although the intention of this chapter is to concentrate on quantitative research, the personal side of the language-learning process should not be ignored.</p>
+
+  <p>Some interesting, well-stated opinions from language students have appeared in the literature. Perhaps the most strongly worded one was offered by a language student participating in a series of interviews conducted by Price (1991): "I'd rather be in a prison camp than speak a foreign language" (p. 104). Such strong emotion can be interpreted in a number of ways. Anxious individuals often engage in <span class="gap"><input type="text" data-answer="self-deprecating" placeholder="___________" autocomplete="off" spellcheck="false"></span> cognition (Schwarzer 1986), and this is true of language students as well (Young 1991). "I just know that I have some kind of disability" (Horwitz et al. 1986, p. 125). "I feel so dumb in my German class," "Sometimes when I speak English in class, I am so afraid I feel like hiding behind my chair" (Horwitz &amp; Young 1991b, p. xiii). Students worry that others would think that they are "stupid," "a total dingbat," or "a babbling baby" (Price 1991, p. 105) because they are having trouble using simple vocabulary and grammar structures. The anxiety response may also be physiological: "my heart starts pumping really fast, and the adrenaline running. Then I feel myself start to go red . . . and by the end of the ordeal—for it is—I am totally red, my hands shake, and my heart pounds . . . It's pure trauma for me . . . if I am ever asked to [answer a question in class again] I'll probably have a coronary." The same student described language learning as the "smashing of a well-developed positive self-concept" (Cohen &amp; Norst 1989, pp. 68–69).</p>
+
+  <p>The literature contains numerous examples of this kind. Some readers might be tempted to dismiss these excerpts as exaggerations. Even if they are somewhat melodramatic, the statements express deep-seated feelings, and the underlying sentiment should not be ignored. Language learning provokes a traumatic reaction in some individuals. If we consider Young's (1991) findings that some teachers feel it necessary to induce anxiety in order to stimulate learning, then the stage is set for some potentially severe anxiety reactions. The frequency with which this occurs is an interesting avenue for future research.</p>
+
+  <h2 class="section-heading">Conclusion</h2>
+
+  <p>This review has necessarily omitted several details of some studies. Interested readers are encouraged to consult the appropriate sources for more complete discussions of the issues. (See Table 3.1 for references to specific areas of language anxiety research.)</p>
+
+  <!-- TABLE 3.1 -->
+  <div class="table-container">
+    <div class="table-title">TABLE 3.1. Language Anxiety Research</div>
+    <table>
+      <tbody>
+        <tr class="table-section-row"><td colspan="1">General Theoretical Approaches to Anxiety</td></tr>
+        <tr><td class="table-indent">Eysenck, 1979</td></tr>
+        <tr><td class="table-indent">Leibert &amp; Morris, 1957</td></tr>
+        <tr><td class="table-indent">Priess, Wheeless, &amp; Allen, 1991</td></tr>
+        <tr><td class="table-indent">Schwarzer, 1986</td></tr>
+        <tr><td class="table-indent">Tobias, 1979, 1980, 1986</td></tr>
+        <tr class="table-section-row"><td colspan="1">Language Anxiety: Theoretical Approaches and Literature Reviews</td></tr>
+        <tr><td class="table-indent">Horwitz, Horwitz, &amp; Cope, 1986</td></tr>
+        <tr><td class="table-indent">MacIntyre, 1995</td></tr>
+        <tr><td class="table-indent">MacIntyre &amp; Gardner, 1991a</td></tr>
+        <tr><td class="table-indent">Scovel, 1978</td></tr>
+        <tr><td class="table-indent">Sparks &amp; Ganschow, 1993a, 1993b</td></tr>
+        <tr class="table-section-row"><td colspan="1">The Relation of Language Anxiety to Other Concepts</td></tr>
+        <tr><td class="table-indent">Clément, 1980</td></tr>
+        <tr><td class="table-indent">Gardner, Day, &amp; MacIntyre, 1992</td></tr>
+        <tr><td class="table-indent">MacIntyre &amp; Gardner, 1989, 1991b</td></tr>
+        <tr><td class="table-indent">Sparks &amp; Ganschow, 1991</td></tr>
+        <tr class="table-section-row"><td colspan="1">Causes of Language Anxiety</td></tr>
+        <tr><td class="table-indent"><em>Qualitative studies</em></td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Cohen &amp; Norst, 1989</td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Price, 1991</td></tr>
+        <tr><td class="table-indent"><em>Quantitative studies</em></td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">MacIntyre &amp; Charos, 1995</td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Mejías et al., 1991</td></tr>
+        <tr class="table-section-row"><td colspan="1">Effects of Language Anxiety</td></tr>
+        <tr><td class="table-indent"><em>Academic</em></td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Aida, 1994</td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Gardner, Smythe, Clément, &amp; Gliksman, 1976</td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Gardner, Smythe, &amp; Lalonde, 1984</td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Horwitz, 1986</td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Young, 1986</td></tr>
+        <tr><td class="table-indent"><em>Social</em></td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Clément, 1980, 1986</td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">Clément, Gardner, &amp; Smythe, 1980</td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">MacIntyre &amp; Gardner, 1991a, 1991c</td></tr>
+        <tr><td class="table-indent"><em>Cognitive</em></td></tr>
+        <tr><td class="table-indent" style="padding-left:48px">MacIntyre &amp; Gardner, 1994a, 1994b</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Research into language anxiety has reached a number of conclusions that may interest language teachers and students alike. There appears to be a discernible situation-specific construct of language anxiety that is separate from other types of anxiety. It would appear that this anxiety develops from negative experiences, particularly early in language learning. Language anxiety has consistently shown a negative correlation with second language achievement and with the perception of second language proficiency. The combination of high levels of anxiety and low self-rated proficiency creates students with low levels of linguistic self-confidence, which reduces motivation for study and communication in the second language. The beliefs of both language students and language teachers, and the classroom context, may contribute to anxiety arousal.</p>
+
+  <p>Several types of language anxiety effects have been reported. Compared to relaxed students, anxious learners achieve lower grades, spend more time studying, and have more trouble taking in information in the second language, processing that information, and displaying their L2 abilities. The <span class="gap"><input type="text" data-answer="cognitive" placeholder="___________" autocomplete="off" spellcheck="false"></span> disruption caused by anxiety arousal appears to be responsible for these negative effects. In addition, some students report that language learning evokes a severe anxiety reaction that approximates trauma.</p>
+
+  <p>The study of language anxiety has progressed a great deal in the past few years, and our understanding of the concept continues to grow. Research is no longer beset by the vague definitions, inconsistent measurement, and confusing results that plagued the area in the past. Despite this progress (or maybe because of it), much more work needs to be done. The stage is set for future work that more fully develops the concept, assesses its variety of obvious and subtle effects, estimates the degree to which language anxiety negatively affects language learning in general, and explains why these effects occur. Perhaps the most pressing need is to conduct research on strategies and programs that may ameliorate the negative effects of language anxiety. The other contributions to this volume provide many specific ways in which this literature may be expanded and continue to develop. As language <span class="gap"><input type="text" data-answer="pedagogy" placeholder="___________" autocomplete="off" spellcheck="false"></span> continues to move toward an emphasis on authentic communicative competence and a communication-oriented classroom, the need to assess the effects of language anxiety becomes more and more salient.</p>
+
+  <hr class="divider">
+
+  <h2 class="section-heading">Notes</h2>
+  <div class="footnote">
+    <p>1. Preparation of this manuscript was supported by a post-doctoral fellowship awarded by the Social Science and Humanities Research Council of Canada. Correspondence may be sent to Peter MacIntyre, Department of Psychology, University College of Cape Breton, PO Box 5300, Sydney, Nova Scotia, Canada B1P 6L2. E-mail may be sent to <em>pmacinty@sparc.uccb.ns.ca</em></p>
+    <p>2. A correlation of .90 in and of itself is not significant without an indication of probability. The researcher sets the acceptable probability level for his or her study. Generally speaking, when a probability level is less than .05, this indicates that the findings are significant and not likely to be due to mere chance. Findings with a probability level .01, .001, or .0001 are even more highly reliable.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Figure 3.1 -->
+  <div class="figure-container">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAUFBQUFBQUGBgUICAcICAsKCQkKCxEMDQwNDBEaEBMQEBMQGhcbFhUWGxcpIBwcICkvJyUnLzkzMzlHREddXX0BBQUFBQUFBQYGBQgIBwgICwoJCQoLEQwNDA0MERoQExAQExAaFxsWFRYbFykgHBwgKS8nJScvOTMzOUdER11dff/CABEIARkCSAMBIgACEQEDEQH/xAAsAAEBAQEBAQEAAAAAAAAAAAAAAwQCAQUGAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAL9kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcHbL6aWb00AAAAESzNM2gAAIcmlm6LgAAAAMnRpToAAHMTQz+lwAAAAGUanPQAAAAInLuoA89GLa+cfRZui6AugLw8wH14XgXAAxNp56Dz0Y9fuQ1gAAAheFyNo2AGVpM+kHPQx6uspqeegAAGbTC5C8LgAAADL1oAAAHHYhfDY0MdDQz+l83Xzz68bZzQBl1ZjSAAADHshU6AABC+fQRtGwjbIVsAAAGLbxwWAABC8LkLwuAAADwz6c+gAAAA45r84+igLoC+bmB9LMzn0WWJfTn0AAAADJrwm5GZqZey6GU0acuoz6Muon5PSAAAAMmvMaQAAQvm0kL5NYAAAhfOX9AAxUNKNT0DDuxF+fR57xyVy6M5ohfOaIXzmnRn0AAAADJric+wodgZdHpzq+dpPb/OGnRl1AAAADnoSr87UXZui7NmLbMmsheFwAABn0QLnxz7D5PpXN32V1fP8PqvkVPpY9OY756A8Pc1IGzLqzFs+vIbrSqMur5J9V8uZ9jn44+178P6pcHz757nqfp28GW87kAX1ZtIBC/zJH1/fgaT6zNpAPnac2wnPR4Td8mfRm0Efeamv0AAELwL+PRn0Dnmg48oJY/ohi24T2nnR495Pc1ZGnLqzFo6YGm8LgAAACdMh5354dPOjznuZn1NR85quZtMLgAHnoAAfP08ajL1fwnLTwZ9UtBkvxcAAAc9CF82kAAAAfM3dEWkQ50jNm+lAnl+rA5jvGfRl1AAAADFtxlfbDP5pGaH0M40Z7kNGbSZ9GbSAAAAJVymoAAEL5tJn0ZNYAAABm0+ZzSAAAeGGvdzJ5sGbq4y4/rQLwvAuCPfeY0gAAA58z6wAACVZVJVlU8hoymoAAADJ7qAAAMeyNjPohcAAAAQuOO81CoAHzqbTM0jM0jNxsGPL9aBeF4FwJVEqw6KgAZ/fCvYAAPPRC3FCF5VHHYz6IiwAHnmU61AAABG0bELwuAAAAAI2GT3UMrUAAAAGXUIQ6qXY7FgI2GTvQMvmsToAAAA8M1s9j2sLgCNhjtYcZ9Yy6gAAAM8yt8GY+jfnoAAAAAAAAAAAAASqMtqZBp48LMmsAAAAAAA565E7QuAAAAAAGbk74rI64tYjYAAAAAAAAAAAAAAAAJw1jmHo51MpqZ9AAAAAODxzQ5px2AAACZTnN0eLwLw7uQuAAAAAAAAAAAAAAAAAAADnoZdPvJ7l1iNuOwAABz0Je0HHYAAJVkRpcc5u9Bm0gAAAAAAAA+f9Dw+PbbyZZfRmc8avC3zPpwMGr30x7ONBkp7cw37GXjQPeexTNo5PZ++HU3JemXSS9loOeY1OvHBfj530QnI3RpkNXELFpZrlWYfSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB//xAAC/9oADAMBAAIAAwAAACHzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzjTTzzzzjDzzzzjzzzzzDzzzzTzzzzzzTzzzzjzyyjTzyTzzzRzwzTzzzxTyTywjTzzzzzzzzyDzzzxDzyCzyzzzzzzzzzRTjzzzxDzzzzzzzzxTzzzwzjjzDhTzzzzzTzTzSzzzzzjzzzzTzzyxzzjDzwxxiBTTzzzyjzhRDhTzzzzzDDDxzzzzzzQgTSBAQxRBSjCTzwgQzRDzyjTzxRBRBBzzyiyywxxihBxQTTzzxzhgSgxhzzzzzwyiTxzzzzxzzzzywwzhgjzzzzywywgxzTzzzyhzzzRTzzzxjzzzzRwxjzyzzzzyzzzzTRjzzzyjzzxRzzzzzxTzjQwwxzzzxDzyzzzzxRzzTzyhzzzzzzzzzzyywzzzzyizjzzzxzzzzzxTzzwxzzzzxTTzzzzzzzzzzzzzxyzjzzzzzzxDzzzzzzjSDzzzzzzzzzzzzzzzzzzzTDTzzzyzjTzzzzwyTzzzzzzzzzzzzzzzzzzzywhxzzzzzxzzyBxzzzzzzzzzziQTyxyiRQCiDRxBDhQzjRhRDzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz//EADAQAAICAQIFAgYCAwADAQAAAAIDAQQAERIQExQgMCEzBSIjJDI0FTFAQ1BBRHCA/9oACAEBAAEHAv8A7Exy1RrDLDc5drNt0cC0MTt8NojBOvJfjIsJ2F3TcXHpvtFm62ODaCJ2+IDttgp0vZVYbUwXabACNesgs6l2DcTMxHi6gyI45tndqhvOGZ8TXTBQtaIGd/Ehgo02sq+okJDE99z1Twue2HaRCETP1LWLWC404TEF6SpiPmU0GDr4Kftnwpex2m4iLlhWEZ3cCATjTlMR6peto6+Ct/dnhV/3+J7eWMYhPKie9hHSLBsP0zqG51Dc6hudQ3OobhWG6Z1jHbIy57Ydo/dnv7mgSS54mJDE99P2z4UvY7HGTC5K1ioYiZ0jtckoLnrcLQgu+r/dnhV/3+JGrWE/vYEMAhrMnQld1n+k8Lf4B2WNWENeIiIiO9f0HSrvp+2fCl7HF7OUEzXVyg8E/bO176v92eFX/f4bWsiKhGBiI8FqDBi28q3nL+I5suZsuZpdzbczb8QjlcLf+jjM6RM1dZEm+CyqTXqDYasD7qk/TPhS9jjH1rMz4Gq5qzGs2TVHfV/uzwq/7/CE8y0w/C1fMWY12yxC57bX9J4Wf/X42/UQV4q/yG9PdV9rhTn6PBzOUszrBK0jHhj6duY7qv8AdnhU/p/gKdImakaKifEtR86wPTuzpm507s6ZudPZidbC36KzlWcsKsRyM5dnFovC4yj6lyZ8T4YNiuW27hR8RyP5HPvc1u43+Uli8pa9OGTlGda4zlmN8oX4rcbRW3uqz62eHw/1W7wWp0QzAjaIx4mAU2xzkPyUWchVuM5dvOVayyqxEKzl2csrs/Qzl2cFPxAXlNT155+K7rCd+65n3ufe597n3uN/k4YGUtenDJ/qcpx9uvhHz3Z8dgd6Gig5NKi7acej+FL2i8Fz8VR2DdiDcPWV40zqEziGi5Ynxs8zm1p0u5pdyeuzX4hm65libWis1t5Ym19DNbeAz4jzGZU/XCfFbDdVsxFi1Okw6xnOsZz7Gc5+S5+VGuhI4Tn6ZVa/kBDbdoDAacybLR+Os+AXsm3GdVnVxnVYz4msGAFItyiLKftT4LXqdbtKkfMMoqNB4r6OYZE11ylQhxtb91bPvtMEr2a281t5rbyxNn6Ma28fNrVGEd2M5vxDVsVY0ro4hcUcjGsZrGaxnMHdA6xxKIISis9010ZznZznZznZznZznZWe0UjnUsmJyq8oQGNusWS4ozvBxcTsJCdNdfWJifXImJ7Eu5ZPjqgzqgzrlROkXEznVIyraTAnnVpypbSK5x3xKunbiWA0N/bZ9yrwtGf155tmuYgN5xAJ9e7OvLeoJvnqUfyP4wF9sKGYuExhLqmTELK1Jbq2cyznMs5zLOc2znUWcc5xFXznNyw5n0M5zcC3YbDhr+wnjFM+mfHSM+aJqWOWMTRfnR2ccpipAaOnSq4HMCJTVfI1q8TZ0zrYwbgznVBnVBlSyEJHJtBplWyMICD+IApgDRnckp4wDVxYSCrCdq9rAYhWloJEaIStO3hOJtIWTg6ytnV1s6qtnVVs6uvle3XETzramVLVfZMNt0wkMXIkOvbb/pE5KFFO6VhMxLKYFAxyl6xPSV9sjNVE+vSV8inXjIoRB6jEDERZIobWyLL857M57M5zM57Me491fOezLDz+jkWywLsuJq6vrXT4JGJ42y21bBLsgIBHVLzql51S86pedYrKt1EJGJuV9Mq2kQgIZ8SqrNY0Sghd3SlclB9tdyI5mTZqZ1VTIsVpzmIw7VMCGKoLMDnkqyolUqnJq1ykZiIj07bnqg8GdYifExu23GdTGdTGdTGdWOdcvXR9lclXzq1Y6yvmV86tWD8RQbSVS9qY8V4oiscdZWzrqmRdqFnVV86qvh36gEI0vWuGT/U5U/WXkgMzEp+WxbHxFOgzNUPoLzaOSpWchGchGFTqlMTSiIWfCn7U+A43CQ1S3JDxrtrF9jOrTnVpybic6tOdWnH2lSVfOtrxOjL1Ym186yri/iFM2GFf5X2Q8Vkwh1Uepr51FPJfTzn1M59TDsfDt8ZU06deT/WVP118J+S6M+K4WldmAO0Rjtp+2zhR9mfCj5HuDwuPlqMq6+WlY9tn86vB/u1eEAA6y76dlB+Jcc2w89gZsDNgZsDOUvG1KvqdX2FYX9TlL9VHC58orZ4nfO+uvuqfgzh8N/VHw2vpyt8eGycy5S+ezJssjItzOdTk2smzpE4Fzqiq8LHu1eNhfMUYoZDlifgezlKM0K5SQHtL8Syp+urC/Esp/qVuBjBiQ0znlbPDW+obXd1CJhE8KH6y/CUQUTFUtskjj/57GMFYEVYJgSZ3WNN9XhY92r2DPIsSvwe8/TuP8SyrP26sL8SypP2lbi36NiGeCyU7YUACAiPdT9iOFH9ZXisrmdrEtFo7u4+baOJ0uZpczS5mlzNLmF1+RN7ScCbsnV4WPdq9j1Q4JGu3fEx3PbIRAJVCgge4/wASyr7C8L8Zyp+rW4sAWCQVmTGqe4zFYySAIpl+nza91P2I4Uf1leNqTA5alwN17CIRjXUreDEDER3v9+rwse7V7XpKThqHizdHY18L+VKZGZZ3l+JZU/XVhfiWU/1K3Y9XN0JFiC+n2GwVjJCJWShngp+xHCj+sryOrrZO77tec9ucyyWRW3Tr4bbASysfW1sZaQbq3c1ItndusqyLiYzq15rZbikgrWfAf4llV6YQuCsI2llSftK3a1INzfYTg2685NqvGdVvyEScwfhpzHIjNYyj+sr/ACmCJjt2Or+ommwMxynJxVgDnb/gn+JZWUuULwkq2llT9Wt3yAFnKVHiOyEFs2WG4aqSY0j4fzZxaxUAh/lurgc7heaZgWrU+IyOpr4qwt0f4B/geVo0QrC/EsqT9pW/wDtRPy8lzckq9UdPuXYqutOv+fMRPpyGpncqyLPlagGzrzH1sFoMGCidfK32mZW/XRjJ0Apq+lav5ZKIybUs9OnI8Jia4xmtl2LQtUzP/CcoHaZvfVwSE4girDrJxZJPpExPr43e0zK8/box/ssxPtK8ZsBY7pe18aRVidJY5SRzfYfi661zu/4xVpiSYuz68v8AvJqmv5gtRE7PE72zyv7CMseyzEz9FXhY5ao1g7D8CqsZ3m0FDu5tix6KrAud3/JNYsGR+tWxLltHUgE405Dkeq7IHOzwN9pmV/YRj/ZbifZV3ssLV6TNlsarrLXO42Asdec93ouqIlv/AObCV74ZwYkGxoI7RiO+Y1jSIgYiJiJiYiNIiO1oSwdq0KVxGqEHv/w7ZtF8Cp1gmSkmsBqha9oEedW/StjWWIrCTLbYpLfjnsTeHAvnz3T1szMrrX5FQwh0zzyb8Q2qmWOYhCsr3Tg2gi8qwW0/iS9GYFwhLBvqPI+IDG/CsAIrnruY5AHbWtorG+o50m4BCBM+IoCDzq1euG8F6R19fLDzUVfOtR65N+vEBI3UnrHXpiAwraBPY61C3Arrq+mpXqozoNhbAI4vo2jh3EBBZHxGsUBkWkTpnXI5igi6rliXWVt+z/KlISzmTTROudCjTOjV8ufx6NYmawbQGaaZXKxXATMtpqdJ4Xw9JEU9AudJH4aoduBWFfMyfh6pHayvDFiHRLjdiKg1vT+OARMS+Hwe/Io6FBlRgt2HTiQTCqIrYBnQg3cyKEjsz+PkYkf4wdrA5G+yrG197RP+N+UhdVlwqj+NnZAJoynl4FGQgc/j/SY5bxtSxtVhvJnROjZJfDWesLrEHUYHw5kRpHw0sTSMDEp+GOIQEq1gzrMig5efxsxDI/8Ax3//xAAC/9oADAMBAAIAAwAAABDzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzjTDzzzzzTzzzDDTzzzzTzzzTTzzzzzjzzzzzwzyxjzzzTzzhhyyjTzzzzzyizyzTzzxzzzzzzTTzyxzDyizSRzzzxzzzzTizzzzyzzzzzzzzzzTzzzzzDjjzizzzzyjzjzBRTzzzyzTzzxTzzzxzzzzyhzTwCzjzzzzxThyDhTzzzyzjjTTzzzyjjhwzSTARhDTyBijDwAwyBzzwgjTwDzzjxTzyywwxyzixAgSBTzzyywxRhDRTzzzzAgRyyxzzzxzzzzzAwSzxxzzzzzjzxhyTTzzjzjzzzTzzzzyjTzzzRwwjzxzzzzzzzyyjRjzzzzDzzhzzzzzyxTzhQwxxjzzhzzzBzzywBzzjzzxzzyhTzzzzzzzyzzzzzhjjzwwzzzzyjxTyyjBhzzyyBTzzzzzzzzzzzzywDjDTzTzzzxxzzzzzzyxhxzzzzzzzzzzzzzzzzyyAzzzzzzwDzzzzzjQzzzzzzzzzzzzzzzzzzzzyywhjzzyhDzzzRxTzzzzzzzzzyjxBSSyhDySSjjTgRSDhiAxTzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz//EABQRAQAAAAAAAAAAAAAAAAAAAJD/2gAIAQIBAT8AJr//xAAUEQEAAAAAAAAAAAAAAAAAAACQ/9oACAEDAQE/ACa//8QARBAAAQICAwsJBwMDBAMBAAAAAQACAxESITEQExQiIDCREjJBUVJhYoGhsbLBISMzQlNgcXLR4UNAUHOC8fBEcID/2gAIAQEACT8C/wDcT3STINFut/4V+bwU2P8Agorra3bdm3RbOJkiXdH/ACtOVbhK/wAhg3tl49E6IDcBe0gvOkqfmBSUL3LzDqm0M8MiaxeXaMK/tDxBxhSFLi2d+MLXSaJbAjF7P2W5Dod6GBc1vRN5eKYaFzMHkq+2gTCN7L3tqPWMEpiATG4PaTZPyAoaBD3FQAZ7P3LGc8lmI2A3UHSDPVa+Lz0U/PJBjn0Dv7+Jz0BKHKBHv7T/9k=" 
+         alt="Figure 3.1 – Model of the effects of anxiety on learning from instruction">
+    <p class="figure-caption">FIGURE 3.1. Model of the effects of anxiety on learning from instruction</p>
+  </div>
+
+  <hr class="divider">
+
+  <h2 class="section-heading">References</h2>
+  <div class="references">
+    <p>Aida, Y. (1994). Examination of Horwitz, Horwitz, and Cope's construct of foreign language anxiety: The case of students of Japanese. <em>Modern Language Journal, 78,</em> 155–168.</p>
+    <p>Bailey, K. M. (1983). Competitiveness and anxiety in adult second language learning: Looking at and through the diary studies. In H. W. Seliger &amp; M. H. Long (Eds.), <em>Classroom-oriented research in second language acquisition.</em> Rowley, MA: Newbury House, pp. 67–102.</p>
+    <p>Beatty, M. J., &amp; Andriate, G. A. (1985). Communication apprehension and general trait anxiety in the prediction of public speaking anxiety. <em>Communication Quarterly, 33,</em> 174–184.</p>
+    <p>Brown, H. D. (1991). <em>Breaking the language barrier.</em> Yarmouth, ME: Intercultural Press.</p>
+    <p>Campbell, C. M., &amp; Ortiz, J. (1991). Helping students overcome foreign language anxiety: A foreign language anxiety workshop. In E. K. Horwitz &amp; D. J. Young (Eds.), <em>Language anxiety: From theory and research to classroom implications.</em> Upper Saddle River, NJ: Prentice Hall, pp. 153–168.</p>
+    <p>Carver, C. S., &amp; Scheier, M. F. (1986). Functional and dysfunctional responses to anxiety: The interaction between expectancies and focus of attention. In R. Schwarzer (Ed.), <em>Self-related cognition in anxiety and motivation.</em> Hillsdale, NJ: Erlbaum, pp. 111–142.</p>
+    <p>Cattell, R. B., &amp; Scheier, I. H. (1963). <em>Handbook for the IPAT anxiety scale</em> (2nd ed.). Champaign, IL: Institute for Personality and Ability Testing.</p>
+    <p>Chastain, K. (1975). Affective and ability factors in second language acquisition. <em>Language Learning, 25,</em> 153–161.</p>
+    <p>Clément, R. (1980). Ethnicity, contact, and communicative competence in a second language. In H. Giles, W. P. Robinson, &amp; P. M. Smith (Eds.), <em>Language: Social psychological perspectives.</em> Oxford: Pergamon Press, pp. 147–154.</p>
+    <p>Clément, R. (1986). Second language proficiency and acculturation: An investigation of the effects of language status and individual characteristics. <em>Journal of Language and Social Psychology, 5,</em> 271–290.</p>
+    <p>Clément, R., Dörnyei, Z., &amp; Noels, K. (1994). Motivation, self-confidence, and group cohesion in the foreign language classroom. <em>Language Learning, 44,</em> 417–448.</p>
+    <p>Clément, R., Gardner, R. C., &amp; Smythe, P. C. (1977). Motivational variables in second language acquisition: A study of Francophones learning English. <em>Canadian Journal of Behavioral Science, 9,</em> 123–133.</p>
+    <p>Clément, R., Gardner, R. C., &amp; Smythe, P. C. (1980). Social and individual factors in second language acquisition. <em>Canadian Journal of Behavioral Science, 12,</em> 293–302.</p>
+    <p>Cohen, A. D. (1990). <em>Language learning: Insights for learners, teachers, and researchers.</em> Boston: Heinle &amp; Heinle.</p>
+    <p>Cohen, Y., &amp; Norst, M. J. (1989). Fear, dependence and loss of self-esteem: Affective barriers in second language learning among adults. <em>RELC Journal, 20,</em> 61–77.</p>
+    <p>Cope-Powell, J. (1991). Foreign language classroom anxiety: Institutional Responses. In E. K. Horwitz &amp; D. J. Young (Eds.), <em>Language anxiety: From theory and research to classroom implications.</em> Upper Saddle River, NJ: Prentice Hall, pp. 169–176.</p>
+    <p>Daly, J. (1991). Understanding communication apprehension: An introduction for language teachers. In E. K. Horwitz &amp; D. J. Young (Eds.), <em>Language anxiety: From theory and research to classroom implications.</em> Upper Saddle River, NJ: Prentice Hall, pp. 3–14.</p>
+    <p>Daly, J., &amp; McCroskey, J. C. (1984). <em>Avoiding communication: Shyness, reticence, and communication apprehension.</em> Beverly Hills, CA: Sage.</p>
+    <p>Desrochers, A. M. (1980). <em>Imagery elaboration and the acquisition of French vocabulary.</em> Unpublished doctoral dissertation, University of Western Ontario, London, Canada.</p>
+    <p>Ely, C. M. (1986). An analysis of discomfort, risktaking, sociability, and motivation in the L2 classroom. <em>Language Learning, 36,</em> 1–25.</p>
+    <p>Endler, N. S. (1980). Person-situation interaction and anxiety. In I. L. Kutash (Ed.), <em>Handbook on stress and anxiety.</em> San Francisco: Jossey-Bass, pp. 249–266.</p>
+    <p>Eysenck, M. W. (1979). Anxiety, learning and memory: A reconceptualization. <em>Journal of Research in Personality, 13,</em> 363–385.</p>
+    <p>Fischer, W. F. (1988). <em>Theories of anxiety</em> (2nd ed.). Lanham, MD: University Press.</p>
+    <p>Gardner, R. C. (1985). <em>Social psychology and second language learning: The role of attitudes and motivation.</em> London: Edward Arnold.</p>
+    <p>Gardner, R. C., Day, B., &amp; MacIntyre, P. D. (1992). Integrative motivation, induced anxiety, and language learning in a controlled environment. <em>Studies in Second Language Acquisition, 14,</em> 197–214.</p>
+    <p>Gardner, R. C., Smythe, P. C., &amp; Clément, R. (1979). Intensive second language study in a bicultural milieu: An investigation of attitudes, motivation, and language proficiency. <em>Language Learning, 29,</em> 305–320.</p>
+    <p>Gardner, R. C., Smythe, P. C., Clément, R., &amp; Gliksman, L. (1976). Second language acquisition: A social psychological perspective. <em>Canadian Modern Language Review, 32,</em> 198–213.</p>
+    <p>Gardner, R. C., Smythe, P. C., &amp; Lalonde, R. N. (1984). <em>The nature and replicability of factors in second language acquisition</em> (Research Bulletin No. 605). London, Canada: University of Western Ontario, Department of Psychology.</p>
+    <p>Goldberg, L. R. (1993). The structure of phenotypic personality traits. <em>American Psychologist, 48,</em> 26–34.</p>
+    <p>Horwitz, E. K. (1986). Preliminary evidence for the reliability and validity of a Foreign Language Anxiety Scale. <em>TESOL Quarterly, 20,</em> 559–562.</p>
+    <p>Horwitz, E. K., Horwitz, M. B., &amp; Cope, J. (1986). Foreign language classroom anxiety. <em>Modern Language Journal, 70,</em> 125–132.</p>
+    <p>Horwitz, E. K., &amp; Young, D. (1991a). Afterword. In E. K. Horwitz &amp; D. J. Young (Eds.), <em>Language anxiety: From theory and research to classroom implications.</em> Upper Saddle River, NJ: Prentice Hall, pp. 177–178.</p>
+    <p>Horwitz, E. K., &amp; Young, D. (1991b). <em>Language anxiety: From theory and research to classroom implications.</em> Upper Saddle River, NJ: Prentice Hall.</p>
+    <p>Kleinmann, H. H. (1977). Avoidance behaviour in adult second language acquisition. <em>Language Learning, 27,</em> 93–107.</p>
+    <p>Lalonde, R. N., &amp; Gardner, R. C. (1984). Investigating a causal model of second language acquisition: Where does personality fit? <em>Canadian Journal of Behavioral Science, 15,</em> 224–237.</p>
+    <p>Levitt, E. E. (1980). <em>The psychology of anxiety.</em> Hillsdale, NJ: Lawrence Erlbaum Associates.</p>
+    <p>Liebert, R. M., &amp; Morris, L. W. (1967). Cognitive and emotional components of test anxiety: A distinction and some initial data. <em>Psychological Reports, 20,</em> 975–978.</p>
+    <p>Lucas, J. (1984). Communication apprehension in the ESL classroom: Getting our students to talk. <em>Foreign Language Annals, 17,</em> 593–598.</p>
+    <p>MacIntyre, P. D. (1995). How does anxiety affect second language learning?: A reply to Sparks and Ganschow. <em>Modern Language Journal, 79,</em> 1–32.</p>
+    <p>MacIntyre, P. D., &amp; Charos, C. (1995, June). <em>Personality, motivation and willingness to communicate as predictors of second language communication.</em> Paper presented at the annual conference of the Canadian Psychological Association, Charlottetown PEI.</p>
+    <p>MacIntyre, P. D., &amp; Gardner, R. C. (1988). <em>The measurement of anxiety and applications to second language learning: An annotated bibliography</em> (Research Bulletin No. 672). London, Canada: The University of Western Ontario, Department of Psychology. (ERIC Clearinghouse on Languages and Linguistics # FL017649.)</p>
+    <p>MacIntyre, P. D., &amp; Gardner, R. C. (1989). Anxiety and second-language learning: Toward a theoretical clarification. <em>Language Learning, 39,</em> 251–275.</p>
+    <p>MacIntyre, P. D., &amp; Gardner, R. C. (1991a). Methods and results in the study of anxiety in language learning: A review of the literature. <em>Language Learning, 41,</em> 85–117.</p>
+    <p>MacIntyre, P. D., &amp; Gardner, R. C. (1991b). Language anxiety: Its relation to other anxieties and to processing in native and second languages. <em>Language Learning, 41,</em> 513–534.</p>
+    <p>MacIntyre, P. D., &amp; Gardner, R. C. (1991c). Investigating language class anxiety using the focused essay technique. <em>The Modern Language Journal, 75,</em> 296–304.</p>
+    <p>MacIntyre, P. D., &amp; Gardner, R. C. (1994a). The effects of induced anxiety on cognitive processing in second language learning. <em>Studies in Second Language Acquisition, 16,</em> 1–17.</p>
+    <p>MacIntyre, P. D., &amp; Gardner, R. C. (1994b). The subtle effects of language anxiety on cognitive processing in the second language. <em>Language Learning, 44,</em> 283–305.</p>
+    <p>MacIntyre, P. D., &amp; Noels, K. A. (1994, June). <em>Communication apprehension, perceived competence, and actual competence in a second language.</em> Paper presented at the annual conference of the Canadian Psychological Association, Penticton, British Columbia.</p>
+    <p>Madsen, H. S., Brown, B. L., &amp; Jones, R. L. (1991). Evaluating students' attitudes toward second-language tests. In Jones, R. L. (1991). In E. K. Horwitz &amp; D. J. Young (Eds.), <em>Language anxiety: From theory and research to classroom implications.</em> Upper Saddle River, NJ: Prentice Hall, pp. 65–86.</p>
+    <p>McCroskey, J. C., &amp; Beatty, M. J. (1984). Communication apprehension and accumulated communication state anxiety experiences: A research note. <em>Communication Monographs, 57,</em> 79–84.</p>
+    <p>Mejias, H., Applbaum, R. L., Applbaum, S. J., &amp; Trotter, R. T. (1991). Oral communication apprehension and Hispanics: An exploration of oral communication apprehension among Mexican American students in Texas. In E. K. Horwitz &amp; D. J. Young (Eds.), <em>Language anxiety: From theory and research to classroom implications.</em> Upper Saddle River, NJ: Prentice Hall, pp. 87–97.</p>
+    <p>Oxford, R., &amp; Nyikos, M. (1989). Variables affecting choice of language learning strategies by university students. <em>Modern Language Journal, 75,</em> 292–300.</p>
+    <p>Phillips, E. M. (1992). The effects of language anxiety on students' oral test performance and attitudes. <em>Modern Language Journal, 76,</em> 14–26.</p>
+    <p>Preiss, R. W., Wheeless, L. R., &amp; Allen, M. (1991). Potential cognitive processes and consequences of receiver apprehension. In M. Booth-Butterfield (Ed.), <em>Communication, cognition, and anxiety.</em> Beverly Hills, CA: Sage, pp. 15–172.</p>
+    <p>Price, M. L. (1991). The subjective experience of foreign language anxiety: Interviews with highly anxious students. In E. K. Horwitz &amp; D. J. Young (Eds.), <em>Language anxiety: From theory and research to classroom implications.</em> Upper Saddle River, NJ: Prentice Hall, pp. 101–108.</p>
+    <p>Sarason, I. G. (1980). <em>Test anxiety: Theory, research and applications.</em> Hillsdale, NJ: Erlbaum.</p>
+    <p>Sarason, I. G. (1986). Test anxiety, worry, and cognitive interference. In R. Schwarzer (Ed.), <em>Self-related cognition in anxiety and motivation.</em> Hillsdale, NJ: Erlbaum, pp. 19–34.</p>
+    <p>Schwarzer, R. (1986). Self-related cognition in anxiety and motivation: An introduction. In R. Schwarzer (Ed.), <em>Self-related cognition in anxiety and motivation.</em> Hillsdale, NJ: Erlbaum, pp. 1–17.</p>
+    <p>Scovel, T. (1978). The effect of affect on foreign language learning: A review of the anxiety research. <em>Language Learning, 28,</em> 129–142.</p>
+    <p>Skehan, P. (1991). Individual differences in second language learning. <em>Studies in Second Language Acquisition, 13,</em> 275–298.</p>
+    <p>Sparks, R. L., &amp; Ganschow, L. (1991). Foreign language learning differences: Affective or native language aptitude differences? <em>Modern Language Journal, 75,</em> 3–16.</p>
+    <p>Sparks, R. L., &amp; Ganschow, L. (1993a). The impact of native language learning problems on foreign language learning: Case study illustrations of the linguistic coding deficit hypothesis. <em>Modern Language Journal, 77,</em> 58–74.</p>
+    <p>Sparks, R. L., &amp; Ganschow, L. (1993b). Searching for the cognitive locus of foreign language learning difficulties: Linking first and second language learning. <em>Modern Language Journal, 77,</em> 289–302.</p>
+    <p>Spielberger, C. (1966). <em>Anxiety and behavior.</em> New York: Academic Press.</p>
+    <p>Spielberger, C. D. (1983). <em>Manual for the state-trait anxiety inventory</em> (Form Y). Palo Alto, CA: Consulting Psychologists Press.</p>
+    <p>Tabachnick, B., &amp; Fidell, L. S. (1989). <em>Using multivariate statistics</em> (2nd ed.). New York: Harper &amp; Row.</p>
+    <p>Tremblay, P. F., &amp; Gardner, R. C. (1995). Expanding the motivation construct in language learning. <em>Modern Language Journal, 79,</em> 505–518.</p>
+    <p>Tobias, S. (1979). Anxiety research in educational psychology. <em>Journal of Educational Psychology, 71,</em> 573–582.</p>
+    <p>Tobias, S. (1980). Anxiety and instruction. In I. G. Sarason (Ed.), <em>Test anxiety: Theory, research and applications.</em> Hillsdale, NJ: Erlbaum.</p>
+    <p>Tobias, S. (1986). Anxiety and cognitive processing of instruction. In R. Schwarzer (Ed.), <em>Self-related cognition in anxiety and motivation.</em> Hillsdale, NJ: Erlbaum, pp. 35–54.</p>
+    <p>Wheeless, L. R. (1975). An investigation of received apprehension and social context dimensions of communication apprehension. <em>The Speech Teacher, 24,</em> 261–268.</p>
+    <p>Young, D. (1986). The relationship between anxiety and foreign language oral proficiency ratings. <em>Foreign Language Annals, 19,</em> 439–445.</p>
+    <p>Young, D. J. (1991). Creating a low-anxiety classroom environment: What does the anxiety research suggest? <em>Modern Language Journal, 75,</em> 426–439.</p>
+    <p>Young, D. J. (1992). Language anxiety from the foreign language specialist's perspective: Interviews with Krashen, Omaggio Hadley, Terrell, and Rardin. <em>Foreign Language Annals, 25,</em> 157–172.</p>
+    <p>Young, D. J. (1995). New directions in language anxiety research. In C. Klee (Ed.), <em>Faces in a crowd: Individual learners in multisection programs.</em> Boston, MA: Heinle and Heinle.</p>
+  </div>
+
+</div><!-- end page-wrapper -->
+
+<script>
+// Answer key: maps input index → correct answer (lowercase, trimmed)
+// Gaps in order of appearance:
+const answers = [
+  "communication apprehension",   // 0
+  "debilitating",                  // 1
+  "correlational",                 // 2
+  "unrelated",                     // 3
+  "constructs",                    // 4
+  "communication apprehension",   // 5
+  "second language",               // 6
+  "performance",                   // 7
+  "communication apprehension",   // 8
+  "trait",                         // 9
+  "situation-specific",           // 10
+  "communicate",                   // 11
+  "factor analysis",               // 12
+  "communication apprehension",   // 13
+  "apprehension",                  // 14
+  "situation-specific",           // 15
+  "state anxiety",                 // 16
+  "self-esteem",                   // 17
+  "proficiency",                   // 18
+  "affiliate",                     // 19
+  "proficiency",                   // 20
+  "competence",                    // 21
+  "cognition",                     // 22
+  "integrative motivation",        // 23
+  "competence",                    // 24
+  "self-deprecating",              // 25
+  "cognitive",                     // 26
+  "pedagogy",                      // 27
+];
+
+function getAllInputs() {
+  return document.querySelectorAll('.gap input');
+}
+
+function normalize(str) {
+  return str.trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function checkAnswers() {
+  const inputs = getAllInputs();
+  let correct = 0;
+  let attempted = 0;
+  inputs.forEach((inp, i) => {
+    const val = normalize(inp.value);
+    if (val === '') return;
+    attempted++;
+    inp.classList.remove('correct', 'incorrect', 'revealed');
+    if (val === normalize(answers[i])) {
+      inp.classList.add('correct');
+      correct++;
+    } else {
+      inp.classList.add('incorrect');
+    }
+  });
+  const total = answers.length;
+  const scoreEl = document.getElementById('scoreDisplay');
+  const barWrap = document.getElementById('scoreBarWrap');
+  const bar = document.getElementById('scoreBar');
+  if (attempted > 0) {
+    scoreEl.textContent = correct + ' / ' + total + ' correct';
+    barWrap.style.display = 'block';
+    bar.style.width = ((correct / total) * 100) + '%';
+    bar.style.background = correct === total ? 'var(--correct)' : correct > total * 0.6 ? 'var(--gold)' : 'var(--burgundy)';
+  } else {
+    scoreEl.textContent = 'Fill in some gaps first';
+    barWrap.style.display = 'none';
+  }
+}
+
+function revealAnswers() {
+  const inputs = getAllInputs();
+  inputs.forEach((inp, i) => {
+    inp.value = answers[i];
+    inp.classList.remove('correct', 'incorrect');
+    inp.classList.add('revealed');
+  });
+  const scoreEl = document.getElementById('scoreDisplay');
+  scoreEl.textContent = 'Answers revealed';
+  const barWrap = document.getElementById('scoreBarWrap');
+  barWrap.style.display = 'none';
+}
+
+function resetAll() {
+  const inputs = getAllInputs();
+  inputs.forEach(inp => {
+    inp.value = '';
+    inp.classList.remove('correct', 'incorrect', 'revealed');
+  });
+  document.getElementById('scoreDisplay').textContent = '';
+  document.getElementById('scoreBarWrap').style.display = 'none';
+}
+
+// Allow Enter key to move to next gap
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const inputs = Array.from(getAllInputs());
+    const idx = inputs.indexOf(document.activeElement);
+    if (idx >= 0 && idx < inputs.length - 1) {
+      inputs[idx + 1].focus();
+      e.preventDefault();
+    }
+  }
+});
+</script>
+</body>
+</html>
