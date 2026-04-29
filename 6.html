@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Map of the Terrain – Gap Fill Exercise</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f3ec;
+    --ink: #1a1612;
+    --mid: #4a3f35;
+    --accent: #8b3a2a;
+    --accent2: #2a5c6e;
+    --border: #c9bfaf;
+    --correct-bg: #d4edda;
+    --correct-border: #4a7c59;
+    --wrong-bg: #f8d7da;
+    --wrong-border: #a0303a;
+    --gap-bg: #fffaf3;
+    --gap-border: #8b3a2a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.85;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    border-bottom: 4px solid var(--accent);
+  }
+
+  header .part-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--border);
+    margin-bottom: 0.5rem;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+  }
+
+  header .authors {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--border);
+  }
+
+  .instructions-bar {
+    background: var(--accent2);
+    color: #e8f4f8;
+    padding: 0.8rem 2rem;
+    font-size: 0.88rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .instructions-bar strong { color: #fff; }
+
+  .score-bar {
+    display: none;
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+    padding: 0.8rem 1rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+  }
+
+  .score-bar span { color: #f0c080; font-size: 1.3rem; font-weight: 600; }
+
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 2.5rem 0 0.8rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1.5px solid var(--border);
+    letter-spacing: 0.01em;
+  }
+
+  .section-heading:first-of-type { margin-top: 1rem; }
+
+  p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* Figure */
+  .figure-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1.8rem 0 2.2rem;
+  }
+
+  .figure-wrap svg {
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .figure-caption {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.93rem;
+    color: var(--mid);
+    margin-top: 0.6rem;
+    text-align: center;
+  }
+
+  /* Gap inputs */
+  .gap {
+    display: inline-block;
+    position: relative;
+  }
+
+  .gap input {
+    border: none;
+    border-bottom: 2px solid var(--gap-border);
+    background: transparent;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.97em;
+    color: var(--ink);
+    width: 110px;
+    padding: 0 3px 1px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    vertical-align: baseline;
+  }
+
+  .gap input:focus {
+    border-bottom-color: var(--accent2);
+    background: rgba(42,92,110,0.06);
+  }
+
+  .gap input.correct {
+    background: var(--correct-bg);
+    border-bottom: 2px solid var(--correct-border);
+    color: #2a5a35;
+  }
+
+  .gap input.wrong {
+    background: var(--wrong-bg);
+    border-bottom: 2px solid var(--wrong-border);
+    color: #7a1a1a;
+  }
+
+  .gap input.revealed {
+    background: #fff8dc;
+    border-bottom: 2px solid #a07800;
+    color: #6b4f00;
+    font-style: italic;
+  }
+
+  /* Buttons */
+  .btn-row {
+    position: sticky;
+    bottom: 0;
+    background: var(--cream);
+    border-top: 2px solid var(--border);
+    padding: 1rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  }
+
+  button {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.6rem 1.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.18s;
+  }
+
+  #btn-check {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  #btn-check:hover { background: #6e2d1e; border-color: #6e2d1e; }
+
+  #btn-reveal {
+    background: transparent;
+    color: var(--accent2);
+    border-color: var(--accent2);
+  }
+  #btn-reveal:hover { background: var(--accent2); color: #fff; }
+
+  #btn-reset {
+    background: transparent;
+    color: var(--mid);
+    border-color: var(--border);
+  }
+  #btn-reset:hover { background: var(--border); color: var(--ink); }
+
+  @media (max-width: 600px) {
+    main { padding: 1.5rem 1rem 3rem; }
+    .gap input { width: 88px; }
+    button { font-size: 0.85rem; padding: 0.55rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="part-label">Part A &mdash; Introduction</div>
+  <h1>1 &nbsp; A Map of the Terrain</h1>
+  <div class="authors">Jane Arnold and H. Douglas Brown</div>
+</header>
+
+<div class="instructions-bar">
+  <strong>Gap-fill exercise:</strong> Each paragraph has <strong>2 gaps</strong> targeting SLA / TESOL terminology and collocation. Type your answers, then use the buttons below to check or reveal answers.
+</div>
+
+<div class="score-bar" id="score-bar">Score: <span id="score-display">—</span></div>
+
+<main>
+
+<!-- ============================================================
+     INTRODUCTION
+     ============================================================ -->
+<div class="section-heading">Introduction</div>
+
+<p>The term <strong>affect</strong> has to do with aspects of our emotional being; however, as Fehr and Russell (1984:464) have noted, 'Everyone knows what an emotion is, until asked to give a definition'. Damasio (1994:145) makes a distinction between the terms <em>emotions</em> (changes in body state in response to a positive or negative situation) and <em>feelings</em> (perceptions of these changes). Besnier (1990:421) refers to further categorization but brings up reservations from the anthropological point of view about cross-cultural validity of distinctions. In the present context, <em>affect</em> will be considered broadly as aspects of emotion, feeling, mood or attitude which
+<span class="gap"><input type="text" data-answer="condition" placeholder="________" aria-label="gap"></span>
+behaviour. In this chapter we will be looking at a wide spectrum of affect-related factors which influence language learning.</p>
+
+<p>It should be noted that the affective side of learning is not in opposition to the cognitive side. When both are used together, the learning process can be constructed on a firmer foundation. Neither the cognitive nor the affective has the last word, and, indeed, neither can be separated from the other. Damasio has shown how evidence indicates that even on the neurobiological level, emotions are a part of reason and, as he demonstrates, fortunately so. In years of clinical and experimental work he has been able to observe how the absence of emotion compromises our rational capacity. He affirms that 'certain aspects of the process of emotion and feeling are indispensable for
+<span class="gap"><input type="text" data-answer="rationality" placeholder="________" aria-label="gap"></span>'
+(Damasio 1994:xiii). Neural scientist LeDoux sees emotion and cognition as partners in the mind. He notes how, after years of behaviourist dominance, cognitive science once again made it respectable to study mental states; and he insists that now it is time 'to reunite cognition and emotion in the mind' (1996:39). LeDoux goes so far as to say that 'minds without emotions are not really minds at all' (1996:25). Although psychologists have traditionally considered emotion to be the Cinderella of mental functions, today a reversal of this trend is evident. Oatley and Jenkins (1996:122) affirm that 'emotions are not extras.</p>
+
+<p>They are the very center of human mental life … [They] link what is important for us to the world of people, things, and happenings'. And there is a growing body of evidence that points to the significance of our emotions in maintaining our physical well-being; Goleman (1997:34) presents research which indicates that 'the afflictive emotions tend to make one ill and wholesome states of mind tend to promote health'.</p>
+
+<p>A broad understanding of affect in language learning is important for at least two reasons. First, attention to affective aspects can lead to more effective language learning. When dealing with the affective side of language learners, attention needs to be given both to how we can overcome problems created by negative emotions and to how we can create and use more positive,
+<span class="gap"><input type="text" data-answer="facilitative" placeholder="________" aria-label="gap"></span>
+emotions.</p>
+
+<p>In the presence of overly negative emotions such as anxiety, fear, stress, anger or depression, our optimal learning potential may be compromised. The most innovative techniques and the most attractive materials may be rendered inadequate, if not useless, by negative
+<span class="gap"><input type="text" data-answer="affective" placeholder="________" aria-label="gap"></span>
+reactions involved with the language learning process. Anxiety, for example, can wreak havoc with the neurological conditions in the prefrontal lobe of the brain, preventing memory from operating properly and thus greatly reducing learning capacity (see Stevick this volume). Fortunately, language teachers are becoming increasingly aware of the importance of negative emotional factors and of ways to handle them.</p>
+
+<p>Looking at the other side of the question, stimulating the different positive emotional factors, such as self-esteem, empathy or motivation, can greatly facilitate the language learning process. A moment's reflection, however, leads us to the conclusion that in many situations much more attention is given to the question of negative emotions. For example, Damasio (1994) identifies five major emotions, under which others are subsumed: happiness, sadness, anger, fear, disgust. Goleman (1995) also groups the emotions in basic families: anger, sadness, fear, enjoyment, love, surprise, disgust and shame. In these and other classifications, the majority of the emotions would generally be seen as negative. While striving to resolve the at least numerically more predominant negative emotions, one should not lose sight of the importance of developing the positive. Motivation, after all, is better guided by a move towards pleasure and what Csikszentmihalyi (1990) calls
+<span class="gap"><input type="text" data-answer="flow" placeholder="________" aria-label="gap"></span>
+than by a move away from pain. Even Skinner (1957) claimed consistently more efficient long-term retention under conditions of positive
+<span class="gap"><input type="text" data-answer="reinforcement" placeholder="________" aria-label="gap"></span>
+than avoidance of aversive stimuli.</p>
+
+<p>A second reason for focusing attention on affect in the language classroom reaches beyond language teaching and even beyond what has traditionally been considered the academic realm. Daniel Goleman (1995) has convincingly presented his case for an 'expanded mandate' for all educational institutions. He points out that, especially since the eighteenth century, in Western civilization we have concentrated on understanding the rational, cognitive functions of our mind, while misusing or denying whatever falls within the realm of the emotions or the non-rational. One of the consequences of this situation is our current 'emotional
+<span class="gap"><input type="text" data-answer="illiteracy" placeholder="________" aria-label="gap"></span>'.
+'These are times,' Goleman states, 'when the fabric of society seems to unravel at ever-greater speed, when selfishness, violence, and a meanness of spirit seem to be rotting the goodness of our communal lives … There is growing evidence that fundamental ethical stances in life stem from underlying emotional capabilities' (xii). He puts forth as a solution 'a new vision of what schools can do to educate the whole student, bringing together mind and heart in the classroom' (xiv) and shows how many educational programmes are already dealing very successfully with the emotional mind.</p>
+
+<p>This expanded mandate can be fulfilled in all subjects across the curriculum, and foreign and second language learning is no exception. In a language classroom which focuses on meaningful interaction, there is certainly room for dealing with affect. Ehrman (1998: 102) states that 'it has become increasingly evident that the purpose of classroom learning is not only to convey content information'. In this context, Stevick (1998:166) speaks of bringing to language teaching a concern for 'deeper aims', for 'pursuing new "life goals", not just for reaching certain "language goals"'. As we teach the language, we can also educate learners to live more satisfying lives and to be responsible members of society. To do this, we need to be concerned with both their cognitive and
+<span class="gap"><input type="text" data-answer="affective" placeholder="________" aria-label="gap"></span>
+natures and needs.</p>
+
+<p>The relationship between affect and language learning, then, is a
+<span class="gap"><input type="text" data-answer="bidirectional" placeholder="________" aria-label="gap"></span>
+one. Attention to affect can improve language teaching and learning, but the language classroom can, in turn, contribute in a very significant way to educating learners affectively. Ideally, we keep both directions in mind.</p>
+
+<!-- ============================================================
+     LANGUAGE TEACHING REACHING OUT
+     ============================================================ -->
+<div class="section-heading">Language teaching reaching out</div>
+
+<p>Just as language teaching has become increasingly open to information from vital feeder fields (for example, psychology, psycholinguistics, sociolinguistics, education and neuroscience), in the same way we have been witnessing in recent years a broadening of aims for the foreign and second language classroom. When pointing out the advantages of teaching thinking skills in the language classroom, Chamot also stresses the importance of
+<span class="gap"><input type="text" data-answer="collaborative" placeholder="________" aria-label="gap"></span>
+learning. She notes that collaborative language work helps to develop Gardner's interpersonal intelligence, which 'is characterized by the ability to understand and respond effectively to others' (1995:4). This is definitely a step in the direction of emotional literacy. Freudenstein (1992) has argued that in our increasingly aggressive world, teaching peace has a vital role in the language classroom. <em>Idiom</em>, published by NYSTESOL, devoted an entire issue (1993–94) to peace and environmental education, and <em>English Teaching Forum</em>'s October 1993 issue was dedicated to 'Environment and ESL'.</p>
+
+<p>Along with this diversification of objectives for the language classroom has come a new view of the language teacher. From the point of view of affective language learning, being is just as important as doing; a good language teacher knows and does but most essentially is. This does not mean that language teachers no longer need, for example, a firm command of the language being taught or proper training in language teaching
+<span class="gap"><input type="text" data-answer="methodology" placeholder="________" aria-label="gap"></span>.
+It means that these skills will be much more effective if teachers are also concerned with their own emotional intelligence, as this can make a great deal of difference in the language learning process from the point of view of the learner.</p>
+
+<p>Drawing on Sartre (1956), van Lier (personal communication) comments that in teacher training he finds it useful to set teacher development within a broad spectrum of experience. (See Figure 1.) <em>Having</em> relates to the knowledge (of subject matter and pedagogy, of self and others) and resources teachers have available, <em>Doing</em> to their skills and their abilities to construct
+<span class="gap"><input type="text" data-answer="learning" placeholder="________" aria-label="gap"></span>
+opportunities, and <em>Being</em> to their personal qualities, their vision, and their sense of mission.</p>
+
+<!-- Figure 1 -->
+<div class="figure-wrap">
+  <img src="data:image/png;base64,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" alt="Figure 1: Areas for teacher development — a circle divided into three equal segments labelled Being (top), Having (bottom-left), and Doing (bottom-right)" style="max-width:340px; width:100%;">
+  <div class="figure-caption">Figure 1 &nbsp;&nbsp; Areas for teacher development</div>
+</div>
+
+<p>Millett points out that when teachers focus on their students' learning, they 'begin to see that if they want to improve their teaching and become more aware of the learning, eventually they have to work on themselves' (interviewed in Johnson 1997:20). Thus, as part of their professional training, teachers can benefit from working on their personal development. As they come to know themselves better, they will also be able to understand their students better and lead them towards more significant learning and growth. As Griggs (1996:232) puts it, 'this awareness [of self] and belief in human potential is a
+<span class="gap"><input type="text" data-answer="transformative" placeholder="________" aria-label="gap"></span>
+power in itself. It lays a firm basis for learning and working effectively and connecting deeply with the self as well as with
+<span class="gap"><input type="text" data-answer="others" placeholder="________" aria-label="gap"></span>'.</p>
+
+<!-- ============================================================
+     INFLUENCE OF AFFECT IN EDUCATIONAL CONTEXTS
+     ============================================================ -->
+<div class="section-heading">The influence of affect in educational contexts</div>
+
+<p>Interest in affective factors in education is not new. Already implicit in the writing of Dewey, Montessori and Vygotsky in the first part of this century, it gained importance with the growth of humanistic psychology in the 1960s (see Maslow 1968; Rogers 1969). Not unlike Goleman today, Rogers was pessimistic about mainstream educational institutions: 'They have focused so intently on the cognitive and have limited themselves so completely to "educating from the neck up", that this narrowness is resulting in serious social consequences' (Rogers 1975:40–41). Among the most notable applications of humanistic psychology to education was the Confluent Education movement, whose theorists, such as George Isaac Brown (1971) and Gloria Castillo (1973), stressed the need to unite the cognitive and
+<span class="gap"><input type="text" data-answer="affective" placeholder="________" aria-label="gap"></span>
+domains in order to educate the whole person. With related aims, the Human Potential Research Project was founded by John Heron at the University of Surrey in 1970.</p>
+
+<p>In the late 1970s and 1980s foreign and second language teacher trainers and writers expressed similar concerns. Stevick, Rinvolucri, Moskowitz, Galyean, among other representatives of Humanistic Language Teaching, were searching for ways to enrich language learning by incorporating aspects of the affective dimension of the learner. It has been stressed, however, that humanistic language teaching does not propose to replace teaching the second language by other activities, but rather to add to the effective language teaching going on in the classroom, where information and
+<span class="gap"><input type="text" data-answer="formation" placeholder="________" aria-label="gap"></span>
+can co-exist (Arnold 1998).</p>
+
+<p>Many of the major developments in language teaching during the past twenty-five years are in some way related to the need to acknowledge affect in language learning. The methods coming to the fore in the 1970s – Suggestopedia, Silent Way, Community Language Learning, Total Physical Response – take into account the affective side of language learning in a very central manner. (Description and evaluation of these methods can be found in Asher 1977; Curran 1976; Gattegno 1972; Larsen-Freeman 1986; Lozanov 1979; Richards and Rodgers 1986; and Stevick 1976, 1980, 1990, 1996, 1998.)</p>
+
+<p>Communicative Language Teaching (CLT) has had pervasive influence on language teaching in all its phases (syllabus design, materials, teaching techniques …), and it too gives affect its due. CLT emerged in the late 70s as a reaction to structuralism and to methods such as the
+<span class="gap"><input type="text" data-answer="audiolingual" placeholder="________" aria-label="gap"></span>
+which neglected important affective aspects of learning and which were not successful in teaching learners to communicate. 'Communicative Language Teaching appealed to those who sought a more humanistic approach to teaching, one in which the interactive process of communication received priority' (Richards and Rodgers 1986:83). Unfortunately, in some cases, CLT has been reduced to the implementation of certain types of activities, without engaging learners in real communication (see Rinvolucri this volume).</p>
+
+<p>The Natural Approach, developed by Krashen and Terrell (1983), takes affect into consideration in a prominent way. One of the five hypotheses in Krashen's theory of second language
+<span class="gap"><input type="text" data-answer="acquisition" placeholder="________" aria-label="gap"></span>
+is the affective filter, and Natural Approach classroom activities are designed to minimize stress.</p>
+
+<p>Curriculum design in recent years has also been influenced by humanistic-affective currents of thought. In the past many experts on language teaching have tended to emphasize the language over the teaching, the <em>what</em> over the <em>how</em>; and theoretical linguistics has often occupied space that might more appropriately be given to insights from the field of education, for example. Van Lier (1994:341) states clearly: 'I would like to see the field of SLA anchored in education'. As a way to cure the 'classic schizophrenia' of an understanding of SLA which moves back and forth between education and linguistics, he has proposed the development of both domains through what he and others have called 'educational linguistics'. Current researchers in the area of curriculum design have developed undeniably humanistic
+<span class="gap"><input type="text" data-answer="learner-centred" placeholder="________" aria-label="gap"></span>
+models (Nunan 1988; Tudor 1997), which show the necessity of focusing more on language learners and their experience rather than simply on the narrower field of non-learner related linguistic corpora.</p>
+
+<p>Indications that learners themselves would welcome a greater focus on humanistic content in language classes are not lacking. A study of reading topic preferences among advanced level students of English in Spain showed that from a broad selection of reading texts, including the main types found in most EFL/ESL textbooks, those most highly ranked related to personal development (Avila 1997). Similarly, Moskowitz (this volume) has documented the favourable response of foreign language students to humanistic language activities.</p>
+
+<p>A learner-centred language curriculum takes affect into account in many ways. Participation in the decision-making process opens up greater possibilities for learners to develop their whole potential. In addition to the language content, they also learn responsibility, negotiation skills and self-evaluation, all of which lead to greater
+<span class="gap"><input type="text" data-answer="self-esteem" placeholder="________" aria-label="gap"></span>
+and self-awareness.</p>
+
+<p>In an affect-relevant study on adult learners applied to course planning, Brundage and MacKeracher (1980) found that better learners look to their own experience as a resource, set learning objectives in consonance with their self-concept, process through several channels and have learnt how to learn. As learners, they are influenced by their feelings and do not learn when
+<span class="gap"><input type="text" data-answer="anxious" placeholder="________" aria-label="gap"></span>
+or stressed. Learning for them is most effective when it is personally relevant and when information is presented through different sensory modes.</p>
+
+<p>Among the recent developments of significance for language learning are those from the fields of psychology and neurobiology, and both acknowledge the role of affect. For example, Stevick (1996) discusses research from psychology on one of the most vital aspects of language learning – memory – and links it very closely with emotion. In their comprehensive overview of the contributions of psychology to language teaching, Williams and Burden (1997:44) argue that educational psychology shares much with humanistic approaches to language teaching, especially in the need to go beyond mere language instruction to a concern with 'making learning experiences meaningful and relevant to the individual, with developing and growing as a whole person. We would argue also that it has a moral purpose which must incorporate a sense of values'. And current work on the neurobiological base of learning, which will no doubt have increasingly important implications for language learning and teaching, emphasizes the centrality of our emotional reactions in the learning process. Schumann (1997 and this volume) relates recent developments in neurobiology to affect and language
+<span class="gap"><input type="text" data-answer="learning" placeholder="________" aria-label="gap"></span>.</p>
+
+<!-- ============================================================
+     COGNITION OR AFFECT?
+     ============================================================ -->
+<div class="section-heading">Cognition or affect? Cognition and affect!</div>
+
+<p>Noted learning and cognition specialist Ernest Hilgard recognized the need for an integrative approach: 'purely cognitive theories of learning will be rejected unless a role is assigned to
+<span class="gap"><input type="text" data-answer="affectivity" placeholder="________" aria-label="gap"></span>'
+(1963:267). Speaking of mega-trends for learning in the twenty-first century, Gross has stressed the importance of whole-brain learning, which recognizes the contribution that affect makes:</p>
+
+<p style="margin-left:2rem; border-left:3px solid var(--border); padding-left:1rem; font-style:italic;">Insights into the ways in which our brains function have generated tremendous excitement in scientific and educational circles over the past decade. It is now apparent that learning can be enlivened and strengthened by activating more of the brain's potential. We can accelerate and enrich our learning, by engaging the
+<span class="gap"><input type="text" data-answer="senses" placeholder="________" aria-label="gap"></span>,
+emotions, imagination. (Gross 1992:139)</p>
+
+<p>In the remainder of this chapter we will consider some of the specific ways affect relates to second language acquisition. In an attempt to provide an organizational framework for such a broad subject, we will look at affectivity in second language learning from two perspectives: that which is concerned with the language learner as an individual and that which focuses on the learner as a participant in a socio-cultural situation, an individual who inevitably relates to others.</p>
+
+<!-- ============================================================
+     INDIVIDUAL FACTORS
+     ============================================================ -->
+<div class="section-heading">Individual factors</div>
+
+<p>The first of these aspects has to do with internal factors that are part of the learner's personality. Although learning a language and using it are basically interactive activities that depend on varying types of relationships with others and with the culture as a whole, the second language acquisition process is strongly influenced by individual personality
+<span class="gap"><input type="text" data-answer="traits" placeholder="________" aria-label="gap"></span>
+residing within the learner. The way we feel about ourselves and our capabilities can either facilitate or impede our learning; accordingly, the learner-intrinsic factors will have a basically positive or negative influence, though there can sometimes be a mixture of liabilities and assets for each. It should be noted, of course, that the various emotions affecting language learning are intertwined and interrelated in ways that make it impossible to isolate completely the influence of any one of them. We now turn to some of these factors that are of especial importance for second language
+<span class="gap"><input type="text" data-answer="learning" placeholder="________" aria-label="gap"></span>.</p>
+
+<!-- ANXIETY -->
+<div class="section-heading" style="font-size:1.05rem;">Anxiety</div>
+
+<p>Anxiety is quite possibly the affective factor that most pervasively
+<span class="gap"><input type="text" data-answer="obstructs" placeholder="________" aria-label="gap"></span>
+the learning process. It is associated with negative feelings such as uneasiness, frustration, self-doubt, apprehension and tension. Heron (1989:33) makes reference to what he terms existential anxiety, which arises out of a group situation and has three interconnected components that are relevant to the language classroom: 'Acceptance anxiety. Will I be accepted, liked, wanted? … Orientation anxiety. Will I understand what is going on? … Performance anxiety. Will I be able to do what I have come to learn?'</p>
+
+<p>It is not always clear how foreign language anxiety comes into being. For some people it may be a case of having been ridiculed for a wrong answer in class; for others it may have to do with factors unconnected with the language class itself. In many cases, the roots may be found in what Heron (1989:33) terms archaic anxiety, which is 'repressed distress of the past – the personal hurt, particularly of childhood, that has been denied so that the individual can survive emotionally'. Thus unhealed past wounds may impinge on present situations with potentially threatening elements.</p>
+
+<p>There are few, if any, disciplines in the curriculum which lay themselves open to anxiety production more than foreign or second language learning. There is a great deal of vulnerability involved in trying to express oneself before others in a shaky linguistic vehicle. It is possible in some cases that the methodology used can contribute to furthering anxiety. With the grammar-translation method one might assume a reduction of the possibility of anxiety, since the learners have relatively little of themselves invested in the activities required. However, with the advent of methods which focus on communication, and especially communication involving more personal aspects of one's being, such as feelings, if care is not taken to provide an emotionally safe atmosphere, the chance for the development of anxiety-provoking situations can increase greatly. This is particularly true if at the same time the stakes involved are very high, such as in academic settings, where the
+<span class="gap"><input type="text" data-answer="evaluation" placeholder="________" aria-label="gap"></span>
+of the learner can conceivably have far-reaching consequences.</p>
+
+<p>When anxiety is present in the classroom, there is a down-spiralling effect. Anxiety makes us nervous and afraid and thus contributes to poor performance; this in turn creates more anxiety and even worse performance. The feelings of fear and nervousness are intimately connected to the cognitive side of anxiety, which is worry. Worry wastes energy that should be used for memory and processing on a type of thinking which in no way facilitates the task at hand (Eysenck 1979). Although it is a major obstacle to language learning, anxiety can be reduced; suggestions for dealing with it can be found in Oxford (this volume), Horwitz and Young (1991) and Young
+<span class="gap"><input type="text" data-answer="(1991)" placeholder="________" aria-label="gap"></span>.</p>
+
+<!-- INHIBITION -->
+<div class="section-heading" style="font-size:1.05rem;">Inhibition</div>
+
+<p>Making mistakes is implicit in language learning. We made them when we were children learning our first language, and we cannot help making them when we learn a second language as older children or adults. However, as young children, we were not inhibited and thus could participate freely in the learning adventure, taking
+<span class="gap"><input type="text" data-answer="risks" placeholder="________" aria-label="gap"></span>
+as needed. When learning, we have to be able to 'gamble' a bit, to be willing to try out hunches about the language and to take a reasonable risk of being wrong. Inhibitions develop when small children gradually learn to identify a self that is distinct from others, and their affective traits begin to form. With greater awareness comes the need to protect a fragile ego, if necessary by avoiding whatever might threaten the self. Strong criticism and words of ridicule can greatly weaken the ego, and the weaker the ego, the higher the walls of inhibition.</p>
+
+<p>Similar to Freud's idea of body ego, which refers to the child's conception of the limits of his or her physical self, is Guiora's use of the construct of
+<span class="gap"><input type="text" data-answer="language" placeholder="________" aria-label="gap"></span>
+ego to explain the presence of language boundaries (Guiora, Brannon and Dull 1972). In the course of their development, the lexis, syntax, morphology and phonology of the individual's language acquire firm boundaries. During the early formative period the language barriers fluctuate, since learners are less aware of language forms and of making mistakes in using the forms, but once ego development is complete, the permeability of the boundaries is greatly reduced. (See Ehrman 1996 and this volume.) Thus it is that aspects of a second language may be rejected, as they do not fit into the patterns contained within the language ego boundaries. Post-puberty learners of a second language, for example, often report inhibitions when pronouncing the language or trying to use it for communicative purposes.</p>
+
+<p>In the 70s and 80s studies were made on the effects of inhibition-reducing substances, such as alcohol and Valium, on pronunciation performance (Guiora, Beit-Hallami, Brannon, Dull and Scovel 1972; Guiora, Acton, Erard and Strickland 1980). The results were inconclusive, though there is strong intuitive support for the negative influence of inhibition on language learning. What was shown in one of the experiments was that the person administering the test made more of a difference on the scores than the tranquillizer. These results point to the encouraging hypothesis that human factors, rather than external chemical substances, can be most efficient in reducing inhibition.</p>
+
+<p>Language teaching approaches in recent years have taken into special consideration the necessity of creating learning situations in which inhibition and ego barriers are lowered so that free communication can take place. Dufeu (1994:89–90) speaks of establishing an adequate affective framework so learners:</p>
+
+<p style="margin-left:2rem; border-left:3px solid var(--border); padding-left:1rem; font-style:italic;">feel comfortable as they take their first public steps in the strange world of a foreign language. To achieve this, one has to create a climate of acceptance that will stimulate
+<span class="gap"><input type="text" data-answer="self-confidence" placeholder="________" aria-label="gap"></span>,
+and encourage participants to experiment and to discover the target language, allowing themselves to take risks without feeling embarrassed.</p>
+
+<p>A closely-related area of concern is the question of errors. Mistakes can be viewed as both internal and external threats to our ego. Internally, our critical self and our performing self can be in conflict: when as learners we perform something 'wrong', we become critical of our own mistakes. Externally, we perceive others exercising their critical selves, even judging us as persons when we make an error in a second language. Therefore, language teachers should not ignore affective factors when establishing the most appropriate policy of error
+<span class="gap"><input type="text" data-answer="correction" placeholder="________" aria-label="gap"></span>
+for their particular situation.</p>
+
+<!-- EXTROVERSION-INTROVERSION -->
+<div class="section-heading" style="font-size:1.05rem;">Extroversion–introversion</div>
+
+<p>There is sometimes an erroneous connection established between inhibition and introversion. Extroverts are often stereotyped as being outgoing and talkative and, therefore, better language learners, since they are more likely to participate openly in the classroom and seek out opportunities to practise. Introverts, by implication, might be considered less apt language learners, since they seem to be too reserved, too self-restrained. North American classrooms, for example, tend to reward extroverted behaviour, and there the outspoken student may be considered a better speaker of the target language. Actually, extroversion has to do with the need for receiving ego enhancement, self-esteem and a sense of wholeness from other people, while introversion refers to the degree that individuals derive this sense from within themselves. Introverts can have a great inner strength of character and may show high degrees of
+<span class="gap"><input type="text" data-answer="empathy" placeholder="________" aria-label="gap"></span>,
+both qualities being useful for language learning. Consequently, they do not necessarily have the higher ego barriers characteristic of inhibition.</p>
+
+<p>The current state of research does not permit us to draw firm conclusions as to whether either extroversion or introversion is directly related to success in language learning. However, what is clear is that certain types of classroom activities are more appropriate for one or the other. For example, teachers must be sensitive to learners' reticence towards participating in tasks that require expansiveness and overt sociability, such as drama and role-play, and lead them towards these very useful activities in a suitable manner. Teachers should also take into account any cultural norms which may make an outsider confuse cultural patterns of correct behaviour with individual feelings of inhibition or
+<span class="gap"><input type="text" data-answer="introversion" placeholder="________" aria-label="gap"></span>.</p>
+
+<!-- SELF-ESTEEM -->
+<div class="section-heading" style="font-size:1.05rem;">Self-esteem</div>
+
+<p>Self-esteem has to do with the inevitable evaluations one makes about one's own worth. It is a basic requirement for successful cognitive and affective activity. We derive our notions of self-esteem from our inner experience and our relationship with the external world. The foundation for our concept of Self is laid in early childhood. As we incorporate beliefs, attitudes and memories, new experiences and ideas will be affected by the previously existing notion of who we are and by our need to protect this fragile Self. Ehrman (in press) points out that self-esteem 'begins with the approbation and reliable attachment of important others but is eventually internalized so that it can be maintained relatively independently of the outside world. Teachers can build on this
+<span class="gap"><input type="text" data-answer="phenomenon" placeholder="________" aria-label="gap"></span>
+with students of any age'.</p>
+
+<p>Canfield and Wells (1994:5) suggest that: the most important thing a teacher can do to help students emotionally and intellectually is to create an environment of mutual support and care. The crucial thing is the safety and encouragement students sense in the classroom … Further, they must recognize that they are valued and will receive affection and support.</p>
+
+<p>Like anxiety, self-esteem may be described on three progressively more specific levels: global or general self-esteem, situational self-esteem, which refers to one's appraisals of oneself in specific situations, such as education or work, and task self-esteem, which has to do with particular tasks in a specific situation. Heyde (1979) found that all three correlated positively with performance on an oral production task by students learning French.</p>
+
+<p>Extensive research indicates conclusively that the cognitive aspects of learning are fostered in an atmosphere in which self-esteem is promoted (Waltz and Bleuer 1992). Self-esteem is especially significant in young children (see de Andrés, this volume) and has been shown to predict beginners' native-language
+<span class="gap"><input type="text" data-answer="reading" placeholder="________" aria-label="gap"></span>
+ability better than IQ (Wattenberg and Clifford 1962). But learners never outgrow the need for a healthy self-concept. In what they call the 'poker chip theory of learning', in which poker chips represent learners' self-concept, Canfield and Wells (1994:6) conclude that:</p>
+
+<p style="margin-left:2rem; border-left:3px solid var(--border); padding-left:1rem; font-style:italic;">the student who has had a good deal of success in the past will be likely to risk success again; if he should fail, his self-concept can 'afford' it. A student with a history predominated by failures will be reluctant to risk failure again. His depleted self-concept cannot afford it … One obvious recommendation in this situation is to make each learning step small enough so that the student is asked to only risk one chip at a time instead of five. But even more obvious, in our eyes, is the need to build up the student's supply of poker chips so that he can begin to have a surplus of chips to
+<span class="gap"><input type="text" data-answer="risk" placeholder="________" aria-label="gap"></span>.</p>
+
+<!-- MOTIVATION -->
+<div class="section-heading" style="font-size:1.05rem;">Motivation</div>
+
+<p>Second language acquisition theory leaves no doubt about the crucial importance of a further affective variable, motivation, which is actually a cluster of factors that 'energize behaviour and give it direction' (Hilgard, Atkinson and Atkinson 1979:281). Chomsky (1988:181) points out the importance of activating learners' motivation: 'The truth of the matter is that about 99 percent of teaching is making the students feel interested in the material'. Motivation involves the learner's reasons for attempting to acquire the second language, but precisely what creates motivation is the crux of the matter. In the early work of Gardner and Lambert (1972), motivation was seen to be divided into two very general orientations:
+<span class="gap"><input type="text" data-answer="integrative" placeholder="________" aria-label="gap"></span>
+and instrumental. The former refers to a desire to learn the language in order to relate to and even become part of the target language culture, and the latter has to do with practical reasons for language learning, such as getting a promotion. One type of motivation is not necessarily always more effective than the other; what is important is the degree of energizing and the firmness of the direction it provides, and that will also depend on other variables within the learner.</p>
+
+<p>This basic social psychological model for language learning motivation has been elaborated further by Gardner (1985) and his associates and by other SLA researchers. In fact, the abundance of mature theorizing about the concept in recent years (Brown 1990; Crooks and Schmidt 1991; Dörnyei 1990 and 1994; Oxford and Shearin 1994; Tremblay and Gardner 1995, Williams and Burden 1997, among others) would seem to indicate that language learning motivation research is definitely coming of age. Several frameworks have been proposed to explain
+<span class="gap"><input type="text" data-answer="motivational" placeholder="________" aria-label="gap"></span>
+aspects of language learning. At the present time we must still wait for empirical verification of many of their components and for further elaboration, clarification and discussion of the relationship among the components, as well as their unification in a definitive model. However, valuable implications for the L2 classroom are not wanting; Dörnyei (1994) Oxford and Shearin (1994) and Williams and Burden (1997) provide some useful practical suggestions for motivating L2 learners.</p>
+
+<p>In their discussion of extending the motivational framework for SLA, Oxford and Shearin consider other contributions from general psychology, such as the concept formulated by Maslow (1970) of the 'hierarchy of needs', which range from fundamental physical necessities to higher needs of security, identity, self-esteem and self-actualization. Whereas FL learners might not register needs on the lowest levels, the SL learners' needs 'would be negotiated in the target language from the very lowest levels of the hierarchy; even physiological, physical safety, and physical security needs might not be assured without the use of the
+<span class="gap"><input type="text" data-answer="target" placeholder="________" aria-label="gap"></span>
+language' (Oxford and Shearin 1994:21).</p>
+
+<!-- Extrinsic and Intrinsic -->
+<div class="section-heading" style="font-size:1.05rem; color: var(--accent2);">Extrinsic and intrinsic motivation</div>
+
+<p>Extrinsic motivation comes from the desire to get a reward or avoid punishment; the focus is on something external to the learning activity itself. With intrinsic motivation the learning experience is its own reward: 'Intrinsic motivation is in evidence whenever students' natural curiosity and interest energize their learning' (Deci and Ryan 1985:245). Discussing the optimal conditions for the development of intrinsic motivation, Deci (1992:60) highlights 'autonomy support, competence-promoting feedback and interpersonal involvement'. Research indicates that, while extrinsic motivation can also be beneficial, learning is most favourably influenced by intrinsic orientations, especially for
+<span class="gap"><input type="text" data-answer="long-term" placeholder="________" aria-label="gap"></span>
+retention. Studies have shown that adding extrinsic rewards can actually reduce motivation. In experimental situations subjects have been shown to exhibit reduced efficiency and pleasure in an intrinsically interesting task when an extrinsic reward was introduced (Kohn 1990).</p>
+
+<p>With their emphasis on teacher-directed classrooms, grades, tests and competitiveness, most schools encourage only extrinsic motivation. This has the effect of leading students to work to please teachers or authorities, rather than of developing a love of knowledge in independent minds. Bruner (1962) speaks of 'the autonomy of self-reward', affirming that one of the most effective ways to help children think and learn is to 'free' them from the control of rewards and punishments. It is reasonable to assume that our language learners will generally have a better chance of success with the development of intrinsic forms of motivation in which they learn for their own personal reasons of achieving competence and autonomy, although feedback leading to increased feelings of competence and self-determination is one extrinsic reward shown to further intrinsic motivation (Brown 1994b:39). In any event, what matters is how learners
+<span class="gap"><input type="text" data-answer="internalize" placeholder="________" aria-label="gap"></span>
+the external aspects, making personal sense of them (Williams and Burden 1997).</p>
+
+<p>Some suggestions for stimulating the growth of intrinsic motivation in the L2 classroom would be: (1) help learners develop autonomy by learning to set personal goals and to use learning strategies, (2) rather than over-rewarding them, encourage learners to find self-satisfaction in a task well done, (3) facilitate learner participation in determining some aspects of the programme and give opportunities for cooperative learning, (4) involve students in content-based activities related to their interests which focus their attention on meanings and purposes rather than on verbs and prepositions, and (5) design tests which allow for some student input and which are face-valid in the eyes of students; provide comments as well as a letter or numerical
+<span class="gap"><input type="text" data-answer="evaluation" placeholder="________" aria-label="gap"></span>
+(H. D. Brown 1994b:43–44).</p>
+
+<p>Very closely related to intrinsic motivation is the concept of flow, developed by University of Chicago psychologist Mihaly Csikszentmihalyi. Flow, or optimal experience, is a state of effortless movement of psychic energy. Goleman (1995:90) underlines its connection with affect: 'flow represents perhaps the ultimate in harnessing the emotions in the service of performance and learning. In flow the emotions are not just contained and channeled, but positive, energized and aligned with the task at hand'. It is so relevant because it is the ideal state for effective learning: 'Because flow feels so good, it is intrinsically rewarding. It is a state in which people become utterly absorbed in what they are doing, paying undivided attention to the task, their awareness merged with their
+<span class="gap"><input type="text" data-answer="actions" placeholder="________" aria-label="gap"></span>'
+(Goleman 1995:91).</p>
+
+<p>In language learning, as in many other activities, this pure enjoyment may not be present in the initial stages when some of the more elementary processes have to be made automatic (McLeod and McLaughlin 1986; McLaughlin 1990) in order to free energy for higher level learning, which can be more engrossing. At the beginning, then, teachers may need to be concerned with ways to encourage students to make the necessary effort. At this point external incentives (grades, possible job qualifications) may be useful. But learners should move beyond the extrinsic. Echoing Dewey's thinking, Csikszentmihalyi (1990:69) affirms that 'if experience is intrinsically rewarding, life is justified in the present, instead of being held hostage to a hypothetical future gain'.</p>
+
+<p>For an activity to enter the flow channel, it must be neither so easy that it produces boredom nor so challenging that it leads to anxiety. Extensive studies (Csikszentmihalyi and Csikszentmihalyi 1988) have outlined the major components of flow. Flow can occur with a task if we have a reasonable chance of completing it and if we are able to concentrate on it. The task should have clear goals and provide immediate
+<span class="gap"><input type="text" data-answer="feedback" placeholder="________" aria-label="gap"></span>.
+A deep but effortless involvement keeps everyday worries at bay. There is a sense of control over one's actions, and concern for the self disappears, paradoxically actually strengthening the self. Finally, the sense of time is often altered.</p>
+
+<p>These components readily suggest important implications for language learning, and, although we have been looking at intrinsic motivation and flow from the point of view of the language learner, the concepts are no less relevant for language teachers. Teachers for whom their work is a source of flow, who themselves are motivated by the pleasure of participating in the learning experience, are highly motivating
+<span class="gap"><input type="text" data-answer="models" placeholder="________" aria-label="gap"></span>
+for learners.</p>
+
+<!-- Cognitive theories of motivation -->
+<div class="section-heading" style="font-size:1.05rem; color: var(--accent2);">Cognitive theories of motivation</div>
+
+<p>Dörnyei (1994) refers to cognitive theories in educational psychology in which motivation is seen to be a function of a person's thought processes; these formulations, however, provide a clear example of the difficulty of isolating the cognitive, for at many points affect inevitably enters the picture. He mentions three major conceptual systems described by Weiner (1992) which are related to motivation: attribution theory, learned helplessness and
+<span class="gap"><input type="text" data-answer="self-efficacy" placeholder="________" aria-label="gap"></span>.</p>
+
+<p>Attribution theory states that what we see as the causes for our past successes or failures will affect our expectations and, through them, our performance. Failure attributed to lack of ability is much more limiting than failure attributed to bad luck or other non-stable factors. As Weiner (1985:560) explains: success and failure perceived as due to internal causes such as personality, ability or effort respectively raises or lowers self-esteem or self-worth, whereas external
+<span class="gap"><input type="text" data-answer="attributions" placeholder="________" aria-label="gap"></span>
+for positive or negative outcomes do not influence feelings about the self. It is a question of shifting the causal dimension. Language learners can be encouraged to attribute failures to causes which can be remedied and which do not lead to a devaluation of the self.</p>
+
+<p>With learned helplessness (Seligman 1991) learners are convinced through past failures that attempting to change the situation is useless and thus have 'learnt' not to try. They are submerged in a helpless state that engulfs them and they feel that they cannot possibly achieve their goals, no matter what they do. They should be taught to formulate realistic goals which are within their grasp so that success in achieving them will bring them greater
+<span class="gap"><input type="text" data-answer="self-confidence" placeholder="________" aria-label="gap"></span>.</p>
+
+<p>Self-efficacy has to do with learners' opinions about their ability to carry out a task. Within the educational setting, Ehrman (1996:137) defines it as 'the degree to which the student thinks he or she has the capacity to cope with the learning challenge'. Oxford and Shearin (1994:21) point out that learners must believe they have some control over the outcomes of the learning process and they must feel a 'sense of effectiveness within themselves' if they are to make the effort necessary to learn the new language. They suggest that teachers can encourage self-efficacy 'by providing meaningful tasks at which students can succeed and over which students can have a feeling of control … [and] by giving students a degree of choice in classroom activities …'.</p>
+
+<p>In all three cases motivation could be increased by encouraging learners to use positive
+<span class="gap"><input type="text" data-answer="self-talk" placeholder="________" aria-label="gap"></span>,
+which can help to replace feelings of limitation by those of empowerment. Many learners, especially low-achievers, have been strongly affected by years of negative self-talk, much of it on a semi-unconscious level: 'I'll never get this', 'I'm always making mistakes', and so forth. They can be taught to tell themselves 'I did that well', 'I can learn this' or 'I can do better next time' in order to reinforce their beliefs about their ability to learn. Revell and Norman (1997) describe a strategy for dealing with negative self-talk in which students imagine telling themselves the negative message in a variety of silly voices which keep them from taking the message seriously.</p>
+
+<p>The above theories not only have to do with learner beliefs; it goes without saying that the outcome of the learning process can also be strongly influenced by teacher beliefs. Claxton (1989:111) lists some of the limiting beliefs that can 'block the expression and the development of the personal qualities that teachers need'; the list is long but the core notion is that the feeling of '"It can't be done" is likely to be buttressed by either or both of two personal beliefs "I can't do anything" and "I don't know what to do"'. These negative beliefs are sizeable obstacles to successful
+<span class="gap"><input type="text" data-answer="teaching" placeholder="________" aria-label="gap"></span>.</p>
+
+<!-- LEARNER STYLES -->
+<div class="section-heading" style="font-size:1.05rem;">Learner styles</div>
+
+<p>We only have to glance for a moment at any classroom to realize the number of different ways in which students are learning (see Reid this volume and 1995). Among the cognitive learning styles are Field-Independent/Field-Dependent and Global/Analytic styles. Learning styles research has made a significant contribution to language teaching by increasing our awareness of the need to take individual learner variations into consideration and to diversify classroom activities in order to reach a wider variety of learners. What is suitable for a learner who functions well in the visual mode, for example, may not address the needs of someone else who learns best with auditory or
+<span class="gap"><input type="text" data-answer="kinaesthetic" placeholder="________" aria-label="gap"></span>
+activities.</p>
+
+<p>One categorization that has been dealt with in second language acquisition research (Ehrman 1996) is the Myers-Briggs Type Indicator, an inventory based on Jung's theory of psychological types. Jung (1923) said that people are different in fundamental ways and that an individual has preferences for 'functioning' in ways that are typical for that particular individual. The Myers-Briggs test includes four poles of functioning: introversion-extroversion; sensing-intuition; thinking-feeling; judging-perceiving. These lead to sixteen personality profiles which have been described by Keirsey and Bates (1984). Ehrman and Oxford (1990) and Ehrman (1996) have applied these concepts to language teaching. Learning styles research is especially useful in small group situations in which there is more opportunity to give individual attention to each learner, but in any case it can sensitize educational facilitators to the importance of learner
+<span class="gap"><input type="text" data-answer="differences" placeholder="________" aria-label="gap"></span>.</p>
+
+<p>Ehrman (1996:129) notes that it may be enough just to let learners know you recognize their special needs. One can: gradually build in an increased array of options for classroom work and homework assignments. Guidance to students in structuring their own homework along lines that begin in their
+<span class="gap"><input type="text" data-answer="comfort" placeholder="________" aria-label="gap"></span>
+zones and gradually stretch them out of the comfort zones is generally well received.</p>
+
+<!-- ============================================================
+     RELATIONAL FACTORS
+     ============================================================ -->
+<div class="section-heading">Relational factors</div>
+
+<p>In nearly all language teaching situations, not only are we dealing with the language and with learners and their particular cognitive and affective characteristics; we must also take into account the relational aspects of learning a new language. Language learning and use is a transactional process. Transaction is the act of reaching out beyond the self to others, and, as such, it is intimately connected with the learner's emotional being. A good part of who we consider we are is formed by our social identity, 'that part of an individual's self-concept which derives from his [or her] knowledge of his [or her] membership in a social group (or groups), together with the value and emotional significance attached to that membership' (Tajfeld 1978:63).</p>
+
+<p>When we bring a social focus to language acquisition studies, we become aware that learners are not anchored in a fixed state but rather are conditioned by forces in the social context affecting them. The extent to which the social structures within the second language situation affect one's
+<span class="gap"><input type="text" data-answer="identity" placeholder="________" aria-label="gap"></span>
+has not yet been researched thoroughly. Peirce (1995:12) laments that 'SLA theorists have not developed a comprehensive theory of social identity that integrates the language learner and the language learning
+<span class="gap"><input type="text" data-answer="context" placeholder="________" aria-label="gap"></span>'.</p>
+
+<p>The others we relate to in transactions in the target language may be those we coincide with in time and space as we participate in the language learning adventure taking place in one specific classroom, or they may be part of what is for us at least partially an anonymous new linguistic and cultural community. What seems to be true is that for any intergroup behaviour to be understood, 'both cognitive and
+<span class="gap"><input type="text" data-answer="affective" placeholder="________" aria-label="gap"></span>
+factors must be incorporated' (Gudykunst and Ting-Toomey 1988:217).</p>
+
+<!-- EMPATHY -->
+<div class="section-heading" style="font-size:1.05rem;">Empathy</div>
+
+<p>Spanning both of these types of transaction is the variable of empathy. In everyday language, empathy is the process of 'putting yourself into someone else's shoes'. One need not abandon one's own way of feeling or understanding, nor even agree with the position of the other. It is simply an appreciation, possibly in a detached manner, of the identity of another individual or culture. Empathy is a factor, perhaps the most important one, in the harmonious coexistence of individuals in society. It is closely related to cultural relativity, which frees us from our conditioning and helps us to recognize that our way is not the only way and possibly not even the best way.</p>
+
+<p>For empathy to flourish there must be an identification with another person, but before this can exist, there must also be an awareness and knowledge of one's own
+<span class="gap"><input type="text" data-answer="feelings" placeholder="________" aria-label="gap"></span>
+(Hogan 1969). As teachers move into closer contact with their own feelings, they will be better able to model empathetic behaviour in their dealings with students and to lead them to greater cross-cultural empathy.</p>
+
+<p>The jury is still out on the question of the degree of
+<span class="gap"><input type="text" data-answer="correlation" placeholder="________" aria-label="gap"></span>
+between empathy and success in language learning; however, there is strong intuitive support for its existence, and there are interesting questions to be considered regarding teaching methodology and research. For example, what type of classroom activities could be used to encourage empathy in the learners? Are certain teaching approaches more conducive to the development of empathy than others?</p>
+
+<!-- CLASSROOM TRANSACTIONS -->
+<div class="section-heading" style="font-size:1.05rem;">Classroom transactions</div>
+
+<p>Francis Bailey (1996:261) refers to the social structure of the classroom as 'a kind of "culture" which is created out of the communal interactions among course participants'. In this special society established within the classroom, the affective dimension of the relationships among the learner, the teacher and the other learners can greatly influence the direction and outcome of the experience. As Angi Malderez points out, the importance of affect for what occurs in the classroom can be seen in the shift in the dominant metaphor for the teaching/learning process from transmission to dialogue; dialogue involves people – thinking and feeling, spiritual and physical human beings – in negotiation of meaning. What is important in the end is not that words have meanings but rather that people have meanings they use words to
+<span class="gap"><input type="text" data-answer="convey" placeholder="________" aria-label="gap"></span>
+(personal communication).</p>
+
+<p>The role of facilitation in education and other group processes has become increasingly important since the 1970s, when it referred basically to non-directive vs. directive forms of interaction. This polarity has been elaborated on since then, with John Heron's (1989:16–17) distinction between the three modes of facilitation being particularly useful, as it provides the means for avoiding or at least mitigating the frustration on both sides when teachers offer learners more responsibility than they are prepared for in the beginning. In the hierarchical mode, as the facilitator, you are still in charge of all major decisions in the learning process; in the cooperative mode you share some power and decision-making with the group and guide them towards becoming more
+<span class="gap"><input type="text" data-answer="self-directing" placeholder="________" aria-label="gap"></span>;
+in the autonomous mode you let them do things on their own, without intervening. Heron (1989:17) points out that the latter mode 'does not mean the abdication of responsibility'. The facilitator will make use of all three modes at some point, moving from one to another as needed.</p>
+
+<p>Facilitation involves encouragement and assisting rather than pouring something into the learner's mind, and it is in consonance with the notion, grounded in experience and research, that one thing is teaching and often quite another is learning. As we cannot be sure that what we think we are teaching is what is being learnt, we are well-advised to equip our learners to learn. In this vision of the learning process, 'teaching is no longer seen as imparting and doing things to the student, but is redefined as facilitation of self-directed learning' (Heron 1989:12). One of the benefits of this type of approach is that it enables students to keep on learning after they leave our classrooms. Gross (1992:141) points out how a lifelong-learning model offers educational institutions 'the opportunity to shift to a new paradigm … and take seriously the mission they have always claimed to have: teaching students how to learn rather than merely "covering" a fixed
+<span class="gap"><input type="text" data-answer="curriculum" placeholder="________" aria-label="gap"></span>'.</p>
+
+<p>Intimately related to facilitation is group dynamics. Facilitators are at all times sensitive to the characteristics of the group they are working with and aware of the processes developing there. Group dynamics can be seen as 'the combined configuration of mental, emotional and physical energy in the group at any given time; and the way this configuration undergoes change' (Heron 1989:26). It can be extremely significant in determining the success or failure of a learning experience because, as Heron notes, 'the group dynamic … could also be called the emotional dynamic: it is grounded in the life of feeling – which is at the core of the group's state of being' (1989:94). Much of the work done by the facilitator with group dynamics will be managing emotional states – encouraging positive ones and finding ways to overcome the negative ones and, ideally, utilizing both for growth. Cooperative language learning experiences are examples of particularly effective exploitations of classroom
+<span class="gap"><input type="text" data-answer="dynamics" placeholder="________" aria-label="gap"></span>
+(see Crandall this volume).</p>
+
+<!-- CROSS-CULTURAL PROCESSES -->
+<div class="section-heading">Cross-cultural processes</div>
+
+<p>The contrasts between second and foreign language learning have often been discussed, but it is important not to take them for granted. Teachers in each case need to develop special skills to deal with aspects specific to the situation. Second language learning often involves particular emotional difficulties produced by the confrontation between two cultures. In a second language situation the learner is not only faced with the target language but – except in the case of what Kachru (1992) calls 'World Languages', like English in India – also with the target culture. 'Culture' is a mental construct, a conceptual network that evolves within a group to provide a manageable organization of reality. It will involve ideas, beliefs, customs, skills, arts, and so forth; and it fills definite biological and psychological needs and establishes for the individual a context of cognitive and
+<span class="gap"><input type="text" data-answer="affective" placeholder="________" aria-label="gap"></span>
+behaviour. It is bound inextricably to language.</p>
+
+<p>In his influential work <em>Cultures and Organizations</em>, Geert Hofstede (1991) refers to culture as the 'software of the mind', a sort of mental programming of the members of a social group which conditions their behaviour. Generally, for successful second language learning to occur, learners 'must be both able and willing to adopt various aspects of behaviour, including verbal behaviour, which characterizes members of the other linguistic-cultural group' (Lambert 1967:102). Schumann defines acculturation as 'the social and psychological integration of the learner with the target language (TL) group' (1986:379) and suggests that this combination of social and affective factors is a significant causal variable in SLA, since learners will learn the language to the degree that they
+<span class="gap"><input type="text" data-answer="acculturate" placeholder="________" aria-label="gap"></span>.</p>
+
+<p>When individuals come into contact with another culture and in some way must incorporate at least part of it into their way of thinking and being and of experiencing reality, there may often be major emotional disruptions. Stengal (1939) described language
+<span class="gap"><input type="text" data-answer="shock" placeholder="________" aria-label="gap"></span>
+as the situation when adult learners fear that their words in the target language do not reflect their ideas adequately, perhaps making them appear ridiculous or infantile. Not controlling the language properly, they lose a source of narcissistic gratification which they might otherwise receive when using their own language.</p>
+
+<p>Language acquisition may also be inhibited by culture shock, which can be defined as anxiety resulting from the disorientation encountered upon entering a new culture. In their classic study of culture shock, Larson and Smalley (1972:41) point out how great amounts of energy are used up dealing with culture shock: 'New climate, the new foods, the new people all mean that the alien must muster up every bit of available energy and put it to use in new ways'.</p>
+
+<p>The symptoms present may be fairly serious in some cases:</p>
+
+<p style="margin-left:2rem; border-left:3px solid var(--border); padding-left:1rem; font-style:italic;">Culture shock refers to phenomena ranging from mild irritability to deep psychological panic and crisis. Culture shock is associated with feelings in the learner of estrangement, anger, hostility, indecision, frustration, unhappiness, sadness, loneliness, homesickness, and even physical illness. Persons undergoing culture shock view their new world out of resentment and alternate between being angry at others for not understanding them and being filled with self-pity. (Brown 1994a:170)</p>
+
+<p>While severe culture shock may not last long, more subtle problems may persist, producing what Larson and Smalley (1972) call culture stress, which has to do with questions of identity. The individual has no fixed reference group to relate to, no longer being a part of the native culture, and not yet belonging to the target one. Feeling incapable of adapting to the new country and learning the language, learners may begin to reject themselves and their own culture. At this point, they may experience
+<span class="gap"><input type="text" data-answer="anomie" placeholder="________" aria-label="gap"></span>,
+where one has no strong, supportive ties to either the native culture or the SL culture.</p>
+
+<p>It is perhaps useful to think of acculturation in terms of four stages. The first is a state of excitement about the new culture. The second stage would be culture shock, which appears as cultural differences intrude into images of self and security. The third stage, culture stress, is a tentative move towards recovery. Some problems persist but slow progress is made, as the individual begins to accept more aspects of the new culture. Stage four represents assimilation or
+<span class="gap"><input type="text" data-answer="adaptation" placeholder="________" aria-label="gap"></span>
+to the new culture and acceptance of the self within it (Brown 1994a:171).</p>
+
+<p>As cross-cultural learning experiences may produce considerable blocks and inhibitions in the learner, second language teachers need to be particularly sensitive to the difficulties that may arise. First of all, it is helpful to discuss them with learners. Listening on the part of teachers can lead to significant changes in attitude among learners who are thus able to give expression – give voice – to their problems in a second language situation. Van Lier (1996:185) affirms that poverty of expression in our learners may be due in part to the fact that they 'are not encouraged to find sources of speaking, their own voice, within themselves, and with each other'. In a discussion of working with Freire's concept of problem posing in a methods course, Francis Bailey (1996) points out the importance of developing the voice of all class members to enable them, through dialogue, to find possible solutions to their problems. Some of the stress may be eliminated when they realize that they are going through a normal process and that they are not alone in their feelings of isolation and incapacity. It is helpful to discuss cultural differences and explain aspects of the target culture which may be problematic for foreign learners. However, Scarcella and Oxford (1992) also indicate the importance of emphasizing common
+<span class="gap"><input type="text" data-answer="ground" placeholder="________" aria-label="gap"></span>.</p>
+
+<p>Language learning activities can focus on working through affective problems encountered in the process of adapting to the new culture and language. Donahue and Parsons (1982) propose the use of role-play to overcome 'cultural fatigue', which is the physical and emotional exhaustion coming from the stress involved in adjusting to a new cultural environment. With role-play, learners have the opportunity to express their feelings of negativity, to act out difficult situations and to search for solutions in an emotionally safer atmosphere. Written expression can also be useful. Diverse written tasks, such as journal writing, can be given to encourage reflection and work on emotional aspects of the learning process. Individuals who are reticent about expressing their feelings directly might be asked to write about fictional characters in situations similar to their own.</p>
+
+<p>Through means like these, teachers can help learners in a second language situation to understand the source of any anger, frustration, anxiety or isolation felt, to express those feelings and then to move beyond them to acquire the new language at the same time as they also become proficient in the new
+<span class="gap"><input type="text" data-answer="culture" placeholder="________" aria-label="gap"></span>.</p>
+
+<!-- ============================================================
+     CONCLUSION
+     ============================================================ -->
+<div class="section-heading">Conclusion</div>
+
+<p>Heron (1992) has developed a model he calls multi-modal learning, which refers to four modes of learning from experience: action, conceptual, imaginal, emotional. If we adapt this to language learning in particular, at the top of the pyramid would be the action mode, 'learning through doing', or developing the basic skills. Next, the conceptual mode would involve learning 'about' the language. The imaginal mode would take in the imagination and the intuitive understanding of the scheme of the language as a whole. At the bottom, the emotional mode would deal with the awareness of the different ways our feelings influence our language learning. What is especially important to note about Heron's pyramid is that the top three modes of learning all rest upon the broad
+<span class="gap"><input type="text" data-answer="affective" placeholder="________" aria-label="gap"></span>
+base. Heron (1990) has pointed out that the higher do not control and rule over the lower, but rather the higher branch and flower out of the lower.</p>
+
+<p>As language teachers, we already have many areas of competence to attend to. Yet adding one more, rather than increasing teachers' burdens, might make attending to the other areas an easier task. At the same time, it might lead to a more holistic development of our students as individuals and as responsible participants in a healthy society. We suggest that positive waves will spread in many directions from a greater commitment in language teaching to the growth of emotional
+<span class="gap"><input type="text" data-answer="competence" placeholder="________" aria-label="gap"></span>.</p>
+
+</main>
+
+<div class="btn-row">
+  <button id="btn-check">✓ Check Answers</button>
+  <button id="btn-reveal">⊙ Reveal Answers</button>
+  <button id="btn-reset">↺ Reset</button>
+</div>
+
+<script>
+(function () {
+  const inputs = document.querySelectorAll('.gap input');
+
+  // Normalise for comparison
+  function norm(s) {
+    return s.trim().toLowerCase().replace(/[^a-z0-9\-]/g, '');
+  }
+
+  document.getElementById('btn-check').addEventListener('click', function () {
+    let correct = 0, total = 0;
+    inputs.forEach(inp => {
+      const answer = inp.dataset.answer;
+      inp.classList.remove('correct', 'wrong', 'revealed');
+      if (inp.value.trim() === '') return; // skip empty
+      total++;
+      if (norm(inp.value) === norm(answer)) {
+        inp.classList.add('correct');
+        correct++;
+      } else {
+        inp.classList.add('wrong');
+      }
+    });
+    const scoreBar = document.getElementById('score-bar');
+    const scoreDisplay = document.getElementById('score-display');
+    const filled = [...inputs].filter(i => i.value.trim() !== '').length;
+    scoreBar.style.display = 'block';
+    scoreDisplay.textContent = correct + ' / ' + filled + ' correct';
+    scoreBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  document.getElementById('btn-reveal').addEventListener('click', function () {
+    let revealed = 0;
+    inputs.forEach(inp => {
+      inp.classList.remove('correct', 'wrong');
+      if (inp.value.trim() === '' || inp.classList.contains('wrong')) {
+        inp.value = inp.dataset.answer;
+        inp.classList.add('revealed');
+        revealed++;
+      }
+    });
+    const scoreBar = document.getElementById('score-bar');
+    scoreBar.style.display = 'block';
+    document.getElementById('score-display').textContent = revealed + ' answer(s) revealed';
+  });
+
+  document.getElementById('btn-reset').addEventListener('click', function () {
+    inputs.forEach(inp => {
+      inp.value = '';
+      inp.classList.remove('correct', 'wrong', 'revealed');
+    });
+    document.getElementById('score-bar').style.display = 'none';
+  });
+})();
+</script>
+</body>
+</html>
