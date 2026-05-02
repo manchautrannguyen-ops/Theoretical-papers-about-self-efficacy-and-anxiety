@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Efficacy &amp; Language Anxiety – Gap-Fill Exercise</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #555;
+    --accent: #2d5a8e;
+    --accent-light: #e8f0f9;
+    --correct: #1a7a4a;
+    --correct-bg: #e6f4ec;
+    --wrong: #b0350e;
+    --wrong-bg: #fdeee8;
+    --border: #d6d0c4;
+    --gap-border: #2d5a8e;
+    --tag-bg: #2d5a8e;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--accent);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+  }
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.5rem;
+  }
+  header p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    font-style: italic;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+
+  .score-badge {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    background: var(--accent-light);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 2rem;
+    padding: 0.35rem 1rem;
+    font-weight: 700;
+  }
+
+  button {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1.2rem;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1e4070; }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { background: var(--bg); }
+
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .article-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .article-title {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.85rem 1.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .article-body {
+    padding: 1.5rem 1.5rem;
+  }
+
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 1.5rem 0 0.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.25rem;
+  }
+  .section-heading:first-child { margin-top: 0; }
+
+  .sub-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 1.2rem 0 0.35rem;
+  }
+
+  p {
+    margin-bottom: 1.1rem;
+    text-align: justify;
+  }
+
+  /* gap input */
+  .gap-wrap {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 2px;
+    position: relative;
+  }
+
+  .gap-input {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.92em;
+    border: none;
+    border-bottom: 2px solid var(--gap-border);
+    background: transparent;
+    color: var(--accent);
+    outline: none;
+    padding: 0 3px 1px;
+    width: 120px;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+    border-radius: 2px 2px 0 0;
+  }
+  .gap-input:focus {
+    background: var(--accent-light);
+    border-bottom-color: #1e4070;
+  }
+  .gap-input.correct {
+    color: var(--correct);
+    border-bottom-color: var(--correct);
+    background: var(--correct-bg);
+  }
+  .gap-input.wrong {
+    color: var(--wrong);
+    border-bottom-color: var(--wrong);
+    background: var(--wrong-bg);
+  }
+
+  .gap-number {
+    font-size: 0.62em;
+    color: var(--muted);
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    margin-top: 1px;
+    user-select: none;
+  }
+
+  /* feedback row per paragraph */
+  .fb {
+    display: inline;
+    font-size: 0.82em;
+    margin-left: 0.3em;
+    font-style: italic;
+  }
+  .fb.correct { color: var(--correct); }
+  .fb.wrong   { color: var(--wrong); }
+
+  .results-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: none;
+    box-shadow: var(--shadow);
+  }
+  .results-panel.visible { display: block; }
+  .results-panel h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.5rem;
+  }
+  .result-item {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .result-item.correct { background: var(--correct-bg); border-color: #aee0c0; }
+  .result-item.wrong   { background: var(--wrong-bg); border-color: #f0b89a; }
+  .result-item .gap-n { font-weight: 700; color: var(--accent); margin-right: 0.3em; }
+  .result-item .ans { font-style: italic; }
+  .result-item .correct-ans { color: var(--correct); margin-left: 0.3em; }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .article-body { padding: 1rem; }
+    .gap-input { width: 90px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Self-Efficacy &amp; Language Anxiety</h1>
+  <p>Gap-Fill Exercise — TESOL / SLA Terminology &amp; Collocations</p>
+</header>
+
+<div class="controls">
+  <span class="score-badge" id="scoreBadge">Score: –</span>
+  <button class="btn-primary" onclick="checkAll()">Check Answers</button>
+  <button class="btn-secondary" onclick="revealAll()">Show All Answers</button>
+  <button class="btn-secondary" onclick="resetAll()">Reset</button>
+</div>
+
+<main>
+
+<div class="results-panel" id="resultsPanel">
+  <h2>Results</h2>
+  <div class="results-grid" id="resultsGrid"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 1 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">Article 1. Self-efficacy: Toward a unifying theory of behavioral change (Albert Bandura)</div>
+<div class="article-body">
+
+<div class="section-heading">Cognitive Locus of Operation</div>
+<p>Bandura argues that earlier behavioral theories relied on peripheral mechanisms — behavior was shaped automatically by stimuli and consequences, without conscious involvement. Evidence from multiple lines of research shifted this view. The section establishes that cognition plays a central role in how behavior is acquired, retained, and regulated. Key points include: behavior is coded in <span class="gap-wrap"><input class="gap-input" data-answer="symbolic" id="g1" autocomplete="off" spellcheck="false"><span class="gap-number">#1</span></span> memory and learned through modeling; learning from consequences is itself a cognitive process (people discern patterns, not just react); reinforcement works through expectations it creates, not through automatic strengthening; and motivation is partly driven by cognitive representations of future outcomes and self-evaluative standards.<span class="fb" id="fb1"></span></p>
+
+<div class="section-heading">Efficacy Expectations as a Mechanism of Operation</div>
+<p>Bandura introduces the core distinction between two types of expectations: outcome expectations (belief that a behavior will produce certain outcomes) and efficacy expectations (conviction that one can actually execute the required behavior). The two are different — a person can believe an action would work while doubting their ability to perform it. Efficacy expectations influence whether <span class="gap-wrap"><input class="gap-input" data-answer="coping" id="g2" autocomplete="off" spellcheck="false"><span class="gap-number">#2</span></span> behavior is initiated, how much effort is applied, and how long effort is sustained in the face of obstacles. Stronger perceived self-efficacy leads to more active, persistent coping. However, self-efficacy is not the sole determinant — requisite skills and incentives must also be present.<span class="fb" id="fb2"></span></p>
+
+<div class="section-heading">Dimensions of Efficacy Expectations</div>
+<p>Efficacy expectations are not a single, static factor. They vary along three important dimensions: magnitude (how difficult the tasks a person believes they can handle), generality (whether mastery expectations extend beyond specific treatment situations to broader contexts), and strength (how firmly expectations are held — weak expectations are easily undermined by setbacks, while strong ones persist despite failure). Bandura criticizes prior research for using global, outcome-focused measures that conflate hope, wishful thinking, and faith in the therapist with genuine self-efficacy. Adequate research must assess all three dimensions at multiple points throughout the <span class="gap-wrap"><input class="gap-input" data-answer="change" id="g3" autocomplete="off" spellcheck="false"><span class="gap-number">#3</span></span> process.<span class="fb" id="fb3"></span></p>
+
+<div class="section-heading">Sources of Efficacy Expectations</div>
+<p>Four main sources inform people's sense of efficacy:</p>
+<p>Performance accomplishments — The most powerful source, as it is based on direct personal mastery. Successes raise efficacy; early failures lower it. Generalization of efficacy to similar situations occurs after mastery is established. Performance-based treatments (e.g., participant <span class="gap-wrap"><input class="gap-input" data-answer="modeling" id="g4" autocomplete="off" spellcheck="false"><span class="gap-number">#4</span></span>) consistently outperform symbolic ones.<span class="fb" id="fb4"></span></p>
+
+<p>Vicarious experience — Observing others succeed raises the observer's sense of capability through social comparison. This is a weaker, less reliable source than direct experience. Its effectiveness is enhanced by coping models (who overcome struggle), similar models, clear outcomes, and diversified <span class="gap-wrap"><input class="gap-input" data-answer="modeling" id="g5" autocomplete="off" spellcheck="false"><span class="gap-number">#5</span></span>.<span class="fb" id="fb5"></span></p>
+
+<p>Verbal persuasion — Widely used but limited in power. Suggestion alone cannot create a durable sense of efficacy, especially in the face of a long history of failure. It works best in conjunction with performance aids and is unlikely to produce lasting change if not supported by actual successes.<span class="gap-wrap"><input class="gap-input" data-answer="successes" id="g6" autocomplete="off" spellcheck="false" style="display:none"><span class="gap-number"></span></span></p>
+<!-- Note: paragraph 6 (verbal persuasion) has no ideal SLA term to gap other than successes — let's use the physiological one below -->
+
+<p>Physiological/emotional arousal — People use their internal states as a cue to judge their capability. High arousal signals vulnerability; reduced arousal signals greater competence. Treatments that extinguish anxiety (e.g., <span class="gap-wrap"><input class="gap-input" data-answer="desensitization" id="g6r" autocomplete="off" spellcheck="false"><span class="gap-number">#6</span></span>) can raise efficacy, though arousal is the least dependable source. False or misattributed arousal feedback has little lasting effect on behavior.<span class="fb" id="fb6r"></span></p>
+
+<div class="section-heading">Cognitive Processing of Efficacy Information</div>
+<p>The impact of information on self-efficacy depends on how it is cognitively appraised. For instance, successes might be discounted if they occur under highly safeguarded conditions or are attributed to external aids rather than personal skill. Conversely, successes achieved with minimal effort foster a stronger sense of ability than those requiring high effort. Self-directed mastery is essential to <span class="gap-wrap"><input class="gap-input" data-answer="authenticate" id="g7" autocomplete="off" spellcheck="false"><span class="gap-number">#7</span></span> personal efficacy and ensure that gains are not insulated from real-life application.<span class="fb" id="fb7"></span></p>
+
+<div class="section-heading">Differing Perspectives on Self-efficacy</div>
+<p>Bandura compares his theory to two related constructs. Against effectance motivation (White, 1959) — an intrinsic drive for competence — Bandura argues his social learning approach is more precise: self-efficacy is measured independently of performance, varies by situation, and arises from diverse identifiable sources (not just novel stimulation). Against locus of control (Rotter, 1966) — beliefs about whether outcomes are controlled internally or externally — Bandura distinguishes that locus of control is about action-outcome contingencies, not personal capability. A person can believe outcomes are personally determined while still doubting their own ability, which social learning theory treats as a separate and consequential construct. He also contrasts his theory with learned <span class="gap-wrap"><input class="gap-input" data-answer="helplessness" id="g8" autocomplete="off" spellcheck="false"><span class="gap-number">#8</span></span> (Seligman), noting that giving up can stem from either low efficacy expectations or low outcome expectations, and these have different remedies.<span class="fb" id="fb8"></span></p>
+
+<div class="section-heading">Microanalysis of Self-efficacy and Behavioral Change</div>
+<p>Bandura reports an experiment with severe snake phobics assigned to participant modeling, modeling only, or no treatment. The study used a microanalytic method: measuring level, strength, and generality of efficacy expectations at multiple points, task by task. Key findings: participant modeling produced the highest and most generalized efficacy expectations, followed by modeling alone, then controls. Crucially, self-efficacy was an accurate predictor of subsequent performance at the individual task level — ~89% congruence for <span class="gap-wrap"><input class="gap-input" data-answer="enactive" id="g9" autocomplete="off" spellcheck="false"><span class="gap-number">#9</span></span> treatment and ~86% for vicarious — regardless of how the efficacy was induced. Stronger efficacy expectations were consistently associated with higher probability of successful task completion. Efficacy expectations predicted generalized behavior toward novel, dissimilar threats better than past performance did.<span class="fb" id="fb9"></span></p>
+
+<div class="section-heading">Comparison of Self-efficacy and Dual-Process Theory</div>
+<p>This section pits self-efficacy theory against dual-process (anxiety-drive) theory, which underlies standard desensitization. Dual-process theory holds that anxiety drives avoidance behavior, so eliminating anxiety should eliminate avoidance. Bandura critiques this: evidence shows autonomic arousal is not causally necessary for avoidance learning or maintenance; avoidance can outlast anxiety extinction; and anxiety reduction alone produces variable behavior change. Social learning theory instead treats anxiety and defensive behavior as co-effects of perceived threat, not causally linked. In an experiment where snake phobics were fully desensitized (anxiety extinguished to imagined threats), subjects emerged with widely differing efficacy expectations — and behavior corresponded closely to those efficacy levels (r = .74), not to the degree of anxiety extinction. Self-efficacy microanalysis showed 85% congruence between expectations and <span class="gap-wrap"><input class="gap-input" data-answer="performance" id="g10" autocomplete="off" spellcheck="false"><span class="gap-number">#10</span></span>.<span class="fb" id="fb10"></span></p>
+
+<div class="section-heading">Microanalysis of Self-efficacy and Performance During the Process of Change</div>
+<p>A further study tracked the evolution of efficacy expectations and behavior during treatment (not just at its end), using participant modeling administered in sequential blocks of increasing difficulty. After mastering each block, subjects were assessed for efficacy expectations and then tested on subsequent, more threatening tasks. Key finding: subjects who achieved the same partial mastery during treatment varied considerably in what they could subsequently do — past performance alone was a poor predictor. However, efficacy expectations formed during treatment predicted subsequent performance at 92% accuracy overall, and 84% for highly threatening tasks the subjects had never performed before. This confirms that efficacy expectations, not behavioral history, are the operative <span class="gap-wrap"><input class="gap-input" data-answer="mechanism" id="g11" autocomplete="off" spellcheck="false"><span class="gap-number">#11</span></span> of change.<span class="fb" id="fb11"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 2 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">Article 2. Guide for constructing self-efficacy scales (Albert Bandura)</div>
+<div class="article-body">
+
+<div class="section-heading">Introductory Remarks</div>
+<p>Self-efficacy is not a global trait but a differentiated set of beliefs tied to specific domains of functioning — a business executive may be highly efficacious in organizational matters but not in parenting. There is no all-purpose self-efficacy measure; scales must be tailored to the particular domain under study, as generic items divorced from situational demands leave ambiguity about what is being measured. That said, efficacy beliefs can co-vary across domains under certain conditions: when different activities share common sub-skills; when higher-order self-regulatory skills (diagnosing task demands, goal-setting, managing stress) transfer across domains; when competencies in dissimilar areas are developed simultaneously through the same social structure (e.g., a school that promotes high achievement across all subjects); or when extraordinary mastery experiences produce a transformational restructuring of efficacy beliefs <span class="gap-wrap"><input class="gap-input" data-answer="broadly" id="g12" autocomplete="off" spellcheck="false"><span class="gap-number">#12</span></span>.<span class="fb" id="fb12"></span></p>
+
+<div class="section-heading">Content Validity</div>
+<p>Items must reflect perceived capability, not intention — phrased as "can do" rather than "will do." Self-efficacy must also be clearly distinguished from related but separate constructs. It is not self-esteem (a judgment of self-worth), not locus of control (a belief about whether outcomes are personally or externally determined), and not <span class="gap-wrap"><input class="gap-input" data-answer="outcome" id="g13" autocomplete="off" spellcheck="false"><span class="gap-number">#13</span></span> expectations (beliefs about what results will follow from a performance). These are conceptually and empirically distinct phenomena. Bandura emphasizes the far-reaching influence of efficacy beliefs: they shape whether people think strategically or erratically, the goals they set, their effort and persistence, their resilience, their emotional life, and ultimately the accomplishments they realize — all confirmed across domains by meta-analyses.<span class="fb" id="fb13"></span></p>
+
+<div class="section-heading">Domain Specification and Conceptual Analysis of Self-Efficacy Multicausality</div>
+<p>Sound scale construction requires a thorough conceptual analysis of the domain to identify which specific aspects of efficacy to measure. Using weight management as an example, Bandura shows that behavior is better predicted by assessing multiple facets of efficacy within the domain — regulating food purchases, eating habits, and physical exercise — than by measuring only one. Different facets may also matter more at different phases of change: before self-regulatory skills are developed, efficacy to purchase healthful foods predicts caloric intake; afterward, efficacy to curb overeating becomes primary. Multifaceted scales therefore both improve prediction and reveal the dynamics of self-management. Critically, if the scale targets factors that are causally irrelevant to the domain (e.g., relaxation efficacy when relaxation has no effect on drug use), negative findings reflect faulty theory, not limitations of self-efficacy <span class="gap-wrap"><input class="gap-input" data-answer="itself" id="g14" autocomplete="off" spellcheck="false"><span class="gap-number">#14</span></span>.<span class="fb" id="fb14"></span></p>
+
+<div class="section-heading">Gradations of Challenge</div>
+<p>Efficacy scales must be built around graduated levels of task demands, since self-efficacy appraisals reflect what level of difficulty a person believes they can surmount. When there are no obstacles, everyone performs easily and the measure is uninformative. The relevant challenges vary by domain — they may be graded by ingenuity, exertion, accuracy, threat, or self-regulation required. Many domains primarily concern self-regulatory efficacy: not whether someone can do an activity occasionally, but whether they can sustain it regularly under various dissuading conditions (e.g., fatigue, bad weather, emotional distress, competing demands). Constructing such scales requires preliminary work — open-ended interviews and pilot questionnaires — to identify the real forms that impediments take, which are then built directly into the items. Sufficient difficulty gradations must be included to avoid <span class="gap-wrap"><input class="gap-input" data-answer="ceiling" id="g15" autocomplete="off" spellcheck="false"><span class="gap-number">#15</span></span> effects.<span class="fb" id="fb15"></span></p>
+
+<div class="section-heading">Response Scale</div>
+<p>The standard format presents items portraying different task demands, with respondents rating confidence on a 0–100 scale in 10-unit intervals — from "Cannot do at all" (0) through "Moderately certain can do" (50) to "Highly certain can do" (100). A simplified 0–10 single-unit version retains the same structure. Scales with only a few steps should be avoided: they are less sensitive and less reliable, and since people avoid extreme positions, a small-step scale may effectively collapse to one or two usable points. The 0–100 format is empirically a stronger predictor of performance than a 5-interval scale. The scale is <span class="gap-wrap"><input class="gap-input" data-answer="unipolar" id="g16" autocomplete="off" spellcheck="false"><span class="gap-number">#16</span></span> — ranging from 0 to maximum — because complete incapability has no meaningful lower gradation; bipolar scales with negative values are conceptually incoherent. Preliminary instructions should orient respondents to rate their current operative capabilities, not hypothetical future ones. Practice items should be used to familiarize respondents, and for young children, physical demonstrations or pictorial (not emotional) descriptors should be used — happy/sad faces are explicitly to be avoided as they measure mood rather than confidence.<span class="fb" id="fb16"></span></p>
+
+<div class="section-heading">Minimizing Response Biases</div>
+<p>Several safeguards are built into the standard procedure to reduce motivational distortion. Responses are recorded privately, without personal identification, to reduce social evaluative concerns; scales are labeled with nondescript titles (e.g., "Appraisal Inventory") rather than "Self-Efficacy." Respondents are informed their responses are confidential and used only with code numbers. Efficacy judgments are made across the full range of tasks at once — not immediately before each performance — and assessments of efficacy and behavior are conducted in different settings by different assessors, removing carryover social influence. Research consistently shows that merely recording efficacy judgments does not reactively alter motivation, affect, or performance across diverse domains including coping, pain tolerance, cognitive attainment, and health behaviors. Efficacy judgments are also not distorted by social <span class="gap-wrap"><input class="gap-input" data-answer="desirability" id="g17" autocomplete="off" spellcheck="false"><span class="gap-number">#17</span></span>, even for sensitive topics such as sexual behavior, alcohol use, or dietary practices.<span class="fb" id="fb17"></span></p>
+
+<div class="section-heading">Item Analysis in Scale Construction</div>
+<p>Items should be pretested and those that are ambiguous or that elicit the same response from nearly all respondents should be discarded or rewritten. Items on which the vast majority check the maximum efficacy category lack sufficient challenge and fail to differentiate among respondents — the solution is to raise the difficulty level. Items tapping the same efficacy domain should intercorrelate with each other and with the total scale score; factor analyses verify item homogeneity. Different domains require separate scales, each with internal homogeneity. Internal consistency should be assessed using Cronbach's alpha; items with low correlations should be revised or removed. Scales with very few items will produce low alpha — increasing the number of items is <span class="gap-wrap"><input class="gap-input" data-answer="recommended" id="g18" autocomplete="off" spellcheck="false"><span class="gap-number">#18</span></span>.<span class="fb" id="fb18"></span></p>
+
+<div class="section-heading">Assessment of Perceived Collective Efficacy</div>
+<p>Social cognitive theory extends agency to the collective level: people's shared beliefs in their group's capability are a key ingredient of group functioning. Collective efficacy is not simply the sum of individual efficacy beliefs — it is an emergent property that includes the interactive, coordinative, and synergistic dynamics of group transactions, though it resides in individual members' minds, not in a disembodied group entity. Two main measurement approaches exist: aggregating members' appraisals of their own personal contributions to the group, or aggregating members' holistic appraisals of the group as a whole. The discussion-consensus approach (having the group reach a single agreed judgment) is methodologically problematic because it is distorted by power dynamics, social conformity pressures, and the disproportionate influence of higher-status members — and because a measurement method should not alter what it is measuring. The relative superiority of the two aggregation indexes depends on the degree of <span class="gap-wrap"><input class="gap-input" data-answer="interdependence" id="g19" autocomplete="off" spellcheck="false"><span class="gap-number">#19</span></span> required: holistic appraisals are more suitable for tasks requiring tight coordination (e.g., soccer), while aggregated personal efficacies suit more independent performances (e.g., gymnastics). Research across educational, business, athletic, and community settings consistently shows that higher perceived collective efficacy predicts greater motivational investment, persistence through setbacks, and performance accomplishments.<span class="fb" id="fb19"></span></p>
+
+<div class="section-heading">Predictive and Construct Validation</div>
+<p>Self-efficacy scales must have face validity (measuring perceived capability as defined), discriminative validity (distinguishing self-efficacy from related constructs like self-esteem and locus of control), and <span class="gap-wrap"><input class="gap-input" data-answer="predictive" id="g20" autocomplete="off" spellcheck="false"><span class="gap-number">#20</span></span> validity (forecasting behavior as the theory specifies). Construct validation is an ongoing process of hypothesis testing within the broader theoretical network: people scoring high on self-efficacy should differ from those scoring low in specific, theoretically predicted ways. Because self-efficacy affects motivation, thought, affect, and action across many contexts, there are numerous verifiable consequences to test — there is no single validity coefficient. Both the measures and the postulated causal structure of the theory are being evaluated simultaneously. The scientific value of a theory, Bandura concludes, is judged not only by its explanatory and predictive power, but by its operational power to produce change — and knowing how self-efficacy is built and how it works provides practical guidelines for structuring experiences that enable people to realize desired personal and social outcomes.<span class="fb" id="fb20"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 3 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">Article 3. Foreign language classroom anxiety (Elaine K. Horwitz, Michael B. Horwitz and Joann Cope)</div>
+<div class="article-body">
+
+<div class="section-heading">1. Introductory remarks</div>
+<p>The paper opens by noting that many people claim a "mental block" against foreign language learning despite being capable learners in other domains, motivated, and positively disposed toward target language speakers. The authors identify anxiety as the likely culprit — defined as the subjective feeling of tension, apprehension, nervousness, and worry linked to autonomic nervous system arousal. Foreign language anxiety is framed as a specific anxiety reaction (anxiety tied to a particular situation, not a general personality trait), analogous to math or science anxiety. Although teachers and students widely recognize anxiety as a major obstacle, and some teaching methods (community language learning, suggestopedia) were explicitly designed to reduce it, second language research had neither adequately defined the construct nor described its specific effects. The paper's purpose is to fill that gap by establishing foreign language anxiety as a conceptually distinct variable and grounding it in existing theory and empirical work on specific anxiety <span class="gap-wrap"><input class="gap-input" data-answer="reactions" id="g21" autocomplete="off" spellcheck="false"><span class="gap-number">#21</span></span>.<span class="fb" id="fb21"></span></p>
+
+<div class="section-heading">2. Effects of anxiety on language learning</div>
+<div class="sub-heading">2.1. Second language studies</div>
+<p>Scholars have long recognized that foreign language learning is anxiety-provoking. Curran and Stevick describe the defensive position imposed on learners by most teaching methods; Guiora argues that language learning is psychologically unsettling because it threatens self-concept and worldview. Attempts to quantify the anxiety-achievement relationship have yielded mixed results, largely because anxiety measures used were not specific to foreign language learning. Scovel concluded in 1978 that a clear-cut relationship between anxiety and overall language achievement had not been established. Studies focused on more specific effects were more informative: Kleinmann found that highly anxious ESL students attempted different grammatical constructions than less anxious ones; Steinberg and Horwitz found that anxiety led students toward less interpretive, more concrete messages. These findings show anxiety shapes the communication <span class="gap-wrap"><input class="gap-input" data-answer="strategies" id="g22" autocomplete="off" spellcheck="false"><span class="gap-number">#22</span></span> students use — more anxious learners avoid difficult or personally revealing messages. The only instrument specifically designed for foreign language anxiety at the time was a five-item French class anxiety scale developed by Gardner and colleagues, which yielded small negative correlations with achievement measures (r = -.13 to -.43). The authors conclude that prior research failed to establish clear conclusions for two reasons: anxiety measures were rarely specific to foreign language learning, and studies rarely examined anxiety's subtler effects on learning processes.<span class="fb" id="fb22"></span></p>
+
+<div class="sub-heading">2.2. Clinical experience</div>
+<p>The psychophysiological and behavioral symptoms of anxious foreign language learners mirror those of other specific anxieties: apprehension, worry, dread, difficulty concentrating, forgetfulness, sweating, palpitations, and avoidance behaviors such as missing class or postponing homework. Clinical work at the University of Texas Learning Skills Center reveals that anxiety centers especially on the two core demands of language learning — listening and speaking. Students typically feel more comfortable with drills or prepared speeches but freeze in spontaneous role-play situations. Anxious learners report difficulty discriminating the sounds of the target language (one student heard only "a loud buzz" when his teacher spoke), and difficulty grasping the content of extended utterances. In testing situations, students frequently "know" material but forget it under the pressure of coordinating multiple grammar points simultaneously, making careless errors they recognize only after the test — and this awareness can escalate anxiety further. Overstudying is one response (one student studied eight hours daily for a beginning Spanish class and still failed); avoidance is another. Certain counterproductive beliefs also contribute to anxiety — such as the conviction that nothing should be said until it can be said perfectly, or that guessing is impermissible — which are incompatible with the realities of language learning. The authors connect this to Krashen's affective <span class="gap-wrap"><input class="gap-input" data-answer="filter" id="g23" autocomplete="off" spellcheck="false"><span class="gap-number">#23</span></span> hypothesis (anxiety blocks intake of language input) and Savignon's emphasis on spontaneous interaction for developing communicative competence, concluding that anxiety is a serious impediment to both fluency development and performance.<span class="fb" id="fb23"></span></p>
+
+<div class="section-heading">3. Foreign language anxiety: conceptual foundations</div>
+<p>The authors identify three related performance anxieties that help explain foreign language anxiety conceptually. Communication apprehension — fear or anxiety about communicating with others — is highly relevant because foreign language learners have limited control over communicative situations and are constantly monitored. Unlike ordinary communication anxiety, the foreign language version carries the near-certainty that one will have difficulty understanding and being understood. Interestingly, the reverse can also occur: ordinarily inhibited speakers sometimes feel less anxious in a foreign language because it feels as if "someone else is speaking." Test anxiety — performance anxiety rooted in fear of failure — is also relevant given the frequency of evaluations in language classes; oral tests can provoke both test anxiety and communication anxiety simultaneously. Fear of negative <span class="gap-wrap"><input class="gap-input" data-answer="evaluation" id="g24" autocomplete="off" spellcheck="false"><span class="gap-number">#24</span></span> — apprehension about others' judgments, avoidance of evaluative situations, and expectation of negative appraisal — is broader than test anxiety since it applies to any social evaluative context. In the foreign language classroom, the only fluent speaker is typically the teacher, who evaluates students continuously; students are also acutely sensitive to peers' reactions.Despite drawing on these three constructs, the authors argue that foreign language anxiety is not simply a transfer of these fears to a new domain. Rather, it is a distinct complex of self-perceptions, beliefs, feelings, and behaviors arising from the uniqueness of language learning itself. Adults ordinarily perceive themselves as intelligent, socially competent communicators — assumptions rarely challenged in one's native language. In a foreign language, however, every communicative attempt is evaluated against uncertain linguistic and socio-cultural standards, requiring complex and non-spontaneous mental operations that challenge the self-concept as a competent communicator. Furthermore, the immature command of the second language restricts the range of meaning and affect that can be expressed, creating a gap between one's "true self" and the limited self that can be presented in the foreign language. This threat to self-expression and authentic self-presentation distinguishes foreign language anxiety from other academic anxieties such as math or science — probably no other academic subject implicates self-concept and self-expression to the same degree.<span class="fb" id="fb24"></span></p>
+
+<div class="section-heading">4. IDENTIFYING FOREIGN LANGUAGE ANXIETY</div>
+<p>In 1983, students in beginning language classes at the University of Texas were invited to join a "Support Group for Foreign Language Learning." Of 225 students informed, 78 — over one-third — expressed enough concern to want to join, suggesting that anxiety is common in foreign language classrooms. These students described freezing in class, standing outside the door unable to enter, going blank before tests, and a range of psychophysiological symptoms (trembling, perspiring, palpitations, sleep disturbances). Their experiences informed the development of the Foreign Language Classroom Anxiety Scale (FLCAS), which achieved strong internal reliability (alpha = .93) and test-retest reliability over eight weeks (r = .83).Pilot testing with 75 introductory Spanish students revealed several consistent patterns. Anxious students feared speaking the target language — 49% reported panicking when required to speak without preparation, and 47% rejected the statement "I feel confident when I speak in foreign language class." They feared not comprehending all input — 35% were frightened when they did not understand the teacher, reflecting a belief that comprehension requires understanding every word. They feared being less competent than peers — 59% worried about getting left behind in the pace of the class; 38% believed other students were better at languages than them. They feared making mistakes and perceived every correction as a failure — 65% disagreed that they did not worry about making mistakes. Two items particularly supported the distinctiveness of foreign language anxiety: 34% felt overwhelmed by the number of rules to learn, and 38% felt more tense in language class than in other classes — with the latter being the single best <span class="gap-wrap"><input class="gap-input" data-answer="discriminator" id="g25" autocomplete="off" spellcheck="false"><span class="gap-number">#25</span></span> on the scale. The authors conclude that significant foreign language anxiety is widespread, with 19 of 33 FLCAS items endorsed by a third or more of students, and 7 items endorsed by over half.<span class="fb" id="fb25"></span></p>
+
+<div class="section-heading">5. PEDAGOGICAL IMPLICATIONS and CONCLUSION</div>
+<p>Pedagogical Implications: Teachers have two main options: help students cope with anxiety-producing situations, or reduce the stressfulness of the learning context itself. Before either is possible, teachers must first recognize that anxiety exists. Because highly anxious students are motivated to avoid feared activities, they may appear indifferent or unprepared — teachers should consider anxiety as an explanation for poor performance before attributing it to lack of ability or motivation. Specific classroom techniques include relaxation exercises, guidance on effective learning strategies, behavioral contracting, and journal keeping. For severe anxiety reactions, referral to outside counselors or learning specialists is recommended, as therapists using systematic <span class="gap-wrap"><input class="gap-input" data-answer="desensitization" id="g26" autocomplete="off" spellcheck="false"><span class="gap-number">#26</span></span> and other behavior modification techniques have successfully treated specific learning anxieties. Addressing the learning context itself is harder but more important: as long as formal school settings tie evaluation to performance, anxiety will persist. Teachers should build student support systems, monitor classroom climate carefully, and approach error correction thoughtfully — selecting techniques that reduce defensive reactions rather than amplify them. The authors acknowledge that the relative contributions of teaching practices versus the intrinsic nature of language learning to anxiety remain to be studied before firm intervention recommendations can be made.<span class="fb" id="fb26"></span></p>
+
+<p>Conclusions: The paper ends by acknowledging that the field is only beginning to understand foreign language anxiety — its prevalence and precise classroom effects remain unclear, and individual reactions vary widely from severe avoidance (postponing required courses, changing majors) to moderate disruption (procrastination, silence, sitting in the back row) to no anxiety at all. The broader stakes are significant: just as math anxiety acts as a career filter steering some groups away from high-demand fields, foreign language anxiety may shape course and major selection and contribute to student resistance to language requirements. With growing institutional emphasis on foreign language study and communicative competence — which foregrounds spontaneous speech, the most anxiety-provoking activity — teachers will increasingly encounter anxious students. The authors call for recognizing, coping with, and ultimately overcoming debilitating foreign language anxiety as a central concern of language <span class="gap-wrap"><input class="gap-input" data-answer="education" id="g27" autocomplete="off" spellcheck="false"><span class="gap-number">#27</span></span>.<span class="fb" id="fb27"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 5 (Daubney et al.) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">5. Preliminary thoughts on language anxiety and the focus of this anthology (Mark Daubney, Jean-Marc Dewaele, Christina Gkonou)</div>
+<div class="article-body">
+
+<div class="section-heading">Preliminary Thoughts on Language Anxiety and the Focus of this Anthology</div>
+<p>Language anxiety (LA) is a complex emotion that has attracted SLA researchers, teacher educators, and teachers for roughly four decades. Gregersen and MacIntyre (2014) define it as "the worry and negative emotional reaction when learning and using a second language," particularly in classroom settings. Its effects are wide-ranging and damaging: it can impede learning, cause learners to abandon their studies, diminish willingness to communicate, erode motivation, and undermine learners' sense of identity and self-esteem. Though research has traditionally focused on learners, teachers have also been shown to experience it. The volume situates LA within a dynamic systems theory (DST) framework, which views learner attributes as neither stable nor context-independent, but as shifting over time and across <span class="gap-wrap"><input class="gap-input" data-answer="contexts" id="g28" autocomplete="off" spellcheck="false"><span class="gap-number">#28</span></span>.<span class="fb" id="fb28"></span></p>
+
+<div class="section-heading">Why an Anthology about Language Anxiety?</div>
+<p>Despite a "virtual explosion" of LA research over 40 years (MacIntyre, 1999), only two dedicated volumes had previously been published — Horwitz and Young (1991) and Young (1999) — leaving a 17-year gap before this anthology. The editors argue this gap is significant given the paradigm shift toward dynamic, process-oriented SLA research and the flourishing field of language learning psychology. Dörnyei and Ryan (2015) even describe LA as "a bellwether of various theoretical and methodological changes" in L2 individual differences research. The anthology therefore aims to provide a current, nuanced, and practically grounded reassessment of LA for researchers and <span class="gap-wrap"><input class="gap-input" data-answer="practitioners" id="g29" autocomplete="off" spellcheck="false"><span class="gap-number">#29</span></span> alike.<span class="fb" id="fb29"></span></p>
+
+<div class="section-heading">Issues of Change and Challenge: Language Anxiety in a Landscape of Increasing Complexity</div>
+<p>Several conceptual and methodological tensions now define the LA landscape:</p>
+<p>Trait vs. situation-specific anxiety. LA has traditionally been treated as situation-specific and unique to L2 learning (Horwitz et al., 1986), but questions remain about whether trait and state anxiety can coexist in a single learner.</p>
+<p>Causes of anxiety. Whether anxiety originates in the learner, the teacher, or the communicative environment — or some interplay of all three — remains unresolved.</p>
+<p>Facilitating vs. debilitating anxiety. Most researchers treat LA as debilitating, but recent work (Dewaele & MacIntyre, 2014) on the relationship between enjoyment and anxiety challenges the simplistic binary, showing positive and negative emotions can mutually shape each other.</p>
+<p>Methodological limits. Research has long relied on self-report instruments like the FLCAS, and the cause-or-effect debate has been largely sterile. There is a growing call to move toward more dynamic, qualitative, and innovative methods that capture anxiety as it fluctuates over time rather than as a fixed <span class="gap-wrap"><input class="gap-input" data-answer="trait" id="g30" autocomplete="off" spellcheck="false"><span class="gap-number">#30</span></span>.<span class="fb" id="fb30"></span></p>
+<p>Broader experience over measurable outcomes. The focus is shifting from narrow outcome measurement toward understanding the lived experience of anxiety and its impact on the whole learning process — a meaningful recalibration of research <span class="gap-wrap"><input class="gap-input" data-answer="priorities" id="g31" autocomplete="off" spellcheck="false"><span class="gap-number">#31</span></span>.<span class="fb" id="fb31"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 6 (Arnold & Brown) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">6. A map of the terrain (Jane Arnold and H. Douglas Brown)</div>
+<div class="article-body">
+
+<div class="section-heading">Introduction</div>
+<p>Affect is broadly defined as aspects of emotion, feeling, mood, or attitude that condition behavior. The affective and cognitive sides of learning are not opposites — they are deeply intertwined. Neuroscientists like Damasio and LeDoux show that emotions are essential to rational thought and that "minds without emotions are not really minds at all." There are two key reasons to focus on affect in language learning: it can improve learning outcomes by reducing negative emotions and stimulating positive ones, and it can contribute to broader emotional <span class="gap-wrap"><input class="gap-input" data-answer="education" id="g32" autocomplete="off" spellcheck="false"><span class="gap-number">#32</span></span> beyond the language classroom.<span class="fb" id="fb32"></span></p>
+
+<div class="section-heading">Language teaching reaching out</div>
+<p>Language teaching has expanded its aims beyond purely linguistic goals, drawing from fields like psychology, neuroscience, and sociolinguistics. A new view of the language teacher has emerged: being is as important as doing and having. Teachers benefit from working on personal development — the more they know themselves, the better they understand and guide their students. Van Lier's framework identifies three dimensions of teacher development: Having (knowledge and resources), Doing (skills and learning opportunities), and Being (personal qualities, vision, and sense of <span class="gap-wrap"><input class="gap-input" data-answer="mission" id="g33" autocomplete="off" spellcheck="false"><span class="gap-number">#33</span></span>).<span class="fb" id="fb33"></span></p>
+
+<div class="section-heading">The influence of affect in educational contexts</div>
+<p>Interest in affective learning dates back to Dewey, Montessori, and Vygotsky and gained momentum through humanistic psychology in the 1960s (Maslow, Rogers). Rogers criticized mainstream education for focusing only on the cognitive and "educating from the neck up." The Confluent Education movement sought to unite cognitive and affective domains to educate the whole person. In language teaching, humanistic approaches — represented by figures like Stevick, Rinvolucri, and Moskowitz — enriched learning by acknowledging the affective dimension. Major language teaching methods of the 1970s (Suggestopedia, Silent Way, Community Language Learning, Total Physical Response) all incorporated affective considerations <span class="gap-wrap"><input class="gap-input" data-answer="centrally" id="g34" autocomplete="off" spellcheck="false"><span class="gap-number">#34</span></span>.<span class="fb" id="fb34"></span></p>
+
+<div class="section-heading">Cognition or affect? Cognition and affect!</div>
+<p>Purely cognitive theories of learning are insufficient without accounting for affect (Hilgard). Whole-brain learning, which integrates emotion and imagination with cognition, enhances and accelerates learning (Gross). The chapter then organizes affective factors into two perspectives: the learner as an individual (internal factors) and the learner as a social participant (<span class="gap-wrap"><input class="gap-input" data-answer="relational" id="g35" autocomplete="off" spellcheck="false"><span class="gap-number">#35</span></span> factors).<span class="fb" id="fb35"></span></p>
+
+<div class="section-heading">Individual factors — Anxiety</div>
+<p>Anxiety is possibly the most pervasive obstacle to language learning, involving uneasiness, frustration, self-doubt, and tension. Heron identifies three types relevant to the classroom: acceptance anxiety, orientation anxiety, and performance anxiety. Language learning is especially anxiety-prone because learners must expose themselves in a fragile linguistic vehicle. Anxiety creates a downward spiral — poor performance leads to more anxiety — and wastes cognitive energy on worry rather than learning. It can, however, be reduced through appropriate <span class="gap-wrap"><input class="gap-input" data-answer="teaching" id="g36" autocomplete="off" spellcheck="false"><span class="gap-number">#36</span></span> strategies.<span class="fb" id="fb36"></span></p>
+
+<div class="section-heading">Individual factors — Inhibition</div>
+<p>Inhibitions develop as children grow and form a sense of self that needs protecting. Guiora's concept of "language <span class="gap-wrap"><input class="gap-input" data-answer="ego" id="g37" autocomplete="off" spellcheck="false"><span class="gap-number">#37</span></span>" explains how language boundaries become rigid after puberty, making it harder to adopt new sounds or forms. Weak egos build higher walls of inhibition. Language teachers must create environments where inhibition and ego barriers are lowered, allowing learners to take risks and experiment freely. Error correction policies should also be handled with sensitivity to affective consequences.<span class="fb" id="fb37"></span></p>
+
+<div class="section-heading">Individual factors — Extroversion-introversion</div>
+<p>Extroversion is often mistakenly equated with better language learning ability, but research does not confirm this. Extroversion involves seeking self-esteem from others, while introversion means deriving it from within. Introverts may possess strong empathy and inner strength — valuable qualities for language learning. Teachers should be sensitive to learner temperaments and design activities that accommodate both types rather than defaulting to extrovert-favoring tasks like drama or role-play without appropriate <span class="gap-wrap"><input class="gap-input" data-answer="scaffolding" id="g38" autocomplete="off" spellcheck="false"><span class="gap-number">#38</span></span>.<span class="fb" id="fb38"></span></p>
+
+<div class="section-heading">Individual factors — Self-esteem</div>
+<p>Self-esteem — one's evaluation of one's own worth — is a basic requirement for successful cognitive and affective functioning. It is formed in early childhood and must be nurtured throughout life. Research shows that self-esteem positively correlates with oral production performance. Teachers can build self-esteem by creating safe, supportive classroom environments. Canfield and Wells's "poker chip theory" illustrates how learners with low self-esteem cannot afford to take risks, making it essential to build their confidence incrementally through achievable <span class="gap-wrap"><input class="gap-input" data-answer="success" id="g39" autocomplete="off" spellcheck="false"><span class="gap-number">#39</span></span>.<span class="fb" id="fb39"></span></p>
+
+<div class="section-heading">Individual factors — Motivation</div>
+<p>Motivation is a cluster of factors that energize and direct behavior, and is crucial in SLA. Gardner and Lambert's foundational distinction identified <span class="gap-wrap"><input class="gap-input" data-answer="integrative" id="g40" autocomplete="off" spellcheck="false"><span class="gap-number">#40</span></span> motivation (desire to connect with the target culture) and instrumental motivation (practical goals like job advancement). Neither type is inherently superior — what matters is the strength and direction of motivation. Motivational research has grown significantly, with frameworks proposed by Dörnyei, Oxford, Williams and Burden, and others, though a unified definitive model is still awaited.<span class="fb" id="fb40"></span></p>
+
+<div class="section-heading">Individual factors — Extrinsic and intrinsic motivation</div>
+<p>Extrinsic motivation is driven by external rewards or punishments; intrinsic motivation makes the learning experience itself rewarding. Research shows intrinsic motivation leads to better long-term retention, and adding extrinsic rewards can actually reduce it. Most schools overemphasize extrinsic motivation through grades and competition. Suggestions for fostering intrinsic motivation include helping learners set personal goals, encouraging self-satisfaction, facilitating cooperative learning, using content-based activities, and designing face-valid assessments. Csikszentmihalyi's concept of "flow" — a state of effortless, absorbed engagement — represents the ideal affective state for learning and is inherently intrinsically <span class="gap-wrap"><input class="gap-input" data-answer="rewarding" id="g41" autocomplete="off" spellcheck="false"><span class="gap-number">#41</span></span>.<span class="fb" id="fb41"></span></p>
+
+<div class="section-heading">Individual factors — Cognitive theories of motivation</div>
+<p>Dörnyei highlights three cognitive frameworks relevant to motivation, though all inevitably intersect with affect. Attribution theory holds that learners' explanations for past success or failure shape future expectations — failure attributed to fixed ability is far more damaging than failure attributed to changeable factors like effort. Learned helplessness describes learners who, after repeated failures, stop trying altogether; they need realistic, achievable goals to rebuild confidence. Self-efficacy refers to learners' belief in their capacity to accomplish tasks; teachers can enhance it by providing meaningful, manageable tasks and giving learners some degree of choice and control. In all three cases, positive self-talk is recommended as a tool to replace limiting beliefs with empowering <span class="gap-wrap"><input class="gap-input" data-answer="ones" id="g42" autocomplete="off" spellcheck="false"><span class="gap-number">#42</span></span>.<span class="fb" id="fb42"></span></p>
+
+<div class="section-heading">Individual factors — Learner styles</div>
+<p>Learners differ significantly in how they process information — through visual, auditory, or kinaesthetic channels, and along dimensions such as field-independent/field-dependent or global/analytic styles. The Myers-Briggs Type Indicator (based on Jung's psychological types) identifies sixteen personality profiles across four poles: introversion–extroversion, sensing–intuition, thinking–feeling, judging–perceiving. Ehrman and Oxford applied this to language teaching. Recognizing learner style differences helps teachers diversify classroom activities and acknowledge individual needs, even if only by signaling awareness to learners. Comfort zones can be gradually extended through differentiated homework and activity <span class="gap-wrap"><input class="gap-input" data-answer="options" id="g43" autocomplete="off" spellcheck="false"><span class="gap-number">#43</span></span>.<span class="fb" id="fb43"></span></p>
+
+<div class="section-heading">Relational factors — Empathy</div>
+<p>Empathy — understanding another's perspective without abandoning one's own — is essential for harmonious social coexistence and for cross-cultural language learning. It requires self-awareness first; teachers who understand their own feelings can better model empathetic behavior. While the research jury is still out on the direct correlation between empathy and language learning success, intuitive support is strong. Classroom activities that cultivate empathy and certain teaching approaches may be more conducive to its <span class="gap-wrap"><input class="gap-input" data-answer="development" id="g44" autocomplete="off" spellcheck="false"><span class="gap-number">#44</span></span>.<span class="fb" id="fb44"></span></p>
+
+<div class="section-heading">Relational factors — Classroom transactions</div>
+<p>The classroom constitutes its own social culture shaped by communal interactions among learners and teachers. The teaching/learning metaphor has shifted from transmission to dialogue, with affect at its core. Facilitation — encouraging and assisting rather than directing — has become increasingly central. Heron's three facilitation modes (hierarchical, cooperative, autonomous) allow teachers to gradually transfer responsibility to learners without overwhelming them. Group dynamics, grounded in the emotional life of the group, play a decisive role in learning outcomes. Managing emotional states — reinforcing positive ones and transforming negative ones — is a key facilitative skill. Cooperative learning is highlighted as a particularly effective way to harness classroom <span class="gap-wrap"><input class="gap-input" data-answer="dynamics" id="g45" autocomplete="off" spellcheck="false"><span class="gap-number">#45</span></span>.<span class="fb" id="fb45"></span></p>
+
+<div class="section-heading">Relational factors — Cross-cultural processes</div>
+<p>Second language learners face unique emotional challenges when confronting a new culture. Successful SLA often requires learners to adopt aspects of the target culture's behavior (Lambert). Schumann's acculturation model positions social and affective integration as a key causal variable in SLA. Culture shock can range from mild irritability to deep psychological crisis, producing estrangement, anger, loneliness, and physical illness. Culture stress follows as a subtler, longer-lasting identity challenge — the learner belongs neither fully to the native nor the target culture, risking anomie. Acculturation moves through four stages: excitement, culture shock, culture stress (partial recovery), and adaptation. Teachers can help by discussing these difficulties openly, encouraging learners to find their own voice, using role-play to process cultural fatigue, and employing journal writing to explore emotional <span class="gap-wrap"><input class="gap-input" data-answer="responses" id="g46" autocomplete="off" spellcheck="false"><span class="gap-number">#46</span></span>.<span class="fb" id="fb46"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 8 (Pajares) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">8. Motivational role of self-efficacy beliefs in self-regulated learning</div>
+<div class="article-body">
+
+<div class="section-heading">Overview of social cognitive theory</div>
+<p>Bandura's social cognitive theory presents a model of human functioning based on reciprocal determinism — a triadic interaction among personal factors (cognition, affect, biological events), behavior, and environmental influences. People are not passive recipients of external forces but are self-organizing, proactive, self-reflecting, and self-regulating agents who are both products and producers of their environments. Key human capabilities include symbolizing, forethought, vicarious learning, self-regulation, and self-reflection. These capacities give individuals a sense of <span class="gap-wrap"><input class="gap-input" data-answer="agency" id="g47" autocomplete="off" spellcheck="false"><span class="gap-number">#47</span></span> — the power to shape their own destiny through their beliefs, thoughts, and actions. Central to the theory is the idea that "what people think, believe, and feel affects how they behave."<span class="fb" id="fb47"></span></p>
+
+<div class="section-heading">Self-efficacy beliefs</div>
+<p>Self-efficacy beliefs — people's judgments about their capability to accomplish specific tasks — are the foundation of human motivation, well-being, and personal accomplishment. They influence virtually every aspect of life: how productively people think, how well they motivate themselves, their resilience in adversity, their vulnerability to stress and depression, and the life choices they make. People with strong self-efficacy approach difficult tasks as challenges rather than threats, set higher goals, maintain deeper commitment, and experience greater serenity. It is important to distinguish self-efficacy from two related but distinct constructs. Self-concept is a broader evaluation of one's worth and identity (revolving around questions of "feel"), whereas self-efficacy is task-specific and revolves around questions of "can." Self-efficacy is also distinct from <span class="gap-wrap"><input class="gap-input" data-answer="outcome" id="g48" autocomplete="off" spellcheck="false"><span class="gap-number">#48</span></span> expectations — one can have high self-efficacy yet still choose not to attempt a task if the expected outcomes are discouraging, or conversely have low self-efficacy despite favorable outcome expectations.<span class="fb" id="fb48"></span></p>
+
+<div class="section-heading">Sources of academic self-efficacy</div>
+<p>Bandura identified four sources from which self-efficacy beliefs are developed, each interpreted by the individual rather than experienced objectively.The most powerful source is mastery experience — the interpreted results of one's own past performances. Successes raise self-efficacy; failures diminish it. Crucially, it is not the outcome itself but the student's <span class="gap-wrap"><input class="gap-input" data-answer="interpretation" id="g49" autocomplete="off" spellcheck="false"><span class="gap-number">#49</span></span> of it that matters: the same grade of B can devastate a student accustomed to As while energizing one accustomed to Cs.<span class="fb" id="fb49"></span></p>
+
+<p>The second source is vicarious experience — observing others, especially peers perceived as similar in ability, succeed or fail. Coping models (who struggle and overcome) are more effective than mastery models (who appear flawless) in boosting observers' confidence, particularly for struggling students. Social comparisons with peers are constant in school and shape self-efficacy significantly, especially when students lack internal <span class="gap-wrap"><input class="gap-input" data-answer="standards" id="g50" autocomplete="off" spellcheck="false"><span class="gap-number">#50</span></span> of their own.<span class="fb" id="fb50"></span></p>
+
+<p>The third source is verbal and social persuasion — the messages received from parents, teachers, and peers. Effective persuaders cultivate belief in capability while ensuring the envisioned success is realistic. Positive persuasions empower; negative ones weaken self-efficacy. Importantly, it is generally easier to damage self-efficacy through negative feedback than to build it through encouragement — the "infamous red pen" does more harm than a teacher's positive comments do <span class="gap-wrap"><input class="gap-input" data-answer="good" id="g51" autocomplete="off" spellcheck="false"><span class="gap-number">#51</span></span>.<span class="fb" id="fb51"></span></p>
+
+<p>The fourth source is physiological and emotional states — feelings of anxiety, stress, mood, and physical arousal provide students with information about their efficacy. The key again is interpretation: students with high self-efficacy read their nervousness as energizing, while self-doubting students interpret the same physical state as a sign of impending failure. A pessimistic attitude can turn errors into perceived evidence of incompetence, creating self-fulfilling prophecies of <span class="gap-wrap"><input class="gap-input" data-answer="failure" id="g52" autocomplete="off" spellcheck="false"><span class="gap-number">#52</span></span>.<span class="fb" id="fb52"></span></p>
+
+<div class="section-heading">Self-efficacy and self-regulated learning in academic contexts</div>
+<p>Self-regulation is defined as "the self-directive process by which learners transform their mental abilities into academic skills" (Zimmerman). It involves metacognitive monitoring, self-evaluation, goal setting, and strategy adjustment. Effective self-regulatory practices include completing homework on time, concentrating on tasks, organizing and planning schoolwork, motivating oneself, and participating in class. Without self-regulation, students are unable to understand the reasons for their poor performance or envision strategies to improve.Self-efficacy beliefs are influential across all three phases of self-regulation: forethought (planning), performance (implementation), and self-reflection (evaluation). Students with higher self-efficacy use more cognitive and <span class="gap-wrap"><input class="gap-input" data-answer="metacognitive" id="g53" autocomplete="off" spellcheck="false"><span class="gap-number">#53</span></span> strategies, work harder, persist longer, and recover more effectively from setbacks. Research confirms that self-efficacy influences academic outcomes independently of actual ability — within the same ability group, students with higher self-efficacy solve more problems correctly and rework more missed items.Specifically, high self-efficacy is linked to effective time monitoring, persistence under challenge, avoiding premature rejection of correct hypotheses, and accurate self-evaluation. Setting proximal (short-term) goals strengthens self-efficacy more than distal goals, because immediate attainments provide evidence of growing competence. Frequent, immediate feedback further boosts self-efficacy, especially when students attribute that feedback to their own effort. Zimmerman and colleagues identified a "self-efficacy for self-regulated learning" — students' confidence that they possess the strategies needed to succeed — as a distinct and powerful predictor of both motivation and academic achievement. Notably, students' self-efficacy and motivation tend to decline as they advance through school, with the sharpest drop occurring during the transition to middle school, where greater competition, reduced personal attention, and developmental changes compound one another.<span class="fb" id="fb53"></span></p>
+
+<div class="section-heading">Gender, Self-Efficacy, and Self-Regulated Learning</div>
+<p>Gender differences in academic self-efficacy are frequently observed but are not straightforward. In mathematics, boys and girls report equal confidence during elementary school, but by middle school boys rate themselves more efficacious than girls. In language arts, boys and girls show similar confidence even though girls consistently outperform boys academically. In self-regulated learning strategies, gender differences typically favor girls — they use more goal-setting, planning, record-keeping, self-monitoring, and <span class="gap-wrap"><input class="gap-input" data-answer="metacognitive" id="g54" autocomplete="off" spellcheck="false"><span class="gap-number">#54</span></span> strategies.<span class="fb" id="fb54"></span></p>
+
+<p>However, several factors complicate the interpretation of these differences. First, many gender differences in self-efficacy disappear when previous achievement is controlled, suggesting that the differences may reflect actual achievement gaps rather than gender per se. Second, boys tend to be more "self-congratulatory" and overconfident, while girls tend to be more modest — these response biases can mask or exaggerate actual differences. Third, how self-efficacy is measured matters: when students are asked directly to compare their ability to peers, girls recognize their own superiority in language arts even when their self-efficacy ratings match boys'. Fourth, gender orientation — the degree to which students identify with stereotypically masculine or feminine traits — may be more responsible than biological gender for differences in confidence and motivation. A feminine orientation predicts writing self-efficacy; a masculine orientation predicts confidence in mathematics and <span class="gap-wrap"><input class="gap-input" data-answer="science" id="g55" autocomplete="off" spellcheck="false"><span class="gap-number">#55</span></span>.<span class="fb" id="fb55"></span></p>
+
+<p>Educational context also plays a role: framing quantitative tasks in stereotypically feminine terms, for example, eliminates gender gaps in mathematics self-efficacy. Well-meaning teachers and counselors can inadvertently reinforce limiting gender stereotypes, steering girls away from STEM <span class="gap-wrap"><input class="gap-input" data-answer="fields" id="g56" autocomplete="off" spellcheck="false"><span class="gap-number">#56</span></span>.<span class="fb" id="fb56"></span></p>
+
+<div class="section-heading">Implications for practice</div>
+<p>Practical recommendations are organized around Bandura's four sources of self-efficacy.</p>
+<p>Regarding mastery experience, teachers should help students notice and remember their successes — not minimize them. Reflective writing assignments and journals that document successful strategies, effort, and progress serve as concrete reminders that success is achievable. The emphasis should be on authentic mastery through genuine challenge rather than inflated praise, since "the objective of education is not the production of self-confident fools" (Bandura). Simply feeling good about oneself without developing real competence is <span class="gap-wrap"><input class="gap-input" data-answer="insufficient" id="g57" autocomplete="off" spellcheck="false"><span class="gap-number">#57</span></span>.<span class="fb" id="fb57"></span></p>
+
+<p>Regarding vicarious experience, teachers should model coping rather than perfection — openly acknowledging and recovering from mistakes demonstrates that errors are normal and surmountable. Teachers should also be deliberate about peer grouping, ensuring that students can identify with their models. Individualized, cooperative learning structures minimize harmful social comparisons and allow students to gauge progress by their own standards rather than against <span class="gap-wrap"><input class="gap-input" data-answer="classmates" id="g58" autocomplete="off" spellcheck="false"><span class="gap-number">#58</span></span>.<span class="fb" id="fb58"></span></p>
+
+<p>Regarding social persuasion, praise must be honest, specific, and earned. Generic praise ("That's excellent, Vera") is far less effective than specific feedback that names what was done well and points toward future improvement. Empty or undeserved praise quickly loses credibility and can actually undermine self-efficacy. Adults should praise effort and persistence rather than innate ability, conveying that competence is controllable and growable — not <span class="gap-wrap"><input class="gap-input" data-answer="fixed" id="g59" autocomplete="off" spellcheck="false"><span class="gap-number">#59</span></span>.<span class="fb" id="fb59"></span></p>
+
+<p>Regarding physiological states, teachers should help students recognize and reframe their emotional reactions. Students who understand that nervousness can be energizing rather than debilitating will be better equipped to manage performance anxiety. Teachers should also help students identify self-handicapping behaviors — procrastination, low effort, impossibly high or low goals — that students use to protect themselves from the pain of failure. Making students aware of these strategies is the first step toward dismantling <span class="gap-wrap"><input class="gap-input" data-answer="them" id="g60" autocomplete="off" spellcheck="false"><span class="gap-number">#60</span></span>.<span class="fb" id="fb60"></span></p>
+
+<p>On gender, educators should actively challenge stereotypical associations between academic subjects and gender. Bringing in professional role models of underrepresented genders in STEM or language arts, assigning cross-stereotypical tasks in group work, and selecting reading materials that portray diverse competencies all help broaden students' sense of what is possible for them. Parents and teachers should be especially vigilant about subtle, unintentional messages that reinforce gender-limiting <span class="gap-wrap"><input class="gap-input" data-answer="beliefs" id="g61" autocomplete="off" spellcheck="false"><span class="gap-number">#61</span></span>.<span class="fb" id="fb61"></span></p>
+
+<p>Finally, the broader conclusion is that self-efficacy beliefs and self-regulatory habits, once formed, tend to become automatic and self-perpetuating. The critical window is early: the earlier that strong self-beliefs and sound self-regulatory practices are established, the more durable and beneficial they will be across a lifetime. Teachers bear a significant share of responsibility for helping students build these habits — not through false encouragement, but through authentic challenge, meaningful support, and honest recognition of real <span class="gap-wrap"><input class="gap-input" data-answer="accomplishment" id="g62" autocomplete="off" spellcheck="false"><span class="gap-number">#62</span></span>.<span class="fb" id="fb62"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 9 (Mills) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">9. Self-Efficacy in Second Language Acquisition (Nicole Mills)</div>
+<div class="article-body">
+
+<div class="section-heading">Social Cognitive Theory</div>
+<p>Social cognitive theory views individuals as proactive, self-reflective, and self-regulating beings whose behavior is collectively shaped by personal agency, self-beliefs, and environmental factors — what Bandura calls triadic <span class="gap-wrap"><input class="gap-input" data-answer="reciprocality" id="g63" autocomplete="off" spellcheck="false"><span class="gap-number">#63</span></span>. People are simultaneously products and producers of their environments, not passive recipients of external forces. Within this framework, five distinctly human capabilities are highlighted: symbolizing, forethought, vicarious learning, self-regulation, and self-reflection. Of these, self-reflection is considered the most influential on human agency, as it allows individuals to examine their own thoughts and actions, form beliefs about their competence, and adjust future behavior accordingly. Within social cognitive theory, self-efficacy — defined as beliefs in one's capabilities to organize and execute actions required to produce given attainments — is one of the most central mechanisms of self-reflection. Self-efficacy beliefs influence decisions, effort, perseverance, resilience, thought processes, emotional states, and ultimate accomplishments. Importantly, Schunk (1991) argues that self-efficacy beliefs may be better predictors of success than prior achievements, skills, or knowledge. These beliefs are formed from four main sources: mastery experiences (the most powerful), vicarious experiences, verbal persuasions, and affective/emotional indicators. Since self-efficacy represents future-oriented conceptions of the self, it is malleable and can be developed if its sources are deliberately fostered.<span class="fb" id="fb63"></span></p>
+
+<div class="section-heading">Self-Efficacy and Academic Performance</div>
+<p>Over the past 30 years, self-efficacy has received increasing attention in educational research due to its strong relationship with academic performance. Graham and Weiner's (1996) review of motivational research found that self-efficacy beliefs consistently predicted academic achievement across various domains, outperforming other motivational constructs. Students with high self-efficacy tend to display lower anxiety, greater persistence in the face of obstacles, stronger effort, more flexible use of learning strategies, and higher intrinsic interest in academic tasks. In contrast, students with low self-efficacy gravitate toward less challenging tasks, invest minimal effort and strategy use, and exhibit higher anxiety when confronting difficulties. These consistent findings across academic contexts establish confidence in one's capabilities as a central — not peripheral — element of academic <span class="gap-wrap"><input class="gap-input" data-answer="success" id="g64" autocomplete="off" spellcheck="false"><span class="gap-number">#64</span></span>.<span class="fb" id="fb64"></span></p>
+
+<div class="section-heading">Self-Efficacy and Other Self Constructs</div>
+<p>While self-efficacy has been extensively studied in educational psychology, SLA researchers have tended to emphasize other self constructs in FL motivation research, most notably linguistic self-confidence, self-concept, and self-regulation. Though these constructs share surface similarities with self-efficacy, they differ in important theoretical and practical ways.</p>
+<p>Linguistic self-confidence, rooted in social psychology, is defined as self-perceptions of communicative competence combined with low levels of anxiety in L2 use. It is socially defined and linked to cultural identification and acculturation, whereas self-efficacy is primarily cognitively defined and task-<span class="gap-wrap"><input class="gap-input" data-answer="specific" id="g65" autocomplete="off" spellcheck="false"><span class="gap-number">#65</span></span>.<span class="fb" id="fb65"></span></p>
+
+<p>Self-concept is an evaluative judgment of one's perceived self accompanied by a sense of self-worth. It can be global or domain-specific (e.g., Spanish self-concept, French reading self-concept). Unlike self-efficacy — which asks "can I do this specific task?" — self-concept asks "how do I feel about myself in this domain?" and therefore involves questions of being, feeling, and worth rather than capability. Dörnyei extends traditional self-concept to the notion of possible <span class="gap-wrap"><input class="gap-input" data-answer="selves" id="g66" autocomplete="off" spellcheck="false"><span class="gap-number">#66</span></span>, which captures what learners imagine they might become, wish to become, or fear becoming. While self-concept beliefs can be domain-specific, they are not assessed at the task-specific level that self-efficacy demands.<span class="fb" id="fb66"></span></p>
+
+<p>Self-regulation refers to one's ability to use appropriate strategies to plan, monitor, and complete a task. Although related, it is distinct from self-efficacy: self-efficacy concerns belief in one's capability to perform a task, while self-regulation concerns the actual strategic processes used. Research finds that higher self-efficacy leads to greater engagement in more effective self-regulatory strategies. A related construct, self-efficacy for self-regulation, refers specifically to one's perceived ability to use effective strategies to plan and complete tasks, and has emerged as a particularly powerful predictor of FL <span class="gap-wrap"><input class="gap-input" data-answer="achievement" id="g67" autocomplete="off" spellcheck="false"><span class="gap-number">#67</span></span>.<span class="fb" id="fb67"></span></p>
+
+<div class="section-heading">Self-Efficacy and Language Learning</div>
+<p>Self-efficacy research in FL learning gained prominence in the 21st century as the field moved into its cognitive-situated period and began drawing more heavily on educational psychology. Studies have established connections between self-efficacy and FL achievement, reading and listening proficiency, language learning strategy use, FL anxiety, and self-efficacy for self-regulation.Mills et al. (2007) found that French grade self-efficacy predicted French achievement as measured by final course grades among 303 intermediate college students, and that students with higher grade self-efficacy also reported stronger French self-concept and greater perceived value of French. Hsieh and Kang (2010) similarly found with 192 Korean ninth-grade English learners that self-efficacy was a significant predictor of FL achievement, and that high-efficacy students attributed success to internal factors while low-efficacy students attributed outcomes to external factors, indicating less personal control.In reading and listening proficiency, Mills et al. (2006) found that higher French reading self-efficacy predicted higher reading proficiency scores, and that when reading self-efficacy was controlled, anxiety showed no relationship to proficiency — supporting Bandura's claim that self-efficacy predicts performance above and beyond anxiety. For listening proficiency, however, the relationship with self-efficacy held only for female participants, raising questions about gender differences and a potentially "female-oriented foreign language culture."Research by Graham (2007) and Graham and Macaro (2008) found that explicit listening strategy instruction, combined with feedback linking strategy use to performance outcomes, strengthened students' listening self-efficacy. These findings support the view that learners with high self-efficacy also exhibit more developed <span class="gap-wrap"><input class="gap-input" data-answer="metacognition" id="g68" autocomplete="off" spellcheck="false"><span class="gap-number">#68</span></span> and more effective strategy knowledge. Mills et al. (2007) furthermore identified self-efficacy for self-regulation as the strongest predictor of intermediate French achievement, outperforming grade self-efficacy, anxiety, and self-concept.Two curriculum-based studies further demonstrate that self-efficacy is dynamic and responsive to instructional design. Mills (2009) found that a project-based learning curriculum enhanced students' self-efficacy across all five goal areas of the Standards for Foreign Language Learning. Mills and Péron (2009) found that participation in a global simulation course — in which students created French-speaking characters and collaboratively wrote memoirs — led to higher writing self-concept, stronger writing self-efficacy, and decreased writing anxiety, as well as measurable improvements in composition quality.<span class="fb" id="fb68"></span></p>
+
+<div class="section-heading">Strategies to Guide Self-Efficacy Research</div>
+<p>A recurring methodological problem in FL self-efficacy research is the mismeasurement of the construct due to insufficient specificity. Bandura (1986) advises that self-efficacy must be measured with a specificity that corresponds to the task and domain being assessed. When measures are too generalized — as with Schwarzer and Jerusalem's Generalized Self-Efficacy Scale, which includes items about personality traits rather than language tasks — they assess general personality attributes rather than task-specific beliefs, and results lose <span class="gap-wrap"><input class="gap-input" data-answer="predictive" id="g69" autocomplete="off" spellcheck="false"><span class="gap-number">#69</span></span> validity. Other problematic practices include using single-item measures, which cannot capture the nuance of task-specific confidence, and combining self-efficacy items with items measuring related but distinct constructs such as anxiety, perceived value, or effort — a practice that confounds variables and obscures the unique contribution of self-efficacy.<span class="fb" id="fb69"></span></p>
+
+<p>Effective self-efficacy measures in FL research share several characteristics: they closely align items with the specific performance measures being predicted, they use prompts such as "how sure are you that you can…" followed by a specific FL task, and they adopt response formats scaled from 0 to 100 to match familiar grading conventions. Mills and Péron's (2009) writing self-efficacy scale exemplifies this approach, matching items directly to the composition rubric used in the course. Graham's (2007) listening self-efficacy measure went further by playing actual listening passages before asking students to rate their confidence on specific comprehension tasks, ensuring that students were evaluating their capability with a concrete, realistic task in mind. Such context-appropriate, task-aligned measures increase effect sizes and allow for more accurate and meaningful assessment of FL learners' self-efficacy <span class="gap-wrap"><input class="gap-input" data-answer="beliefs" id="g70" autocomplete="off" spellcheck="false"><span class="gap-number">#70</span></span>.<span class="fb" id="fb70"></span></p>
+
+<div class="section-heading">Fostering Students' Self-Efficacy Beliefs</div>
+<p>Well-designed self-efficacy measures can also serve as instructional tools, giving teachers insight into students' confidence profiles and guiding modifications to teaching practice. Fostering self-efficacy involves deliberately cultivating all four of its sources.</p>
+<p>To strengthen mastery experiences, teachers should create multiple opportunities for meaningful success during classroom activities. Scaffolded, teacher-guided activities followed by pair or small-group practice allow students to exchange ideas and perform FL tasks in a supportive environment. Explicit language strategy instruction — including vocabulary acquisition, circumlocution, process-writing approaches, and comprehension strategies — provides learners with practical tools that enhance performance and support positive interpretation of that performance. <span class="gap-wrap"><input class="gap-input" data-answer="Attribution" id="g71" autocomplete="off" spellcheck="false"><span class="gap-number">#71</span></span> retraining is also recommended: teachers should provide feedback that attributes both success and difficulty to controllable internal factors such as effort, preparation, and strategy use, rather than allowing students to explain outcomes through fixed ability or external circumstance.<span class="fb" id="fb71"></span></p>
+
+<p>To cultivate vicarious experiences, teachers should incorporate collaborative learning structures — blogs, discussion boards, in-class presentations, and group tasks — where students can observe peers of similar proficiency succeeding in FL tasks. Exposure to non-native speakers communicating effectively in culturally grounded contexts can be particularly inspiring. These peer comparisons help build a collective sense of efficacy — a shared belief in the class community's ability to achieve FL <span class="gap-wrap"><input class="gap-input" data-answer="goals" id="g72" autocomplete="off" spellcheck="false"><span class="gap-number">#72</span></span>.<span class="fb" id="fb72"></span></p>
+
+<p>To harness verbal persuasion, teachers must provide consistent, personalized, and informative feedback rather than generic praise. Process-oriented approaches to writing that include guiding comments alongside grades, as used in Mills and Péron's (2009) study, allow students to understand their progress and what they must do to improve. The challenge for teachers, as Pajares (2002) notes, is to calibrate internal standards so that they are rigorous but not debilitating — realistic but not self-<span class="gap-wrap"><input class="gap-input" data-answer="limiting" id="g73" autocomplete="off" spellcheck="false"><span class="gap-number">#73</span></span>.<span class="fb" id="fb73"></span></p>
+
+<p>Finally, to work with students' physiological and emotional states, teachers should establish low-anxiety learning environments that invite risk-taking and experimentation. Learner-centered curricula that give students choices, encourage engagement and enjoyment, and allow active participation in decision-making have been shown to positively influence emotional indicators and thereby strengthen self-efficacy. When students experience genuine engagement, curiosity, and a sense of control over their learning, positive emotional states compound and reinforce growing confidence in FL <span class="gap-wrap"><input class="gap-input" data-answer="capabilities" id="g74" autocomplete="off" spellcheck="false"><span class="gap-number">#74</span></span>.<span class="fb" id="fb74"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 11 (MacIntyre) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">11. Language anxiety: A review of the literature for language teachers</div>
+<div class="article-body">
+
+<div class="section-heading">Understanding language anxiety conceptualization and research</div>
+<p>MacIntyre opens by noting a surge of research on language anxiety in the 1990s, alongside significant disagreement about its importance. Some view anxiety as a minor inconvenience or excuse; others see it as the central affective barrier to language learning. Estimates suggest half of all language students experience debilitating levels of anxiety. A contrasting minority view (Sparks and Ganschow) holds that language anxiety is merely a byproduct of native-language coding difficulties and adds little explanatory value. MacIntyre sides with the majority, reviewing how anxiety influences both learning and communication — while acknowledging that other factors (strategies, aptitude, attitudes, motivation) also matter. The chapter's methodological foundation is correlational research, explained clearly: correlations measure the strength and direction of relationships between variables (ranging from 0 to ±1), but do not establish cause and effect. Positive correlations mean variables move together; negative ones mean they move in opposite directions (e.g., as anxiety rises, performance falls). Factor analysis — identifying clusters of related variables — is introduced as a key tool for understanding how language anxiety relates to other <span class="gap-wrap"><input class="gap-input" data-answer="constructs" id="g75" autocomplete="off" spellcheck="false"><span class="gap-number">#75</span></span>.<span class="fb" id="fb75"></span></p>
+
+<div class="section-heading">Conceptualization</div>
+<p>Two broad approaches to defining language anxiety have existed in the literature. The first treats language anxiety as a transfer of other anxieties (test anxiety, communication apprehension) into the language domain. This approach has the advantage of drawing on existing research but produced mixed and confusing results — exemplified by Chastain's (1975) study, which reported positive, negative, and near-zero correlations between anxiety and language learning across French, German, and Spanish, with inconsistent directions even within languages. Young's (1991) review of sixteen studies found similarly scattered and inconclusive results, largely because only three used a language-specific anxiety measure. The second approach proposes that language learning generates a unique form of anxiety. MacIntyre and Gardner (1989, 1991b) found that language anxiety was distinct from more general anxiety types and that performance in the second language was negatively correlated with language anxiety but not with general anxiety. Since the mid-1980s, research has supported the view that a construct specific to the language acquisition context is more predictive of second language achievement than general anxiety measures. Horwitz and colleagues (1986) proposed that language anxiety stems from three sources — communication apprehension, fear of negative evaluation, and test anxiety — though they explicitly do not view it as a simple transfer of these to the classroom; rather, they define it as "a distinct complex of self-perceptions, beliefs, feelings, and behaviors related to classroom language learning arising from the uniqueness of the language-learning process." Research now clearly supports measuring the anxiety experienced specifically in second language contexts, and the field has developed numerous scales for this purpose.Three broad perspectives help clarify the nature of anxiety: trait anxiety (a stable personality predisposition to be nervous across situations), situation-specific anxiety (stable over time but confined to one type of context, like language class, stage fright, or math), and state anxiety (the transient, moment-to-moment experience of feeling nervous). Language anxiety is best understood as a situation-specific anxiety — it predicts the likelihood of experiencing state anxiety in second language contexts. State anxiety affects emotions (heightened arousal, feeling "keyed up"), cognition (increased sensitivity to others' thoughts, self-evaluation, rumination), and behavior (physical symptoms such as wringing hands, sweating, heart pounding, and attempts to <span class="gap-wrap"><input class="gap-input" data-answer="withdraw" id="g76" autocomplete="off" spellcheck="false"><span class="gap-number">#76</span></span>).<span class="fb" id="fb76"></span></p>
+
+<div class="section-heading">Relation of language anxiety to other anxieties</div>
+<p>MacIntyre and Gardner (1991b) used factor analysis on 23 anxiety scales covering trait anxiety, state anxiety, communication apprehension, interpersonal anxiety, math anxiety, novelty anxiety, French test anxiety, French use anxiety, and French classroom anxiety. Three factors emerged: a broad General Anxiety factor (encompassing most of the general anxiety scales), a State Anxiety factor, and a Language Anxiety factor (composed of French use anxiety, French classroom anxiety, and French test anxiety). The procedure confirmed that language anxiety cannot be attributed to other forms of anxiety — it is statistically separable. This has practical implications: because types of anxiety are relatively independent, it is hard to predict who will experience language anxiety. Students who are highly anxious in other domains may feel entirely calm in language class, while students who have never been anxious about any other subject may develop debilitating language anxiety. Even highly capable students are not immune. Teachers should be alert to the possibility that difficulty in language learning may reflect language anxiety rather than lack of ability or motivation, particularly for students who struggle in language class but do well <span class="gap-wrap"><input class="gap-input" data-answer="elsewhere" id="g77" autocomplete="off" spellcheck="false"><span class="gap-number">#77</span></span>.<span class="fb" id="fb77"></span></p>
+
+<div class="section-heading">Development of language anxiety</div>
+<p>There is limited empirical research on the origins of language anxiety, though several theoretical accounts have been proposed. MacIntyre and Gardner's (1989) model suggests that at the earliest stages of language learning, students encounter difficulties in comprehension, grammar and other areas. If a student becomes anxious about these experiences — especially if mistakes are uncomfortable — state anxiety becomes associated with the second language through repeated occurrences. Once a student expects to be anxious in second language contexts, language anxiety has developed. This is consistent with research on the development of communication apprehension and public speaking anxiety.Language anxiety also comes to be distinct from other anxieties because it develops through experiences specific to language learning. A shy, introverted person tends to do well in most school subjects but may find language learning uniquely threatening because it demands oral communication; extroverts, conversely, may thrive in language class. Students with native-language encoding difficulties may develop language anxiety as a compensatory reaction. A specific teacher, peer climate, or intercultural setting can also provoke intense anxiety, partly because self-esteem, identity and the ability to communicate are so deeply intertwined in language learning.Young (1991) identified sources from three directions: the learner (low self-esteem, competitiveness, interpersonal problems), the teacher (unrealistic beliefs about language learning, demanding error correction practices, intimidating behaviors), and instructional practice (testing methods, oral requirements). Clément (1980) situates language anxiety within a broader construct of self-confidence, which includes low anxiety and a positive self-perception of second language proficiency; in multicultural contact situations, motivation is shaped by the tension between the desire to adopt a new language/culture and the fear of losing one's native identity. MacIntyre and Noels (1994) found that high-anxiety students tend to underestimate their ability to speak, comprehend, and write the second language, while relaxed students overestimate — suggesting that anxious expectations of failure prompt avoidance of learning activities, which then validates the anxiety and maintains low self-perceived proficiency. Personality research (MacIntyre & Charos, 1995) showed language anxiety is more closely linked to introversion than to general nervousness, reinforcing that it is not simply a manifestation of trait anxiety. The single most important source appears to be the fear of speaking in front of others in a language in which one has limited proficiency — uniquely threatening to self-esteem and identity because, as Cohen and Norst note, "language and self are so closely bound, if not identical, that an attack on one is an attack on the <span class="gap-wrap"><input class="gap-input" data-answer="other" id="g78" autocomplete="off" spellcheck="false"><span class="gap-number">#78</span></span>."<span class="fb" id="fb78"></span></p>
+
+<div class="section-heading">Effects of language anxiety — Academic effects</div>
+<p>Multiple studies have documented significant negative correlations between language anxiety and course grades, including correlations as high as r = -.65 (MacIntyre & Gardner, 1994b). Gardner and colleagues' large-scale Canadian studies confirmed language anxiety as one of the strongest predictors of second language achievement, with effects strongest at higher grade levels. Anxiety was correlated with both perceived and actual second language competence. A secondary academic effect is overstudying — students compensating for anxiety with increased effort, which nonetheless often fails to produce proportionate grade improvements, leaving them frustrated. High levels of language anxiety are consistently associated with low academic achievement, and the pattern holds across many studies and <span class="gap-wrap"><input class="gap-input" data-answer="settings" id="g79" autocomplete="off" spellcheck="false"><span class="gap-number">#79</span></span>.<span class="fb" id="fb79"></span></p>
+
+<div class="section-heading">Effects of language anxiety — Cognitive effects</div>
+<p>MacIntyre and Gardner investigated anxiety's effects on cognitive processing using a three-stage model — Input (preprocessing), Processing, and Output — adapted from Tobias (1979, 1980, 1986). Anxiety arousal produces self-related cognitions (thoughts of failure, worry about performance, self-deprecating thoughts) that compete with the cognitive demands of language learning — encoding words, comprehending phrase structure, planning what to say next — and thus disrupts performance at each stage.At the input stage, anxiety acts as a filter (analogous to Krashen's affective filter): anxious students may not take in spoken dialogue fast enough because anxiety interferes with information intake. Words or phrases that do not enter the system cannot be processed or used later — what Wheeless (1975) called "receiver apprehension." At the processing stage, anxiety reduces the speed and accuracy of learning; anxious students may be unable to learn new vocabulary or grammar because worry consumes cognitive resources, taking the form of preoccupation with future communication or fear of misunderstanding. Those who process information more deeply create better understanding of language structure and use, while anxiety disrupts this. At the output stage, anxiety disrupts retrieval — the "freezing up" experience where a known answer will not come to mind. Correct words may be "on the tip of the tongue" but cannot be accessed, producing errors that compound anxiety.Laboratory studies confirmed effects at all three stages, with strongest correlations at processing and output. Language anxiety was negatively correlated with second-language tasks but not with native-language tasks, confirming the language-specific nature of the effect. A key finding was that extra effort can partially compensate for anxiety at later stages — but only if time is not limited. When time pressure is added, anxiety's effects become more severe and cannot be overcome. MacIntyre and Gardner (1994b) concluded that "the potential effects of language anxiety on cognitive processing in the second language appear pervasive and may be quite <span class="gap-wrap"><input class="gap-input" data-answer="subtle" id="g80" autocomplete="off" spellcheck="false"><span class="gap-number">#80</span></span>."<span class="fb" id="fb80"></span></p>
+
+<div class="section-heading">Effects of language anxiety — Social effects</div>
+<p>Social context strongly influences language anxiety through competitive classroom atmospheres, difficult teacher relationships, risks of embarrassment, contact with target language community members, and inter-ethnic tension. Clément and colleagues' research across Canadian settings showed that in minority-majority language contact situations, motivation is shaped by the tension between desire to learn the new language/culture and fear of losing native identity — a tension that influences self-confidence and ultimately communicative behavior. In a study of bilingual Mexican-American students in Texas, Mejías and colleagues found that the frequency of language use was more influential than native versus second language status in determining communication apprehension. Mexican-American students were relatively more comfortable with English (their second language used daily) than with Spanish (their first language used less frequently), while Anglophone students showed the reverse. A considerable number of these students experienced high communication apprehension in both languages.The most recurring and important social effect is that anxious learners communicate less — they speak less frequently than relaxed learners and, when given the opportunity to communicate naturally, do so less often. Evidence from MacIntyre and Charos (1995) confirms that anxious learners are less willing to communicate. This matters profoundly because successful language learners need a willingness to "talk in order to learn." The social consequences of avoidance extend beyond the classroom: avoiding communication in the native language generates negative assumptions about reticent speakers, and how anxious communicators are perceived by others in both classroom and non-classroom settings is an underexplored but important <span class="gap-wrap"><input class="gap-input" data-answer="topic" id="g81" autocomplete="off" spellcheck="false"><span class="gap-number">#81</span></span>.<span class="fb" id="fb81"></span></p>
+
+<div class="section-heading">Effects of language anxiety — Personal effects</div>
+<p>Among the most troublesome effects is the severe anxiety reaction that some individual learners experience — which, while extreme, is not trivial. Student quotations collected in the literature vividly convey the personal toll: "I'd rather be in a prison camp than speak a foreign language"; feelings of disability, stupidity, fear of hiding, heart pounding, hands shaking, turning red, nearly having a "coronary." Anxious students engage in self-deprecating cognition, worry that others perceive them as incompetent, and experience the experience of language learning as the "smashing of a well-developed positive self-concept." These accounts, though sometimes melodramatic, express genuine and deep-seated feelings that should not be dismissed. Language learning is uniquely threatening at the personal level — more so than other academic subjects — because it implicates identity and self-expression so directly. The chapter notes the concerning implication that some teachers deliberately induce anxiety to stimulate learning, potentially producing severe reactions. MacIntyre concludes that, given the prevalence and severity of these personal effects, language learning should not be a traumatic experience — yet for some students it clearly <span class="gap-wrap"><input class="gap-input" data-answer="is" id="g82" autocomplete="off" spellcheck="false"><span class="gap-number">#82</span></span>.<span class="fb" id="fb82"></span></p>
+
+<div class="section-heading">Conclusion</div>
+<p>MacIntyre summarizes that language anxiety is a discernible, situation-specific construct distinct from other anxiety types, developing from negative early experiences in language learning and consistently showing a negative correlation with second language achievement and proficiency perception. High anxiety reduces linguistic self-confidence, which reduces motivation for study and communication. Effects span the academic, cognitive, social and personal domains, with cognitive disruption from anxiety arousal appearing responsible for many of the negative academic and communicative outcomes. The study of language anxiety has matured considerably — no longer hampered by vague definitions or inconsistent measurement — but much work remains, particularly in understanding the full range of subtle effects, why these effects occur, and what strategies and programs can ameliorate them. As language pedagogy increasingly emphasizes communicative competence and spontaneous interaction, the need to understand and address language anxiety becomes ever more <span class="gap-wrap"><input class="gap-input" data-answer="pressing" id="g83" autocomplete="off" spellcheck="false"><span class="gap-number">#83</span></span>.<span class="fb" id="fb83"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 12 (Oxford) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">12. Anxious Language Learners Can Change Their Minds: Ideas and Strategies from Traditional Psychology and Positive Psychology (Rebecca L. Oxford)</div>
+<div class="article-body">
+
+<div class="section-heading">1. Introduction</div>
+<p>Highly anxious language learners distrust social situations in the target language, anticipating scrutiny and embarrassment. They inhabit a self-focused, negative psychological world centered on what they believe they cannot do, and are "worried about being so worried" — yet feel unable to escape the compulsion to worry. The consequences are far-reaching: reductions in cognition, self-confidence, personal agency, control, willingness to communicate and ability to express and recognize emotions. Oxford notes, however, that for less severely anxious learners, mild anticipatory anxiety can have some benefits — stimulating alertness, focusing action, and building resilience. Because of their maladaptive assumptions and deficient social skills, highly anxious individuals typically resort to avoidance behaviors such as wishful thinking, denial, distraction, escapism and giving up — illustrated vividly by Oxford's classroom observations and the example of military officers in Costa Rica who, despite career incentives, refused to interact with locals in Spanish. The chapter draws on both traditional psychology and positive psychology to identify the nature of language anxiety and offer concrete <span class="gap-wrap"><input class="gap-input" data-answer="interventions" id="g84" autocomplete="off" spellcheck="false"><span class="gap-number">#84</span></span>.<span class="fb" id="fb84"></span></p>
+
+<div class="section-heading">2. What We Know from Traditional Psychology</div>
+<p>Oxford frames anxiety as a set of clinical conditions — primarily social anxiety disorder and generalised anxiety disorder — but deliberately avoids clinical labeling, instead treating these as common human experiences to which interventions can be applied.</p>
+
+<div class="sub-heading">2.1. Social anxiety</div>
+<p>Social anxiety is a persistent, irrational and often severe fear of social or performance situations in which scrutiny and embarrassment might occur, and is considered the primary root of language anxiety. Its main cognitive explanation is maladaptive assumptions, which for language learners typically take four forms: the belief that one must perform perfectly in the target language; the belief that one is unattractive, unskilled and incompetent in social situations; the belief that one's inept social behaviors will inevitably lead to terrible consequences; and the belief that one has no control over one's anxiety. Beyond these beliefs, socially anxious individuals often genuinely lack social skills — difficulty starting conversations, communicating needs, or meeting others' needs — which compounds the problem.Interventions include: modelling, in which the teacher demonstrates desirable behaviors such as deep breathing or humor; exposure therapy, in which learners gradually and repeatedly expose themselves to feared language performance situations rather than avoiding them; rational-emotive and cognitive therapies, which help learners identify and challenge their negative assumptions through homework and real-situation practice; biological approaches such as deep breathing (replacing negative energy with positive, calming breaths) and progressive muscle relaxation (systematically tensing and releasing muscle groups until the body is fully relaxed); and social skills training, ideally in group settings with other learners, which develops both interpersonal skills and assertiveness through role-play, rehearsal, correction and praise — with group-based training typically producing better results than individual <span class="gap-wrap"><input class="gap-input" data-answer="work" id="g85" autocomplete="off" spellcheck="false"><span class="gap-number">#85</span></span>.<span class="fb" id="fb85"></span></p>
+
+<div class="sub-heading">2.2. Generalised anxiety</div>
+<p>While language anxiety is usually considered a specific social anxiety, Oxford argues that some learners may also suffer from generalised anxiety — broad, persistent worry across most life circumstances — which affects approximately 4% of Western populations. Individuals with generalised anxiety feel restless, physically tense, exhausted and unable to concentrate, with intense physical reactions to stress. Like social anxiety, it is driven by maladaptive assumptions — for example, that one must be completely competent in all respects to be worthwhile, or that any potentially dangerous situation warrants constant, intense concern. Three "new-wave" cognitive theories add further explanation: the metacognitive theory holds that generalised anxiety individuals simultaneously believe worrying helps them cope with threats and that it is harmful and uncontrollable; the intolerance of uncertainty theory argues that some individuals cannot bear any possibility of bad outcomes and worry as a strategy to achieve certainty; and the physical arousal theory proposes that worrying paradoxically reduces the intensely unpleasant physiological arousal these individuals experience.Interventions include: rational-emotive therapy to identify and change maladaptive assumptions in anxiety-triggering settings; a multistep cognitive procedure that educates learners about the role of worry, has them observe their physical arousal and triggers, and helps them reappraise the world as less threatening; and relaxation training and biofeedback, applicable to both social and generalised <span class="gap-wrap"><input class="gap-input" data-answer="anxiety" id="g86" autocomplete="off" spellcheck="false"><span class="gap-number">#86</span></span>.<span class="fb" id="fb86"></span></p>
+
+<div class="section-heading">3. What We Know from Positive Psychology</div>
+<p>Positive psychology sheds light on emotions, flow, agency, hope and optimism — all of which are implicated in language anxiety.</p>
+
+<div class="sub-heading">3.1. Emotions</div>
+<p>From a positive psychology perspective, anxiety is a negative emotion that narrows the individual's response options to survival-based fight-or-flight behaviors, hindering learning. Oxford's own work with learner narratives documented negative emotions including anxiety, anger and shame — consistent with the view that language learning is "a profoundly unsettling psychological proposition." Positive emotions — happiness, curiosity, interest, pleasure, joy — do the opposite: they broaden response options and build new skills for the future. Learner narratives also revealed that some previously anxious learners reduced their anxiety through writing poetry, positive self-talk, or altruistic acts. Emotional intelligence — the ability to understand and use feelings as informational guides — has been shown to reduce anxiety and stress and improve relationships and achievement. Research by Dewaele and colleagues found that adult multilinguals with higher emotional intelligence had lower foreign language anxiety, and perceived themselves as better able to gauge their interlocutor's emotions, control their own stress, and feel self-confident.Interventions include: the ABCDE macro-strategy (Adversity, Beliefs, Consequences, Disputation, Energisation), which draws on rational-emotive therapy and helps learners recognize that beliefs — not external events — cause negative feelings, and that presenting counter-evidence can produce a positive change of mind, combating irrational beliefs of the "I must/should," "It's terrible," "I can't stand it," and "I'm worthless" variety; countering hyper-reflection (gloomy anxious attention to failure) by redirecting focus toward something interesting in the task, using visualisation; a situation-analysis technique in which learners recall a moment of genuine positive emotion, name it and specify it, enabling them to recreate such moments; emotion-release activities such as letting go of "emotional icebergs" (deeply held beliefs causing disproportionate reactions) and releasing grudges; and paradoxical intention (from Frankl's logotherapy), in which learners deliberately focus on what they fear and make a paradoxical wish (e.g., resolving to fail a test), which produces self-detachment and humour and diminishes <span class="gap-wrap"><input class="gap-input" data-answer="anticipatory" id="g87" autocomplete="off" spellcheck="false"><span class="gap-number">#87</span></span> anxiety.<span class="fb" id="fb87"></span></p>
+
+<div class="sub-heading">3.2. Flow</div>
+<p>Flow is an optimal psychological state involving intrinsic motivation, complete immersion in a task, a perceived balance between challenge and competence, merging of action and awareness, heightened control, effortlessness, lack of self-consciousness and an altered sense of time. Intrinsically motivated learners show higher involvement, more creative and efficient thinking, a wider range of problem-solving strategies and more effective retention. Learners with language anxiety are typically the opposite: overwhelmed, overly challenged, fearfully withdrawn, with worry clouding their thinking, reducing creativity, damaging strategy use and lowering effectiveness. Switching into flow is unlikely for highly anxious learners, though Oxford cites one case in which an anxious learner used positive self-talk to push past his anxiety and engage spontaneously in Spanish conversation.Interventions include: positive self-talk focused on intrinsic interest and shifting attention from outcome to process; savouring, in which learners consciously appreciate positive language learning moments, share them with others, build memories and become fully absorbed in the experience; hardiness (commitment, control and challenge as attitudes; plus transformational coping, social support and self-care as action patterns), which cultivates the existential courage needed for flow; and the "thieves" technique, in which learners visualise locking away the happiness-stealing emotions — anxiety, depression, anger, resentment — that block flow and intrinsic <span class="gap-wrap"><input class="gap-input" data-answer="motivation" id="g88" autocomplete="off" spellcheck="false"><span class="gap-number">#88</span></span>.<span class="fb" id="fb88"></span></p>
+
+<div class="sub-heading">3.3. Agency</div>
+<p>Learners with language anxiety typically feel a lack of agency — the capacity to act volitionally to affect outcomes, shape the terms and conditions of one's own learning, and assign relevance and significance to the learning process. The agentic person has high aspirations, perseveres through obstacles, sees varied options and learns from failure; the non-agentic person is a "pawn" to external forces, feels helpless and has limited problem-solving capacity. Oxford adds an important nuance: for many anxious learners, agency is undermined not by low aspirations but by excessively high ones verging on perfectionism.Interventions include: helping learners understand they are the authors of their own learning and have power over their own thoughts and actions; building communities of practice where the classroom becomes a collaborative space, with teachers as mediators helping learners traverse Vygotsky's zone of proximal development; strategy instruction, teaching a range of cognitive, metacognitive, social and affective strategies that learners can deploy intentionally; helping learners address catastrophic thinking by gathering evidence, gaining perspective (identifying worst, best and most likely outcomes) and building realistic optimism; humour as a mature defense mechanism that reframes difficulty without denial; identifying and deploying signature strengths — the learner's most characteristic virtues — and applying them in new ways; using Niebuhr's Serenity Prayer as a discussion anchor to clarify what is and is not within the learner's control; and developing assertive communication through active-constructive responding, specific praise and direct <span class="gap-wrap"><input class="gap-input" data-answer="expression" id="g89" autocomplete="off" spellcheck="false"><span class="gap-number">#89</span></span>.<span class="fb" id="fb89"></span></p>
+
+<div class="sub-heading">3.4. Hope</div>
+<p>Learners with language anxiety often lack hope — defined as "desire accompanied by reasonable expectation." Hopelessness is linked to negative distortions of reality, despair and demoralisation, which, like anxiety, involves a subjective sense of incompetence. Research shows that higher levels of trait hope predict academic success, greater energy, goal-orientation, confidence, self-worth and lower depression. The dominant cognitive theory of hope (Snyder) defines it as a cognitive set comprising pathways thinking (the ability to generate workable routes toward goals) and agency thinking (the motivation and intention to use those pathways). Goals can be expressed in words or mental images, can be approach- or avoidance-oriented, and short- or long-term. When a pathway is blocked, high-hope individuals generate alternative routes, use positive self-talk, remain cognitively flexible and stay engaged; low-hope individuals (including, Oxford argues, highly anxious learners) resort to avoidance and rumination.Interventions include: teaching pathways thinking (generating alternative routes to goals when blocked) and agency thinking (positive self-talk such as "I can do this"); incorporating hope-building content into language learning self-help materials; structured hope interventions such as identifying hopeful versus unhopeful language, forming "hope buddy" partnerships, and writing hope stories; and Clarke's system of addressing the demoralisation linked to hopelessness through reassurance, problem-solving skills instruction, quiet supportive presence and exploration of personal <span class="gap-wrap"><input class="gap-input" data-answer="meaning" id="g90" autocomplete="off" spellcheck="false"><span class="gap-number">#90</span></span>.<span class="fb" id="fb90"></span></p>
+
+<div class="sub-heading">3.5. Optimism</div>
+<p>Learners with language anxiety lack dispositional optimism — generalised positive expectations for the future. While optimists confidently persevere through adversity, anticipate good outcomes and show excitement, pessimists doubt goal attainability, avoid difficulty and experience anxiety, sadness and anger. Research shows stronger optimism at the start of college predicts less distress and greater social development. Optimism can also be viewed as an explanatory style — the habitual way one explains the causes of events. A pessimistic explanatory style attributes bad events to internal, stable and global causes (defeat is permanent, destroys everything, is one's own fault); an optimistic explanatory style attributes them to external, temporary and specific causes. People with an optimistic explanatory style perform better academically, have better physical and mental health, are more persistent and may live longer. Anxious learners who are also perfectionistic represent a specific subgroup whose pessimism stems from standards that simply cannot be met.Interventions include: helping learners deal realistically and optimistically with difficulty through problem acceptance, reframing and humour; for perfectionistic learners, helping them set and commit to realistic goals rather than implausible ones; cognitive therapies such as rational-emotive therapy to shift negative cognitions and restore effort; teaching learners to change their <span class="gap-wrap"><input class="gap-input" data-answer="attributional" id="g91" autocomplete="off" spellcheck="false"><span class="gap-number">#91</span></span> style — not viewing setbacks as permanent, widespread or self-caused — so they tell more self-empowering stories; the Three-Good-Things Exercise (writing down three good things that happened each day for a week, with explanations of why); and relationship-strengthening practices that enhance optimism, including gratitude letters, Algoe's find-remind-and-bind theory of gratitude, loving-kindness meditation, and altruistic acts — illustrated by the example of Yaru, a severely anxious Chinese learner who overcame her fear to speak English publicly to help her teacher, and in doing so expanded her own confidence and optimism.<span class="fb" id="fb91"></span></p>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARTICLE 14 (MacIntyre & Gregersen) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="article-block">
+<div class="article-title">14. Affect: The Role of Language Anxiety and Other Emotions in Language Learning</div>
+<div class="article-body">
+
+<div class="section-heading">Overview of the literature on language anxiety</div>
+<p>One of the most consistent findings in SLA research is that higher levels of language anxiety correlate with lower language achievement. Anxious students tend to earn lower course grades, are more likely to want to drop out of language courses, and struggle across all stages of cognitive processing — input (taking in new information), processing (incorporating information into long-term memory), and output (verbal production). In the classroom, anxious learners freeze during role-play, forget previously learned material, volunteer answers less often, and participate less than non-anxious peers. Some anxious students respond by overstudying, yet still complete courses with lower achievement, generating considerable frustration. They also respond less effectively to their own errors, rely on emotion-management strategies rather than language strategies, and may exhibit avoidance behaviors such as missing class or procrastinating — often linked to unrealistically high personal performance <span class="gap-wrap"><input class="gap-input" data-answer="standards" id="g92" autocomplete="off" spellcheck="false"><span class="gap-number">#92</span></span>.<span class="fb" id="fb92"></span></p>
+
+<p>Early research on anxiety and FL learning produced mixed and inconclusive results, largely because the anxiety constructs being studied were not specific to the SLA context. The turning point came with Horwitz, Horwitz, and Cope's (1986) landmark paper, which conceptualized language anxiety as a distinct form of anxiety — separate from general trait anxiety, communication apprehension, test anxiety, and fear of negative evaluation — and introduced the 33-item Foreign Language Classroom Anxiety Scale (FLCAS). From that point, the uniqueness of the L2 learning experience was foregrounded and language anxiety was studied as its own <span class="gap-wrap"><input class="gap-input" data-answer="construct" id="g93" autocomplete="off" spellcheck="false"><span class="gap-number">#93</span></span>.<span class="fb" id="fb93"></span></p>
+
+<p>Initially, most research focused on speaking anxiety, but the field has since expanded to examine all four skill areas. Reading anxiety has been shown to affect recall of passage content; writing anxiety is distinct from but related to general classroom anxiety; listening anxiety and general FL anxiety are separate but both negatively affect achievement. A promising emerging line of research concerns teachers' ability to identify the non-verbal, behavioral cues of anxious learners, recognizing the social and dialectical dimensions of emotional <span class="gap-wrap"><input class="gap-input" data-answer="expression" id="g94" autocomplete="off" spellcheck="false"><span class="gap-number">#94</span></span>.<span class="fb" id="fb94"></span></p>
+
+<p>Language anxiety has also been linked to other learner variables: lower perceived competence, lower self-efficacy, reduced motivation, and lower willingness to communicate (WTC). It is further associated with broader individual differences such as learning styles, perfectionism, and emotional intelligence. The question of causality remains debated — Sparks and Ganschow argue that anxiety may be a consequence of underlying linguistic coding difficulties rather than a cause of poor performance. The most encompassing position, supported by MacIntyre and Gardner's experimental work showing that induced anxiety caused decrements at all processing stages, is that anxiety functions as both a cause and an effect — part of a non-linear, ongoing cycle of learning and performance rather than a simple one-directional <span class="gap-wrap"><input class="gap-input" data-answer="relationship" id="g95" autocomplete="off" spellcheck="false"><span class="gap-number">#95</span></span>.<span class="fb" id="fb95"></span></p>
+
+<div class="section-heading">Research approaches to foreign language anxiety</div>
+<p>Research on FL anxiety has drawn on both quantitative and qualitative methods, and increasingly on combinations of both.</p>
+<p>Quantitative approaches have primarily used Likert-scale self-report instruments, the most widely used being the FLCAS. Other validated scales include the French Use and French Classroom Anxiety Scales, the Input-Processing-Output scale, the Foreign Language Reading Anxiety Scale (FLRAS), the Foreign Language Listening Anxiety Scale (FLLAS), and the Second Language Writing Anxiety Test (SLWAT). These instruments enable large-scale analysis and the production of generalizable findings about learners' affective <span class="gap-wrap"><input class="gap-input" data-answer="responses" id="g96" autocomplete="off" spellcheck="false"><span class="gap-number">#96</span></span>.<span class="fb" id="fb96"></span></p>
+
+<p>Qualitative approaches provide rich, contextualized, and humanistic accounts of individual experience. Using interviews and diary methods, researchers can illuminate the specific contexts in which anxiety arises and capture learners' subjective perspectives. Price's (1991) interview-based work documented vivid first-person accounts of high anxiety; Yan and Horwitz (2008) explored how anxiety interacts with personal and instructional variables through interview data; Spielmann and Radnofsky (2001) used a particularly rich battery of naturalistic measures — individual and group interviews, observations, participant-teaching, document analysis, and casual interactions — to examine stress in language <span class="gap-wrap"><input class="gap-input" data-answer="instruction" id="g97" autocomplete="off" spellcheck="false"><span class="gap-number">#97</span></span>.<span class="fb" id="fb97"></span></p>
+
+<p>Increasingly, researchers triangulate their data by combining both approaches. Gregersen (2003) used quantitative measures to track the frequency of errors and self-corrections in anxious versus non-anxious learners, then contextualized those numbers with qualitative descriptions of participants' own comments. Pappamihiel (2002) analyzed focus group transcripts alongside statistical data to investigate anxiety across second language and mainstream classrooms. Frantzen and Sieloff Magnan (2005) incorporated open-ended questions into their study of anxiety among true and false beginners in French and Spanish. Triangulated approaches put a human face on frequency data, though the authors note that even these combined methods leave something missing — they remain ill-suited to capturing the moment-by-moment, dynamic unfolding of affective <span class="gap-wrap"><input class="gap-input" data-answer="processes" id="g98" autocomplete="off" spellcheck="false"><span class="gap-number">#98</span></span>.<span class="fb" id="fb98"></span></p>
+
+<div class="section-heading">Example of current research</div>
+<p>The most significant methodological limitation of both quantitative and qualitative approaches is that they are fundamentally summative — they capture a static snapshot of a learner's anxiety level (e.g., total score on the FLCAS correlated with course grades) rather than the process by which affect rises and falls during actual communication. Qualitative interview data, while richer, often relies on retrospective self-report subject to memory biases, including self-serving bias and hindsight <span class="gap-wrap"><input class="gap-input" data-answer="bias" id="g99" autocomplete="off" spellcheck="false"><span class="gap-number">#99</span></span>.<span class="fb" id="fb99"></span></p>
+
+<p>To address this gap, MacIntyre and Legatto (2011) developed an innovative idiodynamic method to capture rapidly changing affective states in real time. Participants completed eight oral tasks in French (in a question-and-answer format) while being video-recorded. Immediately after, they watched their own video recording and reported their WTC on a moment-by-moment basis using custom software — clicking one button to raise their WTC rating (up to +5) and another to lower it (down to -5). The resulting graph of WTC fluctuations was then used as a reference point for a structured interview in which participants explained why their WTC rose or fell at specific moments.</p>
+
+<p>This method allowed affective ratings to be matched in real time with verbal and non-verbal output. A case study of "Mabel" illustrates the power of this approach: she reported confident WTC while counting in French until she forgot the word for "eighty," at which point her WTC crashed. Though not directly asked about anxiety, she indicated nervousness, and forgetting the vocabulary item appeared to intensify her anxiety, making further recall even harder. Observers' ratings confirmed anxiety signals in the participants' non-verbal behavior.</p>
+
+<p>The findings revealed nuances invisible to summative methods: while prior quantitative research shows a negative correlation between anxiety and WTC-trait scores, within-person, moment-by-moment analysis showed that anxiety and WTC can fluctuate somewhat independently. Moreover, the process of initiating communication appears to be an affectively different situation from the process of continuing to speak after stumbling — a distinction that broad questionnaire measures cannot detect. The authors are extending this work to study how outside observers read non-verbal cues of WTC under auditory-only, video-only, and combined conditions, further mapping the social and visible dimensions of affective <span class="gap-wrap"><input class="gap-input" data-answer="states" id="g100" autocomplete="off" spellcheck="false"><span class="gap-number">#100</span></span>.<span class="fb" id="fb100"></span></p>
+
+<p>The broader theoretical implication of this research is that affect — including anxiety — is best understood not as a fixed trait or stable cause-effect relationship, but as a dynamic, cyclical process, fast-moving and always recurring, more like a spinning CD than a linear chain. Asking whether anxiety is a "cause or effect" of poor performance is therefore not the most productive framing; instead, it must be studied as it evolves in real <span class="gap-wrap"><input class="gap-input" data-answer="time" id="g101" autocomplete="off" spellcheck="false"><span class="gap-number">#101</span></span>.<span class="fb" id="fb101"></span></p>
+
+<div class="section-heading">Future directions</div>
+<p>A key theoretical challenge for future research is understanding how in-the-moment affective experiences aggregate into the broader, summative evaluations that have been the focus of most prior literature. Drawing on Kahneman and Riis's (2005) distinction between the experiencing self (real-time, in-the-moment reactions) and the remembering self (reflective, retrospective evaluation), the authors note that summative judgments are not faithful averages of all moments but are disproportionately shaped by peak experiences and especially by endings. A student who has both good and bad moments in class will tend to evaluate the whole course through the lens of its most emotionally intense experiences and how it ended. This has direct pedagogical implications: language teachers should be mindful of how classes end, since endings exert a commanding influence on students' lasting affective memory of the learning experience. Teachers must attend to both selves — fostering positive in-the-moment experiences while also shaping the narrative arc that students will carry <span class="gap-wrap"><input class="gap-input" data-answer="forward" id="g102" autocomplete="off" spellcheck="false"><span class="gap-number">#102</span></span>.<span class="fb" id="fb102"></span></p>
+
+<p>Future research should also engage more deeply with positive psychology as a counterweight to the field's longstanding preoccupation with negative affect. Seligman and Csikszentmihalyi's (2000) positive psychology foregrounds well-being, contentment, hope, optimism, and flow — experiential states that have received far less attention in SLA research than anxiety. Fredrickson's broaden-and-build theory of positive emotion is particularly relevant here: while negative emotions such as anxiety narrow attention and focus individuals on specific threats or obstacles, positive emotions function to broaden thinking and build enduring cognitive, social, and psychological resources. Evidence from Gardner's research suggests that emotions like interest, desire, and enjoyment play a significant role in language learning, but much more work is needed to understand the specific mechanisms by which positive affect facilitates the <span class="gap-wrap"><input class="gap-input" data-answer="acquisition" id="g103" autocomplete="off" spellcheck="false"><span class="gap-number">#103</span></span> process.<span class="fb" id="fb103"></span></p>
+
+<p>For pedagogy, the most important implication is the need to move beyond simply reducing anxiety toward actively creating positive emotion in the language classroom. Positive psychologists agree that social connection — building communities, relationships, and support networks — is among the most powerful sources of human happiness and resilience. Language teachers must therefore translate pedagogical intentions about supportive environments into concrete opportunities for students to bond with one another meaningfully, both inside and outside the classroom, in ways that outlast the final day of the course. Affect must be given a prominent place on both research and teaching agendas, understood not as a peripheral variable but as a dynamic, central force shaping every moment of language learning and <span class="gap-wrap"><input class="gap-input" data-answer="communication" id="g104" autocomplete="off" spellcheck="false"><span class="gap-number">#104</span></span>.<span class="fb" id="fb104"></span></p>
+
+</div>
+</div>
+
+</main>
+
+<footer>Gap-Fill Exercise based on theoretical papers on self-efficacy and language anxiety.</footer>
+
+<script>
+// Hidden gaps (g6 was replaced by g6r; remove g6 from active list)
+const ALL_IDS = [];
+document.querySelectorAll('.gap-input').forEach(el => {
+  if (el.id && el.id !== 'g6') ALL_IDS.push(el.id);
+});
+
+function normalize(s) {
+  return s.trim().toLowerCase().replace(/[^a-z]/g, '');
+}
+
+function checkAll() {
+  let correct = 0, total = 0;
+  ALL_IDS.forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    const fb = document.getElementById('fb' + id.slice(1));
+    const answer = normalize(input.dataset.answer);
+    const given = normalize(input.value);
+    if (given === '') { 
+      input.classList.remove('correct','wrong');
+      if (fb) { fb.textContent = ''; fb.className = 'fb'; }
+      return;
+    }
+    total++;
+    if (given === answer) {
+      input.classList.add('correct'); input.classList.remove('wrong');
+      if (fb) { fb.textContent = '✓'; fb.className = 'fb correct'; }
+      correct++;
+    } else {
+      input.classList.add('wrong'); input.classList.remove('correct');
+      if (fb) { fb.textContent = '✗'; fb.className = 'fb wrong'; }
+    }
+  });
+
+  const badge = document.getElementById('scoreBadge');
+  badge.textContent = total > 0 ? `Score: ${correct}/${total}` : 'Score: –';
+
+  // Build results panel
+  const panel = document.getElementById('resultsPanel');
+  const grid = document.getElementById('resultsGrid');
+  grid.innerHTML = '';
+  ALL_IDS.forEach(id => {
+    const input = document.getElementById(id);
+    if (!input || normalize(input.value) === '') return;
+    const num = id.replace('g','');
+    const answer = input.dataset.answer;
+    const given = input.value.trim();
+    const isCorrect = normalize(given) === normalize(answer);
+    const div = document.createElement('div');
+    div.className = 'result-item ' + (isCorrect ? 'correct' : 'wrong');
+    div.innerHTML = `<span class="gap-n">#${num}</span><span class="ans">"${given}"</span>${!isCorrect ? `<span class="correct-ans">→ ${answer}</span>` : ''}`;
+    grid.appendChild(div);
+  });
+  panel.classList.toggle('visible', grid.children.length > 0);
+}
+
+function revealAll() {
+  ALL_IDS.forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    input.value = input.dataset.answer;
+    input.classList.add('correct'); input.classList.remove('wrong');
+    const fb = document.getElementById('fb' + id.slice(1));
+    if (fb) { fb.textContent = '✓'; fb.className = 'fb correct'; }
+  });
+  const total = ALL_IDS.filter(id => document.getElementById(id)).length;
+  document.getElementById('scoreBadge').textContent = `Score: ${total}/${total}`;
+  document.getElementById('resultsPanel').classList.remove('visible');
+}
+
+function resetAll() {
+  ALL_IDS.forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    input.value = '';
+    input.classList.remove('correct','wrong');
+    const fb = document.getElementById('fb' + id.slice(1));
+    if (fb) { fb.textContent = ''; fb.className = 'fb'; }
+  });
+  document.getElementById('scoreBadge').textContent = 'Score: –';
+  document.getElementById('resultsPanel').classList.remove('visible');
+}
+
+// Allow Enter key to move to next gap
+document.querySelectorAll('.gap-input').forEach((el, i, arr) => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const next = arr[i + 1];
+      if (next) next.focus();
+    }
+  });
+});
+</script>
+</body>
+</html>
